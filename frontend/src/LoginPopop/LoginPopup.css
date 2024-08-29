@@ -15,7 +15,7 @@
     place-self: center;
     width: max(23vw, 330px);
     color: #808080;
-    background-color: white;
+    background-color: lavenderblush;
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -23,7 +23,6 @@
     border-radius: 8px;
     font-size: 14px;
     animation: fadeIn 0.5s;
-    background-color: lavenderblush;
 }
 
 .dark .login-popup-container {
@@ -79,7 +78,7 @@
     font-family: sans-serif;
 }
 
-.login-popup-container button:hover{
+.login-popup-container button:hover {
     color: tomato;
     opacity: 85%;
 }
@@ -88,7 +87,7 @@
     background-color: #C80036;
 }
 
-.dark .login-popup-container button:hover{
+.dark .login-popup-container button:hover {
     color: #0C1844;
     opacity: 80%;
 }
@@ -114,26 +113,26 @@
     color: #FF8CAB;
 }
 
-.link_line:hover{
+.link_line:hover {
     text-decoration: underline;
-
 }
 
-#tick{
+#tick {
     height: 30px;
     width: 20px;
 }
 
-#tick:hover{
+#tick:hover {
     opacity: 50%;
 }
 
-#condition{
-    font-size:medium;
-    font-family: none
+#condition {
+    font-size: medium;
+    font-family: none;
 }
-.Input_Names{
-    display:contents;
+
+.Input_Names {
+    display: contents;
     justify-content: center;
     align-items: center;
 }

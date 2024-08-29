@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif; 
+   
   }
   .container {
     width: 100vw;
@@ -11,6 +12,6 @@
     transition: 0.5s;
   }
   .container.dark {
-    background: #222;
+    background: #000000;
   }
   
