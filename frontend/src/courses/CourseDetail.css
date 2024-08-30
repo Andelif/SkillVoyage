@@ -1,0 +1,32 @@
+.course-detail {
+    padding: 20px;
+    text-align: center;
+    background-color: black;
+  }
+  
+  .course-detail h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: #e2d9d9;
+  }
+  
+  .course-detail-image {
+    width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .course-detail-info {
+    text-align: left;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
+  .course-detail-info p {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #818080;
+  }
+  

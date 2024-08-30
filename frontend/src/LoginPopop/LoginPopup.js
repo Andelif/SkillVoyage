@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import './LoginPopup.css';
-import cross_icon from '../assets/cross_icon.png'; 
 import cross_icon_dark from '../assets/cross_icon_dark.png';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
@@ -11,8 +10,6 @@ const LoginPopup = ({ setShowLogin, theme }) => {
     
 
     
-     
-
     const [currState, setCurrState] = useState("Login");
     const [data, setData] = useState({
         name:"",
@@ -56,7 +53,7 @@ const LoginPopup = ({ setShowLogin, theme }) => {
             <form onSubmit={onLogin} className="login-popup-container">
                 <div className="login-popup-title">
                     <h2>{currState}</h2>
-                    <img onClick={() => setShowLogin(false)} src={theme === 'light' ? cross_icon : cross_icon_dark} alt="Close" />
+                    <img onClick={() => setShowLogin(false)} src={cross_icon_dark} alt="Close" />
                 </div>
                 <div className="login-popup-inputs">
                     {currState === "Login" ? null : <input name='name' onChange={onChangeHandler} value={data.name} type="text" placeholder='Name' required />}
@@ -64,10 +61,10 @@ const LoginPopup = ({ setShowLogin, theme }) => {
                     <input name='password' onChange={onChangeHandler} value={data.password} type="password" placeholder='Password' required />
                 </div>
                 <button type='submit'>{currState === "Sign Up" ? "Create account" : "Login"}</button>
-                {/* <div className="login-popup-condition">
+                <div className="login-popup-condition">
                     <input id='tick' type="checkbox" required />
                     <p id='condition'>By continuing, I agree to the terms of use & privacy policy.</p>
-                </div> */}
+                </div>
                 {currState === "Login"
                     ? <p>Don't have an account? <span onClick={() => setCurrState("Sign Up")}><p className="link_line">Click here</p></span></p>
                     : <p>Already have an account? <span onClick={() => setCurrState("Login")}><p className="link_line">Login</p></span></p>
