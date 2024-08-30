@@ -3,7 +3,7 @@ export const StoreContext = createContext(null)
 
 const StoreContextProvider = (props) =>{
 
-    const url = "http://localhost:4000"
+    const url = "https://skill-voyage-api.vercel.app"
     const [token, setToken] = useState("");
 
     useEffect(()=>{
