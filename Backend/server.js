@@ -7,7 +7,7 @@ import http from "http";
 
 // App Config
 const app = express();
-const port = process.env.PORT || 4000; // Use environment variable for port if available
+const port = process.env.PORT ; // Use environment variable for port if available
 
 // Middleware
 app.use(express.json());
