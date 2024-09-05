@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router, Navigate } from 'react-router-dom';
 import Navbar from './Home page/Navbar';
 import HomeContent from './Home page/HomeContent';
 import Course from './courses/Course';
 import CourseDetail from './courses/CourseDetail';
 import LoginPopup from './LoginPopop/LoginPopup';
+import NotFound from './components/NotFound';
+import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
 import "./App.css";
 
 const App = () => {
@@ -21,9 +23,13 @@ const App = () => {
       {showLogin && <LoginPopup setShowLogin={setShowLogin} theme={theme} />}
       <Navbar theme={theme} setTheme={setTheme} setShowLogin={setShowLogin} />
       <Routes>
+        <Route path="/" element={<Navigate to="/home" />} /> 
         <Route path="/home" element={<HomeContent theme={theme} />} />
-        <Route path="/courses" element={<Course />} />
-        <Route path="/courses/:id" element={<CourseDetail />} />
+
+        {/* Protected Routes */}
+        <Route path="/courses" element={<ProtectedRoute element={Course} />} />
+        <Route path="/courses/:id" element={<ProtectedRoute element={CourseDetail} />} />
+        <Route path="*" element={<NotFound />} /> {/* Fallback route */}
         
       </Routes>
     </div>
