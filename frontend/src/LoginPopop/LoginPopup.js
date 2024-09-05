@@ -3,6 +3,7 @@ import './LoginPopup.css';
 import cross_icon_dark from '../assets/cross_icon_dark.png';
 import axios from 'axios';
 import { StoreContext } from '../context/StoreContext';
+import api from '../services/api';
 
 const LoginPopup = ({ setShowLogin, theme }) => {
 
@@ -23,27 +24,32 @@ const LoginPopup = ({ setShowLogin, theme }) => {
         setData(data=>({...data, [name]:value}));
     }
 
-    const onLogin = async (event) =>{
+    const onLogin = async (event) => {
         event.preventDefault();
         let newUrl = url;
-        if(currState==="Login"){
+        if (currState === "Login") {
             newUrl += "/api/user/login"
         }
         else{
             newUrl += "/api/user/register"
         }
-
-        const response = await axios.post(newUrl, data)
-
-        if(response.data.success){
-            setToken(response.data.token);
-            localStorage.setItem("token", response.data.token);
-            setShowLogin(false)
+    
+        try {
+            const response = await api.post(newUrl, data);
+    
+            if (response.data.success) {
+                setToken(response.data.accessToken);
+                localStorage.setItem("accessToken", response.data.accessToken);
+                localStorage.setItem("refreshToken", response.data.refreshToken);
+                setShowLogin(false);
+            } else {
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error("Login error", error);
+            console.log("Error eikhane Logipopup");
         }
-        else{
-            alert(response.data.message);
-        }
-    }
+    };
 
     
   

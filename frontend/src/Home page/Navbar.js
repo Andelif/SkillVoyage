@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext ,  useEffect } from 'react';
 import './Navbar.css';
 import logo_dark from '../assets/logo-dark.png';
 import search_icon_dark from '../assets/search-w.png';
@@ -12,8 +12,14 @@ const Navbar = ({ setShowLogin }) => {
   const navigate = useNavigate();
   const { token, setToken } = useContext(StoreContext);
 
+  // Ensure the component re-renders when the token changes
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken") || "");
+  }, [setToken]);
+
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     setToken("");
     navigate("/home");
   }
