@@ -1,10 +1,19 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ element: Component, ...rest }) => {
-  const isAuthenticated = !!localStorage.getItem('token');
+  const isAuthenticated = !!localStorage.getItem('accessToken');
+  const location = useLocation();
 
-  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
+  if (isAuthenticated) {
+    return <Component {...rest} />;
+  }
+
+  if (location.pathname === '/courses' /*|| location.pathname === '/instructors' */) {
+    return <Navigate to="/login-required" />;
+  }
+
+  return <Navigate to="/notfound" />;
 };
 
 export default ProtectedRoute;
