@@ -19,7 +19,7 @@ root.render(
     }}>
     
     <BrowserRouter>
-    <App />
+        <App />
     </BrowserRouter>
     
     
@@ -27,6 +27,3 @@ root.render(
   </Auth0Provider>
   </StoreContextProvider>
 );
-
-
-

@@ -11,8 +11,7 @@
         "src": "/(.*)",
         "dest": "/server.js"
       }
-    ],
+    ]
     
-        "regions": ["sfo1"]
       
   }

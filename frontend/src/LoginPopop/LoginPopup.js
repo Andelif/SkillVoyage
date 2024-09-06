@@ -37,11 +37,14 @@ const LoginPopup = ({ setShowLogin, theme }) => {
 
         if(response.data.success){
             setToken(response.data.token);
-            localStorage.setItem("token", response.data.token);
+            //localStorage.setItem("token", response.data.token);
+            localStorage.setItem("accessToken", response.data.accessToken);
+            localStorage.setItem("refreshToken", response.data.refreshToken);
             setShowLogin(false)
         }
         else{
             alert(response.data.message);
+            console.log("Problem in onLogin of loginpopup");
         }
     }
 

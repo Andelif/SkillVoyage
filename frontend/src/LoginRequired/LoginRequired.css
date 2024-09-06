@@ -1,0 +1,29 @@
+
+/* Center the text on the page */
+.login-required-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #c2c2c2;
+}
+
+/* Style for the heading */
+.login-required-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Style for the paragraph */
+.login-required-container p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.HomeLink{
+    padding-top: 20px;
+    color: blue;
+}
