@@ -5,7 +5,7 @@ import userRouter from "./routes/userRoute.js";
 import 'dotenv/config';
 import http from "http";
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
+
 
 
 
