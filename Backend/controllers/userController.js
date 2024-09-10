@@ -22,52 +22,52 @@ const loginUser = async (req, res) => {
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return res.json({ success: false, message: "User does not exist" });
+      return res.json({ success: false, message: "User does not exist", error: true });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.json({ success: false, message: "Wrong password" });
+      return res.json({ success: false, message: "Wrong password", error: true });
+
+    } else {
+      // Create tokens
+      const accessToken = createAccessToken(user._id);
+      const refreshToken = createRefreshToken(user._id);
+
+      const tokenOption = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7days
+      };
+
+      res.cookie("refreshToken", refreshToken, tokenOption);
+
+      res.cookie("accessToken", accessToken, {
+          ...tokenOption,
+          expires: new Date(Date.now() + 15 * 60 * 1000),
+        })
+        // Token expires in 15 minutes
+        .status(200)
+        .json({
+          message: "Login successfully",
+          data: {
+            accessToken,
+            refreshToken
+          },
+          success: true,
+          error: false,
+        });
     }
 
-    // Create tokens
-    const accessToken = createAccessToken(user._id);
-    const refreshToken = createRefreshToken(user._id);
-
-    // // Set refresh token in HTTP-only cookie
-    // res.cookie('refreshToken', refreshToken, {
-    //     httpOnly: true,
-    //     secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
-    //     sameSite: 'strict', // Helps prevent CSRF attacks
-    //     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    // });
-
-    const tokenOption = {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7days
-    };
-
-    res.cookie("refreshToken", refreshToken, tokenOption);
-
-    res
-      .cookie("accessToken", accessToken, {
-        ...tokenOption,
-        expires: new Date(Date.now() + 15 * 60 * 1000),
-      }) // Token expires in 15 minutes
-      .status(200)
-      .json({
-        message: "Login successfully",
-        data: token,
-        success: true,
-        error: false,
-      });
-    //res.status(200).json({ success: true, accessToken, refreshToken });
+       
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Internal Server Error in login user" });
+    res.json({
+      success: false,
+      message: "Internal Server Error in login user",
+    });
   }
 };
 
@@ -90,10 +90,14 @@ const registerUser = async (req, res) => {
       });
     }
 
+    if(!password){
+      throw new Error("Please provide password")
+    }
+
     if (password.length < 8) {
       return res.json({
         success: false,
-        message: "Please enter a strong password",
+        message: "Length of password must be more than 8 characters",
       });
     }
 
@@ -114,42 +118,66 @@ const registerUser = async (req, res) => {
     const refreshToken = createRefreshToken(user._id);
 
     res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 1 day
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7 days
     });
 
-    res.status(201).json({ success: true, accessToken, refreshToken });
+    //res.cookie("refreshToken", refreshToken, tokenOption);
+
+    // Set the access token in the cookies with a 15-minute expiration
+    res.cookie("accessToken", accessToken, {
+      ...tokenOption,
+      expires: new Date(Date.now() + 15 * 60 * 1000),
+    });
+
+    res.status(201).json({ success: true, error: false, accessToken, refreshToken });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Internal Error is this" });
+    res.json({ success: false, error: true, message: "Internal Error in register user" });
   }
 };
 
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
-    const { refreshToken } = req.cookies;
+  const { refreshToken } = req.cookies;
 
-    if (!refreshToken) {
-        return res.status(401).json({ success: false, message: "No token provided" });
-    }
+  if (!refreshToken) {
+    return res
+      .status(401)
+      .json({ success: false, message: "No token provided" });
+  }
 
-    try {
-        jwt.verify(refreshToken, process.env.TOKEN_SECRET_REF_KEY, (err, user) => {
-            if (err) {
-                return res.status(403).json({ success: false, message: "Invalid token here in Ref Token Endpoint" });
-            }
-            const newAccessToken = createAccessToken(user.id);
-            res.status(200).json({ success: true, accessToken: newAccessToken });
+  try {
+    jwt.verify(refreshToken, process.env.TOKEN_SECRET_REF_KEY, (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          success: false,
+          message: "Invalid token here in Ref Token Endpoint",
         });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: "Internal server error here in Ref Token Endpoint" });
-    }
+      }
+      const newAccessToken = createAccessToken(user.id);
+
+      // Update access token in cookies
+      res.cookie("accessToken", newAccessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        expires: new Date(Date.now() + 15 * 60 * 1000),
+      });
+
+      res.status(200).json({ success: true, accessToken: newAccessToken });
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error here in Ref Token Endpoint",
+      });
+  }
 };
-
-
-
 
 export { loginUser, registerUser, refreshToken };

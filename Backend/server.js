@@ -11,18 +11,16 @@ import cookieParser from 'cookie-parser';
 
 // App Config
 const app = express();
-const port = process.env.PORT ; // Use environment variable for port if available
+const port = process.env.PORT || 8080; // Use environment variable for port if available
 
-app.use(bodyParser.json({ limit: '100mb' }));  // Adjust the limit according to your needs
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+app.use(bodyParser.json({ limit: '500mb' }));  // Adjust the limit according to your needs
+app.use(bodyParser.urlencoded({ limit: '500mb',parameterLimit:100000, extended: true }));
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
 
-app.use(cors({
-  origin : process.env.FRONTEND_URL,
-  credentials : true,
-}))
+app.use(cors());
 
 // DB connection with error handling
 connectDB().catch(error => {

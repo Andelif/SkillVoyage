@@ -15,7 +15,9 @@ const Course = () => {
     setSelectedRating(Number(e.target.value));
   };
 
-  const filteredCourses = courses.filter(course => course.rating >= selectedRating);
+  const filteredCourses = courses
+    .filter(course => course.rating >= selectedRating)
+    .sort((a, b) => b.rating - a.rating); // Sort by rating in descending order
 
   return (
     <div className="course-list">

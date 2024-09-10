@@ -20,28 +20,38 @@ async function authToken(req, res, next) {
             if (err) {
                 console.log("Access Token verification error: ", err);
 
-                if (err.name === 'TokenExpiredError' && refreshToken) {
+                if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError' && refreshToken) {
                     try {
                         const refreshDecoded = jwt.verify(refreshToken, process.env.TOKEN_SECRET_REF_KEY);
-                        const newAccessToken = jwt.sign(
-                            { _id: refreshDecoded._id, email: refreshDecoded.email },
-                            process.env.JWT_SECRET,
-                            { expiresIn: "15m" }
-                        );
-
-                        console.log("New Access Token after re-generation -> ", newAccessToken);
+                        const newAccessTokenData = {
+                            _id: refreshDecoded._id,
+                            email: refreshDecoded.email,
+                        };
+                        const accessToken = jwt.sign(newAccessTokenData, process.env.JWT_SECRET, { expiresIn: "15m" });
+                        console.log("New Access Token after re-generation -> ", accessToken);
 
                         const tokenOption = {
                             httpOnly: true,
-                            secure: true,
+                            secure:  true,
                             sameSite: 'None',
-                            expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
                         };
 
-                        res.cookie("accessToken", newAccessToken, tokenOption);
-                        req.userId = refreshDecoded._id;
+                        res.cookie("accessToken", accessToken, { ...tokenOption, expires: new Date(Date.now() + 15 * 60 * 1000) });
+                        console.log("token from cookie after gen -> ",req.cookies?.accessToken)
+
+
+                        req.userId = newAccessTokenData._id;
                         return next();
+
                     } catch (refreshErr) {
+                        const tokenOption = {
+                            httpOnly : true,
+                            secure : true,
+                            sameSite : 'None'
+                        }
+                        res.clearCookie("refreshToken",tokenOption)
+                        res.clearCookie("accessToken",tokenOption)
+
                         console.log("Refresh token error: ", refreshErr);
                         return res.status(401).json({
                             message: "Invalid refresh token. Please log in again.",
@@ -57,7 +67,7 @@ async function authToken(req, res, next) {
                     });
                 }
             } else {
-                req.userId = decoded._id;
+                req.userId = decoded?._id;
                 next();
             }
         });
