@@ -10,18 +10,19 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ setShowLogin }) => {
   const navigate = useNavigate();
-  const { token, setToken } = useContext(StoreContext);
+  const { accessToken, setAccessToken, setRefreshToken } = useContext(StoreContext);
 
   // Ensure the component re-renders when the token changes
   useEffect(() => {
-    setToken(localStorage.getItem("accessToken") || "");
-  }, [setToken]);
+    setAccessToken(localStorage.getItem("accessToken") || "");
+  }, [setAccessToken]);
 
   const logout = () => {
-    //localStorage.removeItem("token");
+    
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    setToken("");
+    setAccessToken("");
+    setRefreshToken("");
     navigate("/home");
   }
 
@@ -35,7 +36,7 @@ const Navbar = ({ setShowLogin }) => {
         <li className='navbar_items' onClick={() => navigate('/account')}>Account</li>
         <li className='navbar_items' onClick={() => navigate('/about')}>About us</li>
       </ul>
-      {!token ? (
+      {!accessToken ? (
         <button className='sign-button' onClick={() => setShowLogin(true)}>Sign In</button>
       ) : (
         <div className='navbar-profile'>
