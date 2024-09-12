@@ -37,6 +37,7 @@ const LoginPopup = ({ setShowLogin, theme }) => {
     
         if (response.data.success) {
           const { accessToken, refreshToken } = response.data.data || {};
+          
           if (accessToken && refreshToken) {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
@@ -46,6 +47,9 @@ const LoginPopup = ({ setShowLogin, theme }) => {
           } else {
             console.error("Access token or refresh token is missing in the response");
           }
+
+
+
         } else {
           alert(response.data.message);
           console.log("Problem in onLogin of loginpopup");

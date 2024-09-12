@@ -20,7 +20,14 @@ app.use(bodyParser.urlencoded({ limit: '500mb',parameterLimit:100000, extended: 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://skill-voyage-onrq.vercel.app'], // Allow both local and deployed frontend
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
+
+app.options('*', cors()); // Handle preflight requests
 
 // DB connection with error handling
 connectDB().catch(error => {
@@ -42,7 +49,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = http.createServer(app);
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
 
