@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = http.createServer(app);
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
 

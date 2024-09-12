@@ -1,10 +1,10 @@
 import courseModel from "../models/courseModel.js";
 
-import fs from 'fs'
+
 
 const addCourse =async(req,res) => {
   
-    let image_filename= `${req.file.filename}`;
+    let image_filename= req.body.image;
     
     const course =new courseModel({
         name: req.body.name,
@@ -12,7 +12,7 @@ const addCourse =async(req,res) => {
         price: req.body.price,
         rating: req.body.rating,
         duration: req.body.duration,
-        image: image_filename
+        image: req.body.image
     })
     try{
        await course.save();
