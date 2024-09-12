@@ -4,7 +4,7 @@ export const StoreContext = createContext(null)
 
 const StoreContextProvider = (props) =>{
 
-    const url="https://skill-voyage-api.vercel.app"
+    const url=process.env.REACT_APP_BACKEND_URL;
     const [accessToken, setAccessToken] = useState("");
     const [refreshToken, setRefreshToken] = useState("");
 

@@ -1,0 +1,21 @@
+.logo {
+    width: 88px;
+    object-fit: cover;
+}
+.Navbar{
+   display: flex;
+   justify-content: space-between;
+   height: 100px;
+   align-items: center;
+   background-color: rgb(95, 95, 169);
+   padding: 8px 4%;
+   border: 1.8px solid rgb(181, 181, 181);
+    border-top: 0;
+}
+.Navbar .logo{
+    width: max(10%,80px);
+}
+.Navbar .profile{
+width: 40px;
+
+}
