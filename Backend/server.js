@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = http.createServer(app);
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
 
