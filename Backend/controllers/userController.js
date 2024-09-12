@@ -15,29 +15,33 @@ const createRefreshToken = (id) => {
   });
 };
 
-// login user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
+    console.log('Finding user...');
     const user = await userModel.findOne({ email });
+    console.log('User found:', user);
 
     if (!user) {
       return res.json({ success: false, message: "User does not exist", error: true });
     }
 
+    console.log('Comparing passwords...');
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
 
     if (!isMatch) {
       return res.json({ success: false, message: "Wrong password", error: true });
 
     } else {
-      // Create tokens
+      console.log('Creating tokens...');
       const accessToken = createAccessToken(user._id);
       const refreshToken = createRefreshToken(user._id);
+      console.log('Tokens created:', { accessToken, refreshToken });
 
       const tokenOption = {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7days
       };
@@ -48,7 +52,6 @@ const loginUser = async (req, res) => {
           ...tokenOption,
           expires: new Date(Date.now() + 15 * 60 * 1000),
         })
-        // Token expires in 15 minutes
         .status(200)
         .json({
           message: "Login successfully",
@@ -60,16 +63,16 @@ const loginUser = async (req, res) => {
           error: false,
         });
     }
-
-       
   } catch (error) {
-    console.log(error);
-    res.json({
+    console.error('Error in loginUser:', error);
+    res.status(500).json({
       success: false,
       message: "Internal Server Error in login user",
+      error: error.message,
     });
   }
 };
+
 
 // register user
 const registerUser = async (req, res) => {
@@ -119,7 +122,7 @@ const registerUser = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: "None",
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7 days
     });
