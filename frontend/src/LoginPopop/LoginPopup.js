@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const LoginPopup = ({ setShowLogin, theme }) => {
   
   const { url, setAccessToken, setRefreshToken } = useContext(StoreContext);
-  //const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext); 
   const navigate = useNavigate();
 
 
@@ -44,7 +44,7 @@ const LoginPopup = ({ setShowLogin, theme }) => {
           const { accessToken, refreshToken } = response.data.data || {};
           
           if (accessToken && refreshToken) {
-            //localStorage.setItem("user", JSON.stringify(user)); // Save user data
+            localStorage.setItem("user", JSON.stringify(user)); // Save user data
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
             
@@ -53,9 +53,9 @@ const LoginPopup = ({ setShowLogin, theme }) => {
             setShowLogin(false);
 
           //Redirect to Admin Panel if the logged-in user is an admin
-          // if (user?.email === "andelif33@gmail.com") {
-          //   navigate("/admin");
-          // }
+          if (user?.email === "andelif33@gmail.com") {
+            navigate("/admin");
+          }
 
 
           } else {
