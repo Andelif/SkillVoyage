@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  const url = "https://skill-voyage-api.vercel.app"
+  const url = "https://skill-voyage-api.vercel.app/admin"
   return (
     <div>
       <ToastContainer/>
@@ -17,8 +17,8 @@ const App = () => {
       <div className="app-comp">
         <Sbar/>
         <Routes>
-          {/* <Route path="add" element={<AddProduct url={url}/>}/> */}
-          {/* <Route path="list" element={<ListProduct url={url}/>} /> */}
+          <Route path="add" element={<AddProduct url={url}/>}/> 
+          <Route path="list" element={<ListProduct url={url}/>} /> 
           <Route path="order" element={<Orders url={url} />} />
         </Routes>
       </div>
