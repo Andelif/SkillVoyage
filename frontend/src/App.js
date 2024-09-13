@@ -32,8 +32,8 @@ const App = () => {
         <Route path="/" element={<Navigate to="/home" />} /> 
         <Route path="/home" element={<HomeContent theme={theme} />} />
         <Route path="/login-required" element={<LoginRequired />} />
-        <Route path="/admin" element={<AdminRoute element={<AdminPanel />} />} />
-        <Route path="*" element={<NotFound />} /> {/* Fallback route */}
+        <Route path="/admin" element={<AdminPanel/>} />
+        <Route path="*" element={<NotFound />} /> 
 
 
         {/* Protected Routes */}
