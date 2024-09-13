@@ -3,10 +3,15 @@ import "./LoginPopup.css";
 import cross_icon_dark from "../assets/cross_icon_dark.png";
 import axios from "axios";
 import { StoreContext } from "../context/StoreContext";
+import { AuthContext } from "../adminPanel/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginPopup = ({ setShowLogin, theme }) => {
   
   const { url, setAccessToken, setRefreshToken } = useContext(StoreContext);
+  //const { user } = useContext(AuthContext); 
+  const navigate = useNavigate();
+
 
   const [currState, setCurrState] = useState("Login");
   const [data, setData] = useState({
@@ -39,11 +44,20 @@ const LoginPopup = ({ setShowLogin, theme }) => {
           const { accessToken, refreshToken } = response.data.data || {};
           
           if (accessToken && refreshToken) {
+            //localStorage.setItem("user", JSON.stringify(user)); // Save user data
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
+            
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
             setShowLogin(false);
+
+          //Redirect to Admin Panel if the logged-in user is an admin
+          // if (user?.email === "andelif33@gmail.com") {
+          //   navigate("/admin");
+          // }
+
+
           } else {
             console.error("Access token or refresh token is missing in the response");
           }

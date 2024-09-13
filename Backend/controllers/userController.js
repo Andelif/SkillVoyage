@@ -54,10 +54,14 @@ const loginUser = async (req, res) => {
         })
         .status(200)
         .json({
-          message: "Login successfully",
+          message: "Login successfullyhgfhgf",
           data: {
             accessToken,
-            refreshToken
+            refreshToken,
+            user: {
+              name: user.name,
+              email: user.email
+            }
           },
           success: true,
           error: false,
