@@ -6,7 +6,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import LoginButton from "./login-signup";
 import  StoreContextProvider  from './context/StoreContext.jsx';
 import { BrowserRouter } from 'react-router-dom';
-
+import AuthContextProvider from './adminPanel/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +14,10 @@ root.render(
   
     
     <BrowserRouter>
-        <App />
+    <AuthContextProvider>
+    <App />
+    </AuthContextProvider>
+        
     </BrowserRouter>
     
     
