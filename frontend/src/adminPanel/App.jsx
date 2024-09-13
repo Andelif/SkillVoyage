@@ -17,9 +17,9 @@ const App = () => {
       <div className="app-comp">
         <Sbar/>
         <Routes>
-          <Route path="/add" element={<AddProduct url={url}/>}/>
-          <Route path="/list" element={<ListProduct url={url}/>} />
-          <Route path="/order" element={<Orders url={url} />} />
+          <Route path="add" element={<AddProduct url={url}/>}/>
+          <Route path="list" element={<ListProduct url={url}/>} />
+          <Route path="order" element={<Orders url={url} />} />
         </Routes>
       </div>
     </div>
