@@ -8,6 +8,8 @@ import LoginPopup from './LoginPopop/LoginPopup';
 import NotFound from './components/NotFound';
 import LoginRequired from './LoginRequired/LoginRequired';
 import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
+import AdminRoute from './adminPanel/AdminRoute'; // Adjust the path as needed
+import AdminPanel from './adminPanel/App'; // Your main admin panel component
 import "./App.css";
 
 const App = () => {
@@ -30,6 +32,7 @@ const App = () => {
         <Route path="/" element={<Navigate to="/home" />} /> 
         <Route path="/home" element={<HomeContent theme={theme} />} />
         <Route path="/login-required" element={<LoginRequired />} />
+        <Route path="/admin" element={<AdminRoute element={<AdminPanel />} />} />
         <Route path="*" element={<NotFound />} /> {/* Fallback route */}
 
 
