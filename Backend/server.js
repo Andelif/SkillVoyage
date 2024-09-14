@@ -21,12 +21,11 @@ app.use(bodyParser.urlencoded({ limit: '500mb',parameterLimit:100000, extended: 
 app.use(express.json());
 app.use(cookieParser());
 
-const corsOptions = {
-  origin: ["https://skill-voyage-onrq.vercel.app", 'http://localhost:3000'],// Your frontend URL
-  credentials: true, // Allow sending cookies
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: ["https://skill-voyage-onrq.vercel.app", 'http://localhost:3000'], // Replace with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true // Allow cookies to be sent
+}));
 
 // DB connection with error handling
 connectDB().catch(error => {

@@ -150,14 +150,14 @@ const registerUser = async (req, res) => {
 
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
-  const { refreshToken } = req.cookies;
+  const { refreshToken } = req.cookies['refreshToken'];
   
   console.log(req.cookies);
 
   if (!refreshToken) {
     return res
       .status(401)
-      .json({ success: false, message: "No token provided" });
+      .json({ success: false, message: "No token provided"+req.cookies });
   }
   else{
     console.log("Got refresh token from refresh token endpoint");
@@ -174,7 +174,7 @@ const refreshToken = async (req, res) => {
 
 
       // Create a new access token
-      const newAccessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+      const newAccessToken = createAccessToken(user._id);
 
       // Update access token in cookies
       res.cookie("accessToken", newAccessToken, {

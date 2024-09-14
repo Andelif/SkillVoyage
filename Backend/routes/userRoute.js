@@ -6,7 +6,12 @@ import { loginUser, registerUser, refreshToken } from "../controllers/userContro
 const userRouter = express.Router()
 
 userRouter.post("/register", registerUser)
-userRouter.post("/login", loginUser)
+userRouter.post("/login", loginUser);
+
+// Handle OPTIONS request
+userRouter.options('/refresh-token', (req, res) => res.sendStatus(204));
+
+// Refresh token endpoint
 userRouter.post('/refresh-token', refreshToken);
 
 // userRouter.post('/refresh-token', (req, res) => {

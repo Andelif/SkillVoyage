@@ -36,6 +36,7 @@ const App = () => {
         try {
           // Attempt to refresh the token using the refresh token (stored in cookies)
           const response = await axios.post('https://skill-voyage-api.vercel.app/api/user/refresh-token', {}, { withCredentials: true });
+          console.log(response.data);
           const newAccessToken = response.data.accessToken;
 
           // Store the new access token in localStorage
