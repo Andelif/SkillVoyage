@@ -23,5 +23,5 @@ async function setAdmin(email) {
   }
 }
 
-// Replace with the actual admin email you want to set
+
 setAdmin('andelif33@gmail.com');

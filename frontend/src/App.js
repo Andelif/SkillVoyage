@@ -13,10 +13,11 @@ import AdminPanel from './adminPanel/App'; // Your main admin panel component
 import "./App.css";
 import ListProduct from './adminPanel/pages/ListProduct/ListProduct';
 import AddProduct from './adminPanel/pages/AddProduct/AddProduct'
-
+import { useNavigate } from 'react-router-dom';
+import { setupInterceptors } from './services/apiClient';
 
 const App = () => {
-  
+  const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
   const curr_theme = localStorage.getItem('curr_theme');
   const [theme, setTheme] = useState(curr_theme ? curr_theme : 'light');
@@ -25,6 +26,9 @@ const App = () => {
     localStorage.setItem('curr_theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    setupInterceptors(navigate);
+  }, [navigate]);
   
 
   return (
@@ -36,8 +40,6 @@ const App = () => {
         <Route path="/home" element={<HomeContent theme={theme} />} />
         <Route path="/login-required" element={<LoginRequired />} />
         <Route path="/admin/*" element={<AdminPanel />} />
-        {/* <Route path="/admin/add" element={<AddProduct/>} />
-        <Route path="/admin/list" element={<ListProduct/>} /> */}
         <Route path="*" element={<NotFound />} /> 
 
 
