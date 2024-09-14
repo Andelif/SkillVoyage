@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
 
       const tokenOption = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7days
       };
@@ -125,7 +125,7 @@ const registerUser = async (req, res) => {
 
     const tokenOption = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: "None",
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     };
@@ -151,6 +151,7 @@ const registerUser = async (req, res) => {
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
   const { refreshToken } = req.cookies;
+  console.log(req.cookies);
 
   if (!refreshToken) {
     return res
@@ -170,14 +171,14 @@ const refreshToken = async (req, res) => {
         });
       }
 
-      
+
       // Create a new access token
       const newAccessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
       // Update access token in cookies
       res.cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         sameSite: "None",
         expires: new Date(Date.now() + 15 * 60 * 1000),
       });
