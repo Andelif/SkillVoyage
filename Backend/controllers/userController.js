@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
 
       const tokenOption = {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7days
       };
@@ -125,7 +125,7 @@ const registerUser = async (req, res) => {
 
     const tokenOption = {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: "None",
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     };
@@ -150,7 +150,7 @@ const registerUser = async (req, res) => {
 
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
-  const { refreshToken } = req.cookies['refreshToken'];
+  const refreshToken = req.cookies.refreshToken;
   
   console.log(req.cookies);
 
@@ -179,7 +179,7 @@ const refreshToken = async (req, res) => {
       // Update access token in cookies
       res.cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: "None",
         expires: new Date(Date.now() + 15 * 60 * 1000),
       });

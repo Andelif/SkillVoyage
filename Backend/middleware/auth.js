@@ -32,7 +32,7 @@ async function authToken(req, res, next) {
 
                         const tokenOption = {
                             httpOnly: true,
-                            secure:  true,
+                            secure:  process.env.NODE_ENV === 'production',
                             sameSite: 'None',
                         };
 
@@ -46,7 +46,7 @@ async function authToken(req, res, next) {
                     } catch (refreshErr) {
                         const tokenOption = {
                             httpOnly : true,
-                            secure : true,
+                            secure : process.env.NODE_ENV === 'production',
                             sameSite : 'None'
                         }
                         res.clearCookie("refreshToken",tokenOption)
