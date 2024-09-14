@@ -169,7 +169,10 @@ const refreshToken = async (req, res) => {
           message: "Invalid token here in Ref Token Endpoint",
         });
       }
-      const newAccessToken = createAccessToken(user._id);
+
+      
+      // Create a new access token
+      const newAccessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
       // Update access token in cookies
       res.cookie("accessToken", newAccessToken, {
