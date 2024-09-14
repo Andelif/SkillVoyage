@@ -52,7 +52,7 @@ const ListProduct = () => {
                 {list.map((item, index) => {
                     return (
                         <div key={index} className='list-table-format'>
-                            <img src={`https://skill-voyage-api.vercel.app/api/course/images/${item.image}`} alt="" />
+                            <img src={item.image} alt="" />
                             <p>{item.name}</p>
                             <p>{item.description}</p>
                             <p>${item.price}</p>
