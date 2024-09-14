@@ -40,6 +40,7 @@ const App = () => {
         <Route path="/home" element={<HomeContent theme={theme} />} />
         <Route path="/login-required" element={<LoginRequired />} />
         <Route path="/admin/*" element={<AdminPanel />} />
+
         <Route path="*" element={<NotFound />} /> 
 
 

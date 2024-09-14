@@ -8,7 +8,7 @@ userRouter.post("/register", registerUser)
 userRouter.post("/login", loginUser)
 
 
-router.post('/refresh-token', (req, res) => {
+userRouter.post('/refresh-token', (req, res) => {
     const refreshToken = req.cookies['refreshToken'];
   
     if (!refreshToken) {
