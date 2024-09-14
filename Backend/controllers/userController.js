@@ -157,7 +157,7 @@ const refreshToken = async (req, res) => {
   if (!refreshToken) {
     return res
       .status(401)
-      .json({ success: false, message: "No token provided"+req.cookies });
+      .json({ success: false, message: "No token provided" });
   }
   else{
     console.log("Got refresh token from refresh token endpoint");
