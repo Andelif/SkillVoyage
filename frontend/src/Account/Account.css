@@ -1,0 +1,112 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .account-page {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+  }
+  
+  .sidebar {
+    background-color: #000000;
+    width: 300px;
+    padding: 20px;
+    border-right: 2px solid #ff8cab;
+  }
+  
+  .profile-info {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+  }
+  
+  .profile-email {
+    color: #f7f3f3;
+    font-size: 14px;
+  }
+  
+  .sidebar-menu ul {
+    list-style-type: none;
+  }
+  
+  .sidebar-menu ul li {
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+.sidebar-menu ul li.active,
+.sidebar-menu ul li:hover {
+  color: #8198ec;
+}
+
+.sign-out-btn, .delete-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #8198ec;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .delete-btn {
+    background-color: rgb(168, 74, 74); 
+  }
+
+.main-content {
+  padding: 40px;
+  flex: 1;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+h2{
+   color: #8198ec;
+   font-size: 30px;
+}
+.edit{
+    padding: 8px 16px;
+    background-color: #df6666;
+    color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.info-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.info-card {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .info-card label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .info-card p {
+    font-size: 16px;
+    color: #666;
+  }
