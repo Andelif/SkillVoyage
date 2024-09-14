@@ -55,7 +55,7 @@ const ListProduct = () => {
                             <img src={item.image} alt="" />
                             <p>{item.name}</p>
                             <p>{item.description}</p>
-                            <p>${item.price}</p>
+                            <p>{item.price}BDT</p>
                             <p className='cursor' onClick={() => { removeItem(item._id) }}>X</p>
                         </div>
                     );

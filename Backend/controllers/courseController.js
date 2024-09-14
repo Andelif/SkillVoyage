@@ -18,11 +18,11 @@ const addCourse = async (req, res) => {
         teacher,
         image // Save the Base64 image data
     });
-    console.log(req.body.image);
+    
     await newCourse.save();
-    res.status(201).json({ message: 'Course added successfully', course: newCourse });
+    res.status(201).json({ success: true, message: 'Course added successfully', course: newCourse });
 } catch (error) {
-    res.status(500).json({ message: 'Error adding course', error: error.message });
+    res.status(500).json({  success: false, message: 'Error adding course', error: error.message });
 }
 };
 

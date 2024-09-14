@@ -56,17 +56,21 @@ const LoginPopup = ({ setShowLogin, theme }) => {
             
           //Redirect to Admin Panel if the logged-in user is an admin
           const mail = response.data.data.user.email;
-          console.log(mail);  
+
           if (mail === "andelif33@gmail.com") {
-            console.log("Paisiii")
-            navigate("/admin");
+            localStorage.setItem('isAdmin', true);
+          }else{
+            localStorage.removeItem('isAdmin');
           }
+          navigate("/home");
 
 
+          window.location.reload();
           } else {
             console.error("Access token or refresh token is missing in the response");
           }
 
+           
 
 
         } else {

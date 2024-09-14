@@ -15,10 +15,6 @@ const Sbar = () => {
             <img src={assets.list_icon} alt="" />
             <p>List Items</p>
         </NavLink>
-        <NavLink to='/admin/order' className="sidebar-opt">
-            <img src={assets.order_icon} alt="" />
-            <p>Orders</p>
-        </NavLink>
     </div>
    </div> 
   )

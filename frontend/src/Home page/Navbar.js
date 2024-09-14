@@ -1,4 +1,4 @@
-import React, { useContext ,  useEffect} from 'react';
+import React, { useContext ,  useEffect, useState} from 'react';
 import './Navbar.css';
 import logo_dark from '../assets/logo-dark.png';
 import search_icon_dark from '../assets/search-w.png';
@@ -11,18 +11,27 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = ({ setShowLogin }) => {
   const navigate = useNavigate();
   const { accessToken, setAccessToken, setRefreshToken } = useContext(StoreContext);
+  const [isAdmin, setIsAdmin] = useState(false);
+
 
   // Ensure the component re-renders when the token changes
   useEffect(() => {
     setAccessToken(localStorage.getItem("accessToken") || "");
+    const adminStatus = localStorage.getItem("isAdmin");
+    console.log("Status:"+adminStatus);
+
+    
+    setIsAdmin(!!adminStatus); // Set true if isAdmin exists
   }, [setAccessToken]);
 
   const logout = () => {
     
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isAdmin");
     setAccessToken("");
     setRefreshToken("");
+    setIsAdmin(false);
     navigate("/home");
   }
 
@@ -35,6 +44,12 @@ const Navbar = ({ setShowLogin }) => {
         <li className='navbar_items' onClick={() => navigate('/instructors')}>Instructors</li>
         <li className='navbar_items' onClick={() => navigate('/account')}>Account</li>
         <li className='navbar_items' onClick={() => navigate('/about')}>About us</li>
+
+        {/* Conditionally render the Admin button */}
+        {isAdmin && (
+          <li className='navbar_items' onClick={() => navigate('/admin')}>Admin Panel</li>
+        )}
+
       </ul>
       {!accessToken ? (
         <button className='sign-button' onClick={() => setShowLogin(true)}>Sign In</button>
