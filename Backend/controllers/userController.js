@@ -151,6 +151,7 @@ const registerUser = async (req, res) => {
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
   const { refreshToken } = req.cookies;
+  
   console.log(req.cookies);
 
   if (!refreshToken) {
