@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import courses from './coursesData';
 import './CourseDetail.css';
+import Loader from '../components/Loader'; // Import the Loader component
 
 const CourseDetail = () => {
   const { id } = useParams();
-  const course = courses.find(course => course.id === parseInt(id));
+  const [course, setCourse] = useState(null);
+
+  useEffect(() => {
+    // Fetch all courses from the API
+    fetch('https://skill-voyage-api.vercel.app/api/course/list')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.data) {
+          const foundCourse = data.data.find(course => course._id === id);
+          setCourse(foundCourse);
+        } else {
+          console.error('Unexpected data format or no courses available:', data);
+        }
+      })
+      .catch(error => console.error('Error fetching courses list:', error));
+  }, [id]);
 
   if (!course) {
-    return <div>Course not found</div>;
+    return <Loader />;
   }
 
   return (
