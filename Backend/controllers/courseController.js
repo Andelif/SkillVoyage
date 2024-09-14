@@ -5,11 +5,11 @@ import { Buffer } from "buffer";
 
 
 const addCourse = async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   try {
     const { name, description, price, rating, duration, teacher, image } = req.body;
 
-    const newCourse = new Course({
+    const newCourse = new courseModel({
         name,
         description,
         price,
@@ -18,7 +18,7 @@ const addCourse = async (req, res) => {
         teacher,
         image // Save the Base64 image data
     });
-
+    console.log(req.body.image);
     await newCourse.save();
     res.status(201).json({ message: 'Course added successfully', course: newCourse });
 } catch (error) {

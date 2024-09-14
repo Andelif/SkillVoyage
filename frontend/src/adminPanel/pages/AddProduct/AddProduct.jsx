@@ -76,11 +76,15 @@ const AddProduct = () => {
                 });
                 setImage(false);
                 toast.success(response.data.message);
+                console.log(response.data.data.image);
             } else {
                 toast.error(response.data.message);
+                console.log(response.data.data.image);
             }
         } catch (error) {
             toast.error('An error occurred while adding the product.');
+            console.log(error);
+            
         }
     };
 
