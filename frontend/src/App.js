@@ -13,7 +13,7 @@ import "./App.css";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { apiClient, setupInterceptors } from './services/apiClient';
-
+import AboutUs from './about us/aboutUs'; 
 
 const App = () => {
   const navigate = useNavigate();
@@ -66,6 +66,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} /> 
         <Route path="/home" element={<HomeContent theme={theme} />} />
+        <Route path="/about" element={<AboutUs />} /> 
         <Route path="/login-required" element={<LoginRequired />} />
         <Route path="/admin/*" element={<AdminPanel />} />
 
