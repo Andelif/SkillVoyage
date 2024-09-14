@@ -1,17 +1,26 @@
 import courseModel from "../models/courseModel.js";
 import s3 from "../config/awsConfig.js";
 import { v4 as uuidv4 } from "uuid";
+import { Buffer } from "buffer";
+
 
 const addCourse = async (req, res) => {
   console.log(req.body);
-  const { name, description, price, rating, duration } = req.body;
-  const file = req.file; // assuming multer or any other middleware handled the file
+  const { name, description, price, rating, duration, image } = req.body;
+  
+  
+  // Decode base64 image
+  const buffer = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
+  const fileType = image.split(';')[0].split('/')[1]; // Extract the file type from base64 string
+
+  //const file = req.file; // assuming multer or any other middleware handled the file
 
   const s3Params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
-    Key: `${uuidv4()}-${file.originalname}`, // Unique filename
-    Body: file.buffer,
-    ContentType: file.mimetype,
+    Key: `${uuidv4()}.${fileType}`, // Unique filename
+    Body: buffer,
+    ContentEncoding: 'base64', // Indicate the data is base64 encoded
+    ContentType: `image/${fileType}`, // Set the content type dynamically
   };
 
   try {
