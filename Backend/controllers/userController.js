@@ -153,6 +153,7 @@ const registerUser = async (req, res) => {
 
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
+  const { email, password } = req.body;
   // const refreshToken = req.cookies.refreshToken;
 
   // console.log(req.cookies);
@@ -168,6 +169,8 @@ const refreshToken = async (req, res) => {
 
   try {
     // Create a new access token
+    
+    const user = await userModel.findOne({ email });
     const newAccessToken = createAccessToken(user._id);
 
     // Update access token in cookies
