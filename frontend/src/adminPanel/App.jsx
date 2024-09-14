@@ -13,7 +13,7 @@ const App = () => {
   return (
     <div>
       <ToastContainer/>
-      < Navbar />
+  
       <div className="app-comp">
         <Sbar/>
         <Routes>
