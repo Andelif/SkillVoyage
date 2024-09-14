@@ -1,0 +1,84 @@
+.about-us-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.8;
+  }
+  
+  .hero-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+    color: #8198EC;
+  }
+  
+  .hero-section p {
+    font-size: 1.2rem;
+    color: #918787;
+  }
+  
+  .about-section, .value-section, .mission-section, .cta-section {
+    margin-bottom: 40px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    color: #ff8cab;
+    margin-bottom: 20px;
+  }
+  
+  p, li {
+    font-size: 1.1rem;
+    color: #918787;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    margin: 15px 0;
+    font-size: 1.1rem;
+  }
+  
+  strong {
+    font-weight: bold;
+    color: #485869;
+  }
+  
+  .cta-button {
+    background-color: #df6666;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #8198EC;;
+  }
+  .credit-bar {
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    margin-top: 40px;
+  }
+  
+  .credit-bar p {
+    margin: 0;
+  }
+  
+  .credit-bar a {
+    color: #298;
+  }

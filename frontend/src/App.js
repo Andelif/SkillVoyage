@@ -12,7 +12,8 @@ import AdminRoute from './adminPanel/AdminRoute'; // Adjust the path as needed
 import AdminPanel from './adminPanel/App'; // Your main admin panel component
 import "./App.css";
 import ListProduct from './adminPanel/pages/ListProduct/ListProduct';
-import AddProduct from './adminPanel/pages/AddProduct/AddProduct'
+import AddProduct from './adminPanel/pages/AddProduct/AddProduct';
+import AboutUs from './about us/aboutUs'; 
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} /> 
         <Route path="/home" element={<HomeContent theme={theme} />} />
+        <Route path="/about" element={<AboutUs />} /> 
         <Route path="/login-required" element={<LoginRequired />} />
         <Route path="/admin/*" element={<AdminPanel />} />
         {/* <Route path="/admin/add" element={<AddProduct/>} />

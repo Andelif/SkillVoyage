@@ -44,6 +44,8 @@ const Navbar = ({ setShowLogin }) => {
         <li className='navbar_items' onClick={() => navigate('/instructors')}>Instructors</li>
         <li className='navbar_items' onClick={() => navigate('/account')}>Account</li>
         <li className='navbar_items' onClick={() => navigate('/about')}>About us</li>
+    
+
 
         {/* Conditionally render the Admin button */}
         {isAdmin && (
