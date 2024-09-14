@@ -16,12 +16,13 @@ const Navbar = ({ setShowLogin }) => {
 
   // Ensure the component re-renders when the token changes
   useEffect(() => {
+    const accessStatus=localStorage.getItem("accessToken");
     setAccessToken(localStorage.getItem("accessToken") || "");
     const adminStatus = localStorage.getItem("isAdmin");
     console.log("Status:"+adminStatus);
 
     
-    setIsAdmin(!!adminStatus); // Set true if isAdmin exists
+    setIsAdmin(!!adminStatus && accessStatus); // Set true if isAdmin exists
   }, [setAccessToken]);
 
   const logout = () => {

@@ -18,26 +18,26 @@ const createRefreshToken = (id) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    console.log('Finding user...');
+    
     const user = await userModel.findOne({ email });
-    console.log('User found:', user);
+    
 
     if (!user) {
       return res.json({ success: false, message: "User does not exist", error: true });
     }
 
-    console.log('Comparing passwords...');
+    
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log('Password match:', isMatch);
+    
 
     if (!isMatch) {
       return res.json({ success: false, message: "Wrong password", error: true });
 
     } else {
-      console.log('Creating tokens...');
+      
       const accessToken = createAccessToken(user._id);
       const refreshToken = createRefreshToken(user._id);
-      console.log('Tokens created:', { accessToken, refreshToken });
+      
 
       const tokenOption = {
         httpOnly: true,
@@ -51,9 +51,8 @@ const loginUser = async (req, res) => {
       res.cookie("accessToken", accessToken, {
           ...tokenOption,
           expires: new Date(Date.now() + 15 * 60 * 1000),
-        })
-        .status(200)
-        .json({
+        });
+        res.status(200).json({
           message: "Login successfullyhgfhgf",
           data: {
             accessToken,
@@ -124,14 +123,17 @@ const registerUser = async (req, res) => {
     const accessToken = createAccessToken(user._id);
     const refreshToken = createRefreshToken(user._id);
 
-    res.cookie("refreshToken", refreshToken, {
+    const tokenOption = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: "None",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration for 7 days
-    });
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+    };
 
-    //res.cookie("refreshToken", refreshToken, tokenOption);
+
+    res.cookie("refreshToken", refreshToken, tokenOption);
+
+    
 
     // Set the access token in the cookies with a 15-minute expiration
     res.cookie("accessToken", accessToken, {
@@ -155,6 +157,9 @@ const refreshToken = async (req, res) => {
       .status(401)
       .json({ success: false, message: "No token provided" });
   }
+  else{
+    console.log("Got refresh token from refresh token endpoint");
+  }
 
   try {
     jwt.verify(refreshToken, process.env.TOKEN_SECRET_REF_KEY, (err, user) => {
@@ -164,12 +169,12 @@ const refreshToken = async (req, res) => {
           message: "Invalid token here in Ref Token Endpoint",
         });
       }
-      const newAccessToken = createAccessToken(user.id);
+      const newAccessToken = createAccessToken(user._id);
 
       // Update access token in cookies
       res.cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: "None",
         expires: new Date(Date.now() + 15 * 60 * 1000),
       });

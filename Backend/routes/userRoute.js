@@ -1,5 +1,6 @@
 import express from "express"
 import jwt from "jsonwebtoken";
+
 import { loginUser, registerUser, refreshToken } from "../controllers/userController.js"
 
 const userRouter = express.Router()
@@ -12,7 +13,7 @@ userRouter.post('/refresh-token', (req, res) => {
     const refreshToken = req.cookies['refreshToken'];
   
     if (!refreshToken) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized, refresh token missing' });
     }
   
     try {
@@ -28,16 +29,6 @@ userRouter.post('/refresh-token', (req, res) => {
     }
   });
   
-//Refresh token route
-
-// // Protect this route using the authToken middleware
-// userRouter.get("/account", authToken, (req, res) => {
-//     // Handle the request to retrieve the user's profile
-//     res.json({
-//         message: "This is the user's profile.",
-//         userId: req.userId, // Assuming the userId is set in the authToken middleware
-//     });
-// });
 
 
 export default userRouter;
