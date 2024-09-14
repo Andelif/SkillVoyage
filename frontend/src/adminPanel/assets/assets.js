@@ -16,4 +16,4 @@ export const assets ={
     list_icon
 }    
 
-export const url = 'https://food-bite-api.vercel.app/'
+export const url = 'https://skill-voyage-api.vercel.app/'
