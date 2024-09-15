@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './ListProduct.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { apiClient } from '../../../services/apiClient';
 
 const ListProduct = () => {
-    const url = "https://skill-voyage-api.vercel.app/api/course/list";
+    //const url = "https://skill-voyage-api.vercel.app/api/course/list";
     const [list, setList] = useState([]);
 
     const fetchList = async () => {
         try {
-            const response = await axios.get(url);
+            const response = await apiClient.get('/course/list');
             if (response.data.success) {
                 setList(response.data.data);
             } else {
@@ -26,7 +27,7 @@ const ListProduct = () => {
 
     const removeItem = async (courseId) => {
         try {
-            const response = await axios.post("https://skill-voyage-api.vercel.app/api/course/remove", { id: courseId });
+            const response = await apiClient.post("/course/remove", { id: courseId });
             await fetchList();
             if (response.data.success) {
                 toast.success(response.data.message);

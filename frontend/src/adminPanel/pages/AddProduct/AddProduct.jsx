@@ -3,6 +3,8 @@ import './AddProduct.css';
 import { assets } from '../../assets/assets';
 import axios from "axios";
 import { toast } from 'react-toastify';
+import { apiClient } from '../../../services/apiClient';
+
 
 const imageToBase64 = (files) => {
     return new Promise((resolve, reject) => {
@@ -15,7 +17,7 @@ const imageToBase64 = (files) => {
 
 const AddProduct = () => {
 
-    const url = "https://skill-voyage-api.vercel.app/api/course/add";
+    //const url = "https://skill-voyage-api.vercel.app/api/course/add";
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
         name: "",
@@ -61,9 +63,7 @@ const AddProduct = () => {
         };
 
         try {
-            const response = await axios.post(url, courseData, {
-                headers: { 'Content-Type': 'application/json' }
-            });
+            const response = await apiClient.post('/course/add', courseData);
             if (response.data.success) {
                 setData({
                     name: "",
