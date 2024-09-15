@@ -3,6 +3,7 @@ import express from "express";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import courseRouter from "./routes/courseRoute.js";
+import instructorRouter from "./routes/instructorRoute.js";
 import 'dotenv/config';
 import http from "http";
 import bodyParser from 'body-parser';
@@ -36,6 +37,7 @@ connectDB().catch(error => {
 // API endpoints
 app.use("/api/user", userRouter);
 app.use("/api/course", courseRouter);
+app.use("api/instructor", instructorRouter);
 app.use("/images", express.static('uploads'));
 
 app.get("/", (req, res) => {
