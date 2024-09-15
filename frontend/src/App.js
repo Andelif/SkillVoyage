@@ -4,6 +4,8 @@ import Navbar from './Home page/Navbar';
 import HomeContent from './Home page/HomeContent';
 import Course from './courses/Course';
 import CourseDetail from './courses/CourseDetail';
+import Instructor from './instructors/Instructor';
+import InstructorDetail from './instructors/InstructorDetail';
 import LoginPopup from './LoginPopop/LoginPopup';
 import NotFound from './components/NotFound';
 import LoginRequired from './LoginRequired/LoginRequired';
@@ -78,7 +80,8 @@ const App = () => {
         {/* Protected Routes */}
         <Route path="/courses" element={<ProtectedRoute element={Course} />} />
         <Route path="/courses/:id" element={<ProtectedRoute element={CourseDetail} />} />
-        {/*<Route path="/instructors" element={<ProtectedRoute element={Instructors} />} />*/}
+        <Route path="/instructors" element={<ProtectedRoute element={Instructor} />} />
+        <Route path="/instructors/:id" element={<ProtectedRoute element={InstructorDetail} />} />
         
         
       </Routes>

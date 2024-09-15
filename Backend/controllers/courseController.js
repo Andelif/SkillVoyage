@@ -1,7 +1,5 @@
 import courseModel from "../models/courseModel.js";
-import s3 from "../config/awsConfig.js";
-import { v4 as uuidv4 } from "uuid";
-import { Buffer } from "buffer";
+
 
 
 const addCourse = async (req, res) => {
