@@ -48,6 +48,9 @@ const AddProduct = () => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
+
+        const accessToken = localStorage.getItem('accessToken');
+
         if (!data.image) {
             toast.error('Please upload an image.');
             return;
@@ -63,7 +66,12 @@ const AddProduct = () => {
         };
 
         try {
-            const response = await apiClient.post('/course/add', courseData);
+            const response = await apiClient.post('/course/add', courseData, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, // Attach token here
+                    'Content-Type': 'application/json',
+                }
+            });
             if (response.data.success) {
                 setData({
                     name: "",

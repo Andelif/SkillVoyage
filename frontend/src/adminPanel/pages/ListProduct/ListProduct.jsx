@@ -10,7 +10,14 @@ const ListProduct = () => {
 
     const fetchList = async () => {
         try {
-            const response = await apiClient.get('/course/list');
+            const accessToken = localStorage.getItem('accessToken');
+
+            const response = await apiClient.get('/course/list', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, // Attach token here
+                    'Content-Type': 'application/json',
+                }
+            });
             if (response.data.success) {
                 setList(response.data.data);
             } else {
@@ -27,7 +34,14 @@ const ListProduct = () => {
 
     const removeItem = async (courseId) => {
         try {
-            const response = await apiClient.post("/course/remove", { id: courseId });
+            const accessToken = localStorage.getItem('accessToken');
+
+            const response = await apiClient.post("/course/remove", { id: courseId }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, // Attach token here
+                    'Content-Type': 'application/json',
+                }
+            });
             await fetchList();
             if (response.data.success) {
                 toast.success(response.data.message);

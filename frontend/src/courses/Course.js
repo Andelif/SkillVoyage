@@ -11,8 +11,17 @@ const Course = () => {
 
   
   useEffect(() => {
+
+
+    const accessToken = localStorage.getItem('accessToken');
+
     // Fetch courses from API
-    fetch('https://skill-voyage-api.vercel.app/api/course/list')
+    fetch('https://skill-voyage-api.vercel.app/api/course/list', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`, // Attach token here
+        'Content-Type': 'application/json',
+      },
+    })
       .then(response => response.json())
       .then(data => {
         if (data.success && Array.isArray(data.data)) {
