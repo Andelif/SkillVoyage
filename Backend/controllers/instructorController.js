@@ -5,7 +5,7 @@ import instructorModel from "../models/instructorModel.js";
 const addInstructor = async (req, res) => {
   //console.log(req.body);
   try {
-    const { name, description, price, rating, duration, teacher, image } = req.body;
+    const { name,courseName,qualification,rating,image } = req.body;
 
     const newInstructor = new instructorModel({
         name,
@@ -16,7 +16,7 @@ const addInstructor = async (req, res) => {
     });
     
     await newInstructor.save();
-    res.status(201).json({ success: true, message: 'Instructor added successfully', instructor: newInstructor });
+    res.status(201).json({ success: true, message: 'Instructor added successfullyfds', instructor: newInstructor });
 } catch (error) {
     res.status(500).json({  success: false, message: 'Error adding Instructor', error: error.message });
 }
