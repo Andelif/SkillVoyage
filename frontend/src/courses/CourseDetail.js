@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import courses from './coursesData';
 import './CourseDetail.css';
 import Loader from '../components/Loader'; // Import the Loader component
-import { apiClient } from '../../../services/apiClient';
+import { apiClient } from '../services/apiClient';
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -27,9 +27,9 @@ const CourseDetail = () => {
           setCourse(foundCourse);
         } else {
           console.error('Unexpected data format or no courses available:', data);
-          setLoading(false);
+          //setLoading(false);
         }
-        setLoading(false);
+        //setLoading(false);
       })
       .catch(error => console.error('Error fetching courses list:', error));
   }, [id]);
