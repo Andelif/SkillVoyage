@@ -6,9 +6,9 @@ const instructorRouter= express.Router();
 
 
 
-instructorRouter.post('/add', verifyToken, addInstructor); 
-instructorRouter.get('/list', verifyToken, listInstructor);
-instructorRouter.post('/remove', verifyToken, removeInstructor);
+instructorRouter.post('/addInstructor', verifyToken, addInstructor); 
+instructorRouter.get('/listInstructor', verifyToken, listInstructor);
+instructorRouter.post('/removeInstructor', verifyToken, removeInstructor);
 
 
 

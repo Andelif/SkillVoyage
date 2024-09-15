@@ -5,7 +5,7 @@ import instructorModel from "../models/instructorModel.js";
 const addInstructor = async (req, res) => {
   //console.log(req.body);
   try {
-    const { name, description, price, rating, duration, teacher, image } = req.body;
+    const { name,courseName,qualification,rating,image } = req.body;
 
     const newInstructor = new instructorModel({
         name,
