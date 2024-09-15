@@ -43,11 +43,11 @@ const App = () => {
           // Store the new access token in localStorage
           localStorage.setItem('accessToken', newAccessToken);
         } catch (error) {
-          console.error('Failed to refresh access tokenhgfhgf:', error);
+          console.error('Failed to refresh access token in refreshAccessToken:', error);
           setIsAdmin(false)
           
           // Redirect to login if refresh failed
-          navigate('/home');
+          
           console.log(isAdmin);
         }
       }
