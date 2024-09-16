@@ -201,7 +201,7 @@ const removeUserImage = async (req, res) => {
   const { email } = req.body;
 
   try {
-    // Find the user by email and update the image field to an empty string
+    
     const user = await userModel.findOneAndUpdate(
       { email: email },
       { image: "" },

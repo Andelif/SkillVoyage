@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Account.css";
 import { toast } from "react-toastify";
+import logout from '../Home page/Navbar'
 
 const Account = () => {
   const [user, setUser] = useState({
@@ -63,6 +64,7 @@ const Account = () => {
         if (response.data.success) {
           console.log("Image successfully updated in the database");
           toast.success("Image uploaded successfully");
+          window.location.reload();
         } else {
           console.error(
             "Error updating image in the database:",
@@ -91,7 +93,7 @@ const Account = () => {
         }));
         const updatedUser = { ...user, image: "" };
         localStorage.setItem("user", JSON.stringify(updatedUser));
-
+        window.location.reload();
         toast.success("Image removed successfully");
       } else {
         console.error("Error removing image:", response.data.message);
@@ -101,6 +103,10 @@ const Account = () => {
     }
   };
 
+
+
+  
+
   return (
     <div className="account-page">
       <aside className="sidebar">
@@ -108,6 +114,7 @@ const Account = () => {
           <div className="profile-avatar">
             {user.image ? (
               <>
+
                 <img
                   className="profile-avatar"
                   src={`data:image/jpeg;base64,${user.image}`}
@@ -116,12 +123,18 @@ const Account = () => {
               </>
             ) : (
               <>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleUpload}
-                  className="upload-pic"
-                />
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                onChange={handleUpload}
+                className="file-input"
+              />
+              <button
+                className="file-upload-button" onClick={() => document.getElementById("fileInput").click()}
+              >
+                Upload Image
+              </button>
               </>
             )}
           </div>
@@ -157,7 +170,7 @@ const Account = () => {
             <li>Order History</li>
           </ul> */}
         </nav>
-        <button className="sign-out-btn">Sign out</button>
+        
         <button className="delete-btn">Delete Account</button>
       </aside>
       <main className="main-content">

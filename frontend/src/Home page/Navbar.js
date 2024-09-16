@@ -12,6 +12,7 @@ const Navbar = ({ setShowLogin }) => {
   const navigate = useNavigate();
   const { accessToken, setAccessToken, setRefreshToken } = useContext(StoreContext);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userProfileImage, setUserProfileImage] = useState('');
 
 
   // Ensure the component re-renders when the token changes
@@ -22,7 +23,17 @@ const Navbar = ({ setShowLogin }) => {
     console.log("Status:"+adminStatus);
 
     
-    setIsAdmin(!!adminStatus && accessStatus); // Set true if isAdmin exists
+    setIsAdmin(!!adminStatus && accessStatus);
+    
+    // Fetch user profile image from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser.image) {
+      setUserProfileImage(`data:image/jpeg;base64,${storedUser.image}`);
+    } else {
+      setUserProfileImage(''); 
+    }
+    
+    // Set true if isAdmin exists
   }, [setAccessToken]);
 
   const logout = () => {
@@ -57,7 +68,11 @@ const Navbar = ({ setShowLogin }) => {
         <button className='sign-button' onClick={() => setShowLogin(true)}>Sign In</button>
       ) : (
         <div className='navbar-profile'>
-          <img className='profile_icon' src={dark_profile_icon} alt='Profile' />
+          <img
+            className='profile_icon'
+            src={userProfileImage || dark_profile_icon}
+            alt='Profile'
+          />
           <ul className='nav-profile-dropdown'>
             <li onClick={logout}><img id='logout_icon' src={logout_icon} alt='Logout' /><p>Logout</p></li>
           </ul>
