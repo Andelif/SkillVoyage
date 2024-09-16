@@ -26,22 +26,22 @@ const Sbar = () => {
         </div>
 
         {showOptions === 'add' && (
-          <div className="item-options">
-            <NavLink to='/admin/add' className="item-opt">
+          <div className="sidebar-options">
+            <NavLink to='/admin/add' className="sidebar-opt">
               <p>Add Course</p>
             </NavLink>
-            <NavLink to='/admin/add/instructor' className="item-opt">
+            <NavLink to='/admin/add/instructor' className="sidebar-opt">
               <p>Add Instructor</p>
             </NavLink>
           </div>
         )}
 
         {showOptions === 'list' && (
-          <div className="item-options">
-            <NavLink to='/admin/list' className="item-opt">
+          <div className="sidebar-options">
+            <NavLink to='/admin/list' className="sidebar-opt">
               <p>List Course</p>
             </NavLink>
-            <NavLink to='/admin/list/instructor' className="item-opt">
+            <NavLink to='/admin/list/instructor' className="sidebar-opt">
               <p>List Instructor</p>
             </NavLink>
           </div>

@@ -37,7 +37,7 @@ connectDB().catch(error => {
 // API endpoints
 app.use("/api/user", userRouter);
 app.use("/api/course", courseRouter);
-app.use("api/instructor", instructorRouter);
+app.use("/api/instructor", instructorRouter);
 app.use("/images", express.static('uploads'));
 
 app.get("/", (req, res) => {
