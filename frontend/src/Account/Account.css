@@ -50,7 +50,16 @@
   color: #8198ec;
 }
 
-.sign-out-btn, .delete-btn {
+.sign-out-btn{
+  width: 100%;
+    padding: 10px;
+    background-color: #8198ec;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 200px;
+}
+.delete-btn {
     width: 100%;
     padding: 10px;
     background-color: #8198ec;
@@ -61,7 +70,7 @@
   }
   
   .delete-btn {
-    background-color: rgb(168, 74, 74); 
+    background-color: #ff6969; 
   }
 
 .main-content {
@@ -80,7 +89,7 @@ h2{
 }
 .edit{
     padding: 8px 16px;
-    background-color: #df6666;
+    background-color: #ff6969;
     color: white;
     font-size: 15px;
     border: none;
@@ -91,6 +100,7 @@ h2{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  padding-top: 3rem;
 }
 .info-card {
     background-color: #fff;
@@ -109,4 +119,43 @@ h2{
   .info-card p {
     font-size: 16px;
     color: #666;
+  }
+
+
+  .file-input {
+    display: none;
+  }
+
+  .custom-file-upload{
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .file-input-button {
+    background-color: #8198ec; 
+    color: white;              
+    padding: 10px 20px;        
+    border-radius: 4px;        
+    cursor: pointer;           
+    font-family: sans-serif;   
+    display: inline-block;
+    cursor: pointer;
+    margin: 1rem;
+  }
+  
+  
+  .custom-file-label:hover {
+    background-color: #45a049; 
+  }
+
+  .remove-image-btn{
+    background-color: #ff6969;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: sans-serif;
   }

@@ -195,4 +195,29 @@ const updateUserImage = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, refreshToken, updateUserImage };
+
+
+const removeUserImage = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Find the user by email and update the image field to an empty string
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { image: "" },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Respond with success
+    return res.status(200).json({ success: true, message: "Image removed successfully" });
+  } catch (error) {
+    console.error("Error removing image:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export { loginUser, registerUser, refreshToken, updateUserImage, removeUserImage };
