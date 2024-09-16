@@ -27,12 +27,13 @@ const Navbar = ({ setShowLogin }) => {
 
   const logout = () => {
     
+    setIsAdmin(false);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("isAdmin");
     setAccessToken("");
     setRefreshToken("");
-    setIsAdmin(false);
+    
     navigate("/home");
   }
 
