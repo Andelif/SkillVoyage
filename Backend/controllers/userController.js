@@ -184,7 +184,7 @@ const updateUserImage = async (req, res) => {
   const { email, image } = req.body;
 
   try {
-    const user = await User.findOneAndUpdate({ email }, { image }, { new: true });
+    const user = await userModel.findOneAndUpdate({ email }, { image }, { new: true });
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
