@@ -80,7 +80,7 @@ const Course = () => {
           <li key={course._id} className="course-item" onClick={() => handleCourseClick(course._id)}>
             <img src={course.image} alt={course.title} className="course-image" />
             <div className="course-info">
-              <h2>{course.title}</h2>
+              <h2>{course.name}</h2>
               <p>Rating: {course.rating} ⭐</p>
               <p>Teacher: {course.teacher}</p>
               <p>{course.description}</p>
