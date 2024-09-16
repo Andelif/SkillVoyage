@@ -70,7 +70,7 @@ const App = () => {
         <Route path="/" element={<Navigate to="/home" />} /> 
         <Route path="/home" element={<HomeContent theme={theme} />} />
         <Route path="/about" element={<AboutUs />} /> 
-        <Route path="/account" element={<Account/>}/>
+        
         <Route path="/login-required" element={<LoginRequired />} />
         <Route path="/admin/*" element={<AdminPanel />} />
 
@@ -82,8 +82,8 @@ const App = () => {
         <Route path="/courses/:id" element={<ProtectedRoute element={CourseDetail} />} />
         <Route path="/instructors" element={<ProtectedRoute element={Instructor} />} />
         <Route path="/instructors/:id" element={<ProtectedRoute element={InstructorDetail} />} />
-        
-        
+        <Route path="/account" element={<ProtectedRoute element={Account} />} />
+      
       </Routes>
     </div>
   );

@@ -41,7 +41,7 @@ const LoginPopup = ({ setShowLogin, theme }) => {
         console.log(response.data); // Check the response data
     
         if (response.data.success) {
-          const { accessToken, refreshToken } = response.data.data || {};
+          const { accessToken, refreshToken, user} = response.data.data || {};
           
           if (accessToken && refreshToken) {
             localStorage.setItem("user", JSON.stringify(user)); // Save user data
@@ -55,7 +55,7 @@ const LoginPopup = ({ setShowLogin, theme }) => {
             
             
           //Redirect to Admin Panel if the logged-in user is an admin
-          const mail = response.data.data.user.email;
+          const mail = user.email;
 
           if (mail === "andelif33@gmail.com") {
             localStorage.setItem('isAdmin', true);

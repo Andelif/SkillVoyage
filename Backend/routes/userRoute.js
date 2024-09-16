@@ -1,7 +1,7 @@
 import express from "express"
 import jwt from "jsonwebtoken";
 
-import { loginUser, registerUser, refreshToken } from "../controllers/userController.js"
+import { loginUser, registerUser, refreshToken, updateUserImage } from "../controllers/userController.js"
 
 const userRouter = express.Router()
 
@@ -13,6 +13,7 @@ userRouter.options('/refresh-token', (req, res) => res.sendStatus(204));
 
 // Refresh token endpoint
 userRouter.post('/refresh-token', refreshToken);
+userRouter.post('/update-image', updateUserImage);
 
 // userRouter.post('/refresh-token', (req, res) => {
 //     const refreshToken = req.cookies['refreshToken'];

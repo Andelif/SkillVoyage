@@ -9,7 +9,7 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
     return <Component {...rest} />;
   }
 
-  if (location.pathname === '/courses' || location.pathname === '/instructors' ) {
+  if (location.pathname === '/courses' || location.pathname === '/instructors' || location.pathname === '/account' ) {
     return <Navigate to="/login-required" />;
   }
 

@@ -61,6 +61,7 @@ const loginUser = async (req, res) => {
           user: {
             name: user.name,
             email: user.email,
+            image: user.image,
           },
         },
         success: true,
@@ -115,6 +116,7 @@ const registerUser = async (req, res) => {
       name: name,
       email: email,
       password: hashedPassword,
+      image: image || "",
     });
 
     const user = await newUser.save();
@@ -154,23 +156,8 @@ const registerUser = async (req, res) => {
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
 
-  
-  // const refreshToken = req.cookies.refreshToken;
-
-  // console.log(req.cookies);
-
-  // if (!refreshToken) {
-  //   return res
-  //     .status(401)
-  //     .json({ success: false, message: "No token provided" });
-  // }
-  // else{
-  //   console.log("Got refresh token from refresh token endpoint");
-  // }
 
   try {
-    // Create a new access token
-    
     
     const newAccessToken = createAccessToken(user._id);
 
@@ -192,4 +179,20 @@ const refreshToken = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, refreshToken };
+
+const updateUserImage = async (req, res) => {
+  const { email, image } = req.body;
+
+  try {
+    const user = await User.findOneAndUpdate({ email }, { image }, { new: true });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    return res.status(200).json({ success: true, message: "Image updated", user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Error updating image" });
+  }
+};
+
+export { loginUser, registerUser, refreshToken, updateUserImage };
