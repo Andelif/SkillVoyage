@@ -4,6 +4,9 @@ import Sbar from './components/Sbar/Sbar'
 import { Routes,Route } from 'react-router-dom'
 import AddProduct from './pages/AddProduct/AddProduct'
 import ListProduct from './pages/ListProduct/ListProduct'
+import AddInstructor from './pages/AddInstructor/AddInstructor'
+import ListInstructor from './pages/ListInstructor/ListInstructor'
+
 import Orders from './pages/Orders/Orders'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +23,9 @@ const App = () => {
           <Route path="add" element={<AddProduct url={url}/>}/> 
           <Route path="list" element={<ListProduct url={url}/>} /> 
           <Route path="order" element={<Orders url={url} />} />
+
+          <Route path="add/instructor" element={<AddInstructor url={url} />} />
+          <Route path="list/instructor" element={<ListInstructor url={url} />} />
         </Routes>
       </div>
     </div>
