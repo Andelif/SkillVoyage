@@ -48,9 +48,14 @@ const Navbar = ({ setShowLogin }) => {
     navigate("/home");
   }
 
+
+  const goHome = () => {
+    navigate("/home");
+  }
+
   return (
     <div className='navbar dark'>
-      <img src={logo_dark} alt="Logo" className='logo' />
+      <img src={logo_dark} alt="Logo" className='logo' onClick={goHome}/>
       <ul className='Navcontainer'>
         <li className='navbar_items' onClick={() => navigate('/home')}>Home</li>
         <li className='navbar_items' onClick={() => navigate('/courses')}>Courses</li>

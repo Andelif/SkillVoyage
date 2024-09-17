@@ -220,4 +220,36 @@ const removeUserImage = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, refreshToken, updateUserImage, removeUserImage };
+
+const deleteUserAccount = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Find and delete the user by email
+    const user = await userModel.findOneAndDelete({ email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Clear cookies after successful deletion
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    });
+    
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    });
+
+    return res.status(200).json({ success: true, message: "User account deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export { loginUser, registerUser, refreshToken, updateUserImage, removeUserImage, deleteUserAccount };
