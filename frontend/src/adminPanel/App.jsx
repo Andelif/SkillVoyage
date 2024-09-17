@@ -6,7 +6,7 @@ import AddProduct from './pages/AddProduct/AddProduct'
 import ListProduct from './pages/ListProduct/ListProduct'
 import AddInstructor from './pages/AddInstructor/AddInstructor'
 import ListInstructor from './pages/ListInstructor/ListInstructor'
-
+import './index.css'
 import Orders from './pages/Orders/Orders'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

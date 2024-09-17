@@ -26,12 +26,19 @@ const Navbar = ({ setShowLogin }) => {
     setIsAdmin(!!adminStatus && accessStatus);
     
     // Fetch user profile image from localStorage
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser && storedUser.image) {
-      setUserProfileImage(`data:image/jpeg;base64,${storedUser.image}`);
+
+    const storedUser = localStorage.getItem("user");
+
+    if(storedUser){
+      const parsedUser = JSON.parse(storedUser);
+    if (parsedUser && parsedUser.image) {
+      setUserProfileImage(`data:image/jpeg;base64,${parsedUser.image}`);
     } else {
-      setUserProfileImage(''); 
+      setUserProfileImage('');
     }
+  } else {
+    setUserProfileImage(''); 
+  }
     
     // Set true if isAdmin exists
   }, [setAccessToken]);

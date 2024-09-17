@@ -4,15 +4,18 @@
 }
 .list-table-format{
     display: grid;
-    grid-template-columns:0.5fr 2fr 1fr 1fr 0.5fr ;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr;
     align-items: center;
-    gap: 10px;
+    gap: 50px;
     padding: 12px 15px;
     border: 1px solid rgb(138, 134, 134);
     font-size: 13px;
+    
 }
 .list-table-format.title{
-    background-color:rgb(207, 203, 203) ;
+    background-color:antiquewhite;
+    gap: 15rem;
+    font-size: large;
 }
 @media (max-width:600px) {
    .list-table-format{
@@ -22,4 +25,20 @@
    .list-table-format.title{
     display: none;
    }
+}
+.del-btn{
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    background-color: #fd5555;
+    height: 20px;
+    width: 70px;
+    border-radius: 15%;
+}
+.del-btn:hover{
+    border: 3px solid;
+    border-color: #8198EC;
+    
+}
+.list-table{
+    display: grid;
 }

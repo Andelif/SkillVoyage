@@ -16,22 +16,22 @@ const Sbar = () => {
         {/* Add Items */}
         <div className="sidebar-opt" onClick={() => handleOptionClick('add')}>
           <img src={assets.add_icon} alt="" />
-          <p>Add Items</p>
+          <p>Add</p>
         </div>
 
         {/* List Items */}
         <div className="sidebar-opt" onClick={() => handleOptionClick('list')}>
           <img src={assets.list_icon} alt="" />
-          <p>List Items</p>
+          <p>List</p>
         </div>
 
         {showOptions === 'add' && (
           <div className="sidebar-options">
             <NavLink to='/admin/add' className="sidebar-opt">
-              <p>Add Course</p>
+              <p>Course</p>
             </NavLink>
             <NavLink to='/admin/add/instructor' className="sidebar-opt">
-              <p>Add Instructor</p>
+              <p>Instructor</p>
             </NavLink>
           </div>
         )}
@@ -39,10 +39,10 @@ const Sbar = () => {
         {showOptions === 'list' && (
           <div className="sidebar-options">
             <NavLink to='/admin/list' className="sidebar-opt">
-              <p>List Course</p>
+              <p>Course</p>
             </NavLink>
             <NavLink to='/admin/list/instructor' className="sidebar-opt">
-              <p>List Instructor</p>
+              <p>Instructor</p>
             </NavLink>
           </div>
         )}

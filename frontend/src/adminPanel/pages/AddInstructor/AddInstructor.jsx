@@ -97,7 +97,7 @@ const AddInstructor = () => {
                 <div className="add-img flex-col">
                     <p>Upload image</p>
                     <label htmlFor="image">
-                        <img src={data.image || assets.upload_area} alt="" />
+                        <img src={data.image || assets.upload_area} alt="" className='img' />
                     </label>
                     <input onChange={handleUpload} type="file" id="image" hidden required />
                 </div>

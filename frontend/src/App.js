@@ -17,6 +17,8 @@ import axios from 'axios';
 import { apiClient, setupInterceptors } from './services/apiClient';
 import AboutUs from './about us/aboutUs'; 
 import Account from './Account/Account';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigate = useNavigate();
@@ -63,7 +65,10 @@ const App = () => {
   
 
   return (
-    <div className={`container ${theme}`}>
+    <div>
+      <ToastContainer/>
+      <div className={`container ${theme}`}>
+      
       {showLogin && <LoginPopup setShowLogin={setShowLogin} theme={theme} />}
       <Navbar theme={theme} setTheme={setTheme} setShowLogin={setShowLogin} />
       <Routes>
@@ -86,6 +91,9 @@ const App = () => {
       
       </Routes>
     </div>
+    </div>
+
+    
   );
 };
 

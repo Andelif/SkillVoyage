@@ -34,11 +34,9 @@ const AboutUs = () => {
 
       <section className="value-section">
         <h2>Why SkillVoyage?</h2>
-        <ul>
-          <li><strong>Expert-Led Courses:</strong> Courses by top industry leaders.</li>
-          <li><strong>On-Demand Learning:</strong> Access anytime, anywhere.</li>
-          <li><strong>Outcome-Focused:</strong> Practical knowledge to drive your success.</li>
-        </ul>
+        <p>
+        Expert-Led Courses: Courses by top industry leaders.On-Demand Learning: Access anytime, anywhere.Outcome-Focused: Practical knowledge to drive your success.
+        </p>
       </section>
 
       <section className="mission-section">

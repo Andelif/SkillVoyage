@@ -65,7 +65,7 @@ const Account = () => {
 
         if (response.data.success) {
           console.log("Image successfully updated in the database");
-          toast.success("Image uploaded successfully");
+          toast.success(response.data.success);
           window.location.reload();
         } else {
           console.error(
@@ -95,8 +95,9 @@ const Account = () => {
         }));
         const updatedUser = { ...user, image: "" };
         localStorage.setItem("user", JSON.stringify(updatedUser));
+        toast.success(response.data.success);
         window.location.reload();
-        toast.success("Image removed successfully");
+        
       } else {
         console.error("Error removing image:", response.data.message);
       }

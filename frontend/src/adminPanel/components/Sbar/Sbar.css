@@ -16,15 +16,17 @@
 .sidebar-opt{
     display: flex;
     align-items: center;
-    gap: 12px;
     border: 1px solid rgb(183, 178, 178);
     padding: 8px 10px;
-    border-radius: 3px 0px 0px 3px;
+    border-radius: 3px;
     cursor: pointer;
+    font-size: 500px;
+    background-color: antiquewhite;
 }
-.sidebar-opt.active{
-    background-color: rgb(205, 195, 195);
-    border-color: blue;
+.sidebar-opt:hover{
+    background-color: #ff8cab;
+    border-color: #ff648d;
+    color: black;
 }
 @media (max-width:900px){
     .sidebar-opt p{
