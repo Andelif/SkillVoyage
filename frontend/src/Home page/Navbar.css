@@ -133,10 +133,19 @@ ul li {
 
 .navbar_items:hover {
   text-decoration: underline;
-  color: #ff6969;
+  color: #ff8cab;
 }
 
 .Navcontainer {
   display: flex;
   justify-content: space-around;
+}
+
+.navbar_items.active {
+  color: #ff8cab;
+  text-decoration: underline; 
+}
+
+.navbar_items.active:hover {
+  text-decoration: none; 
 }

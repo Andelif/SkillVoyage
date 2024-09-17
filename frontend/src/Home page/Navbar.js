@@ -1,81 +1,75 @@
-import React, { useContext ,  useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Navbar.css';
 import logo_dark from '../assets/logo-dark.png';
-import search_icon_dark from '../assets/search-w.png';
 import profile_icon from '../assets/profile_icon.jpg';
 import logout_icon from '../assets/logout_icon.png';
 import dark_profile_icon from '../assets/dark_profile_icon.png';
 import { StoreContext } from '../context/StoreContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = ({ setShowLogin }) => {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
   const { accessToken, setAccessToken, setRefreshToken } = useContext(StoreContext);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userProfileImage, setUserProfileImage] = useState('');
 
-
-  // Ensure the component re-renders when the token changes
   useEffect(() => {
-    const accessStatus=localStorage.getItem("accessToken");
+    const accessStatus = localStorage.getItem("accessToken");
     setAccessToken(localStorage.getItem("accessToken") || "");
     const adminStatus = localStorage.getItem("isAdmin");
-    console.log("Status:"+adminStatus);
+    console.log("Status:" + adminStatus);
 
-    
     setIsAdmin(!!adminStatus && accessStatus);
-    
+
     // Fetch user profile image from localStorage
-
     const storedUser = localStorage.getItem("user");
-
-    if(storedUser){
+    if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-    if (parsedUser && parsedUser.image) {
-      setUserProfileImage(`data:image/jpeg;base64,${parsedUser.image}`);
+      if (parsedUser && parsedUser.image) {
+        setUserProfileImage(`data:image/jpeg;base64,${parsedUser.image}`);
+      } else {
+        setUserProfileImage('');
+      }
     } else {
       setUserProfileImage('');
     }
-  } else {
-    setUserProfileImage(''); 
-  }
-    
-    // Set true if isAdmin exists
   }, [setAccessToken]);
 
   const logout = () => {
-    
     setIsAdmin(false);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("isAdmin");
     setAccessToken("");
     setRefreshToken("");
-    
     navigate("/home");
-  }
-
+  };
 
   const goHome = () => {
     navigate("/home");
-  }
+  };
+
+  // Function to check if the current path is active
+  const isActive = (path) => {
+    return location.pathname === path ? 'active' : '';
+  };
 
   return (
     <div className='navbar dark'>
-      <img src={logo_dark} alt="Logo" className='logo' onClick={goHome}/>
+      <img src={logo_dark} alt="Logo" className='logo' onClick={goHome} />
       <ul className='Navcontainer'>
-        <li className='navbar_items' onClick={() => navigate('/home')}>Home</li>
-        <li className='navbar_items' onClick={() => navigate('/courses')}>Courses</li>
-        <li className='navbar_items' onClick={() => navigate('/instructors')}>Instructors</li>
-        <li className='navbar_items' onClick={() => navigate('/account')}>Account</li>
-        <li className='navbar_items' onClick={() => navigate('/about')}>About us</li>
+        <li className={`navbar_items ${isActive('/home')}`} onClick={() => navigate('/home')}>Home</li>
+        <li className={`navbar_items ${isActive('/courses')}`} onClick={() => navigate('/courses')}>Courses</li>
+        <li className={`navbar_items ${isActive('/instructors')}`} onClick={() => navigate('/instructors')}>Instructors</li>
+        <li className={`navbar_items ${isActive('/account')}`} onClick={() => navigate('/account')}>Account</li>
+        <li className={`navbar_items ${isActive('/about')}`} onClick={() => navigate('/about')}>About us</li>
 
-        {/* Conditionally render the Admin button */}
         {isAdmin && (
-          <li className='navbar_items' onClick={() => navigate('/admin')}>Admin Panel</li>
+          <li className={`navbar_items ${isActive('/admin')}`} onClick={() => navigate('/admin')}>Admin Panel</li>
         )}
-
       </ul>
+
       {!accessToken ? (
         <button className='sign-button' onClick={() => setShowLogin(true)}>Sign In</button>
       ) : (
@@ -90,10 +84,6 @@ const Navbar = ({ setShowLogin }) => {
           </ul>
         </div>
       )}
-      <div className='search-box'>
-        <input type="text" placeholder='Search' />
-        <img src={search_icon_dark} alt="Search" />
-      </div>
     </div>
   );
 }

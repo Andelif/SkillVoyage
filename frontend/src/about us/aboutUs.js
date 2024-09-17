@@ -6,8 +6,14 @@ const AboutUs = () => {
 
   const navigate = useNavigate();
 
-  const goCourse = ()=>{
-    navigate("/courses");
+  const goCourse = () => {
+    try {
+      navigate("/courses"); // Navigate to the courses page
+    } catch (error) {
+      console.error("Navigation to courses page failed:", error);
+      // Optionally, show an alert or UI message to the user if navigation fails
+      alert("Failed to navigate to the courses page. Please try again later.");
+    }
   }
 
   return (
