@@ -140,9 +140,20 @@ const registerUser = async (req, res) => {
       expires: new Date(Date.now() + 15 * 60 * 1000),
     });
 
-    res
-      .status(201)
-      .json({ success: true, error: false, accessToken, refreshToken });
+    res.status(200).json({
+      message: "Register successfullyhgfhgf",
+      data: {
+        accessToken,
+        refreshToken,
+        user: {
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        },
+      },
+      success: true,
+      error: false,
+    });
   } catch (error) {
     console.log(error);
     res.json({
