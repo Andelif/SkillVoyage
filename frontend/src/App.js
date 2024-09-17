@@ -30,36 +30,36 @@ const App = () => {
     localStorage.setItem('curr_theme', theme);
   }, [theme]);
 
-  useEffect(() => {
-    // Function to check if access token is missing and refresh it
-    const refreshAccessToken = async () => {
-      const accessToken = localStorage.getItem('accessToken');
+  // useEffect(() => {
+  //   // Function to check if access token is missing and refresh it
+  //   const refreshAccessToken = async () => {
+  //     const accessToken = localStorage.getItem('accessToken');
 
-      if (!accessToken) {
-        try {
-          // Attempt to refresh the token using the refresh token (stored in cookies)
-          const response = await axios.post('https://skill-voyage-api.vercel.app/api/user/refresh-token', {}, { withCredentials: true });
-          console.log(response.data);
-          const newAccessToken = response.data.accessToken;
+  //     if (!accessToken) {
+  //       try {
+  //         // Attempt to refresh the token using the refresh token (stored in cookies)
+  //         const response = await axios.post('https://skill-voyage-api.vercel.app/api/user/refresh-token', {}, { withCredentials: true });
+  //         console.log(response.data);
+  //         const newAccessToken = response.data.accessToken;
 
-          // Store the new access token in localStorage
-          localStorage.setItem('accessToken', newAccessToken);
-        } catch (error) {
-          console.error('Failed to refresh access token in refreshAccessToken:', error);
-          setIsAdmin(false)
+  //         // Store the new access token in localStorage
+  //         localStorage.setItem('accessToken', newAccessToken);
+  //       } catch (error) {
+  //         console.error('Failed to refresh access token in refreshAccessToken:', error);
+  //         setIsAdmin(false)
           
-          // Redirect to login if refresh failed
+  //         // Redirect to login if refresh failed
           
-          console.log(isAdmin);
-        }
-      }
-    };
+  //         console.log(isAdmin);
+  //       }
+  //     }
+  //   };
 
-    refreshAccessToken(); // Run token refresh check on page load
+  //   refreshAccessToken(); // Run token refresh check on page load
 
-    // Set up Axios interceptors for handling token refresh during API calls
-    setupInterceptors(navigate);
-  }, [navigate]);
+  //   // Set up Axios interceptors for handling token refresh during API calls
+  //   setupInterceptors(navigate);
+  // }, [navigate]);
   
 
   return (

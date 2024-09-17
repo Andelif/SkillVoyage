@@ -80,7 +80,7 @@ const loginUser = async (req, res) => {
 
 // register user
 const registerUser = async (req, res) => {
-  const { name, password, email } = req.body;
+  const { name, password, email, image } = req.body;
 
   try {
     //checking if user already exists

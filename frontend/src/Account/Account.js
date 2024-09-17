@@ -121,7 +121,7 @@ const Account = () => {
         toast.success("Account deleted successfully");
 
         
-        navigate("/login");
+        navigate("/home");
       } else {
         console.error("Error deleting account else:", response.data.message);
       }
