@@ -67,7 +67,15 @@ const LoginPopup = ({ setShowLogin, theme }) => {
 
           window.location.reload();
           } else {
-            console.error("Access token or refresh token is missing in the response");
+            //console.error("Access token or refresh token is missing in the response");
+            localStorage.setItem("user", JSON.stringify(user)); // Save user data
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+            
+            loginUser(user); // Update the user context
+            setAccessToken(accessToken);
+            setRefreshToken(refreshToken);
+            setShowLogin(false);
           }
 
            
