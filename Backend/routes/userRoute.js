@@ -14,7 +14,7 @@ userRouter.options('/refresh-token', (req, res) => res.sendStatus(204));
 
 userRouter.post('/update-image', updateUserImage);
 userRouter.post('/remove-image', removeUserImage);
-userRouter.delete('/delete-account', deleteUserAccount);
+userRouter.post('/delete-account', deleteUserAccount);
 
 // Refresh token endpoint
 userRouter.post('/refresh-token', refreshToken);

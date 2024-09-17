@@ -123,7 +123,7 @@ const Account = () => {
         
         navigate("/login");
       } else {
-        console.error("Error deleting account:", response.data.message);
+        console.error("Error deleting account else:", response.data.message);
       }
     } catch (error) {
       console.error("Error deleting account:", error);
