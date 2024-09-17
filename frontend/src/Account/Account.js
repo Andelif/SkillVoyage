@@ -3,8 +3,10 @@ import axios from "axios";
 import "./Account.css";
 import { toast } from "react-toastify";
 import logout from '../Home page/Navbar'
+import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
