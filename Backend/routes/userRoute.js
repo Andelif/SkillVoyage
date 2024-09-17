@@ -1,7 +1,7 @@
 import express from "express"
 import jwt from "jsonwebtoken";
 
-import { loginUser, registerUser, refreshToken, updateUserImage, removeUserImage } from "../controllers/userController.js"
+import { loginUser, registerUser, refreshToken, updateUserImage, removeUserImage, deleteUserAccount } from "../controllers/userController.js"
 
 const userRouter = express.Router()
 
@@ -14,6 +14,7 @@ userRouter.options('/refresh-token', (req, res) => res.sendStatus(204));
 
 userRouter.post('/update-image', updateUserImage);
 userRouter.post('/remove-image', removeUserImage);
+userRouter.delete('/delete-account', deleteUserAccount);
 
 // Refresh token endpoint
 userRouter.post('/refresh-token', refreshToken);

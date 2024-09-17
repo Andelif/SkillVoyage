@@ -1,7 +1,15 @@
 import React from 'react';
 import './aboutUs.css';
+import { useNavigate } from 'react-router-dom';
 
 const AboutUs = () => {
+
+  const navigate = useNavigate();
+
+  const goCourse = ()=>{
+    navigate("/courses");
+  }
+
   return (
     <div className="about-us-container">
       <section className="hero-section">
@@ -48,7 +56,7 @@ const AboutUs = () => {
           Join thousands of learners who trust SkillVoyage to help them grow. Discover the 
           right course for you today.
         </p>
-        <button className="cta-button">Explore Courses</button>
+        <button className="cta-button" onClick={goCourse}>Explore Courses</button>
       </section>
 
       {/* Footer with Credit Bar */}

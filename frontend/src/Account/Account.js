@@ -103,7 +103,30 @@ const Account = () => {
     }
   };
 
+  // Function to handle account deletion
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await axios.post(
+        "https://skill-voyage-api.vercel.app/api/user/delete-account",
+        { email: user.email }
+      );
 
+      if (response.data.success) {
+        // Clear local storage and log the user out
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem('isAdmin');
+        toast.success("Account deleted successfully");
+
+        
+        navigate("/login");
+      } else {
+        console.error("Error deleting account:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
 
   
 
@@ -171,7 +194,9 @@ const Account = () => {
           </ul> */}
         </nav>
         
-        <button className="delete-btn">Delete Account</button>
+        <button className="delete-btn" onClick={handleDeleteAccount}>
+          Delete Account
+        </button>
       </aside>
       <main className="main-content">
         <div className="header">
