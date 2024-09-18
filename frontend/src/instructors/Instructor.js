@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Instructor.css';
-import Loader from '../components/Loader'
+import Loader from '../components/Loader';
 
 const Instructor = () => {
   const navigate = useNavigate();
@@ -9,16 +9,12 @@ const Instructor = () => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [loading, setLoading] = useState(true); 
 
-  
   useEffect(() => {
-
-
     const accessToken = localStorage.getItem('accessToken');
 
-    // Fetch Instructor from API
     fetch('https://skill-voyage-api.vercel.app/api/instructor/list', {
       headers: {
-        'Authorization': `Bearer ${accessToken}`, // Attach token here
+        'Authorization': `Bearer ${accessToken}`, 
         'Content-Type': 'application/json',
       },
     })
@@ -28,20 +24,17 @@ const Instructor = () => {
           setInstructors(data.data);
         } else {
           console.error('Unexpected data format:', data);
-          
         }
-        setLoading(false); // Stop loading after data is fetched
+        setLoading(false); 
       })
       .catch(error => {
         console.error('Error fetching Instructor:', error);
-        
-        setLoading(false); // Stop loading on error
+        setLoading(false);
       });
   }, []);
 
-  
   if (loading) {
-    return <Loader />; // Show loader while data is being fetched
+    return <Loader />;
   }
 
   const handleCourseClick = (id) => {
@@ -54,11 +47,7 @@ const Instructor = () => {
 
   const filteredInstructors = instructors
     .filter(instructor => Number(instructor.rating) >= selectedRating)
-    .sort((a, b) => b.rating - a.rating); // Sort by rating in descending order
-
-
-  
-
+    .sort((a, b) => b.rating - a.rating);
 
   return (
     <div className="instructor-list">
@@ -75,9 +64,9 @@ const Instructor = () => {
         </div>
       </div>
 
-      <ul>
+      <div className="instructor-grid">
         {filteredInstructors.map((instructor) => (
-          <li key={instructor._id} className="instructor-item" onClick={() => handleCourseClick(instructor._id)}>
+          <div key={instructor._id} className="instructor-item" onClick={() => handleCourseClick(instructor._id)}>
             <img src={instructor.image} alt={instructor.name} className="instructor-image" />
             <div className="instructor-info">
               <h2>{instructor.name}</h2>
@@ -85,9 +74,9 @@ const Instructor = () => {
               <p>Course Name: {instructor.courseName}</p>
               <p>{instructor.qualification}</p>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
