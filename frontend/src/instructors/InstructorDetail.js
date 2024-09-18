@@ -1,46 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './InstructorDetail.css';
-import Loader from '../components/Loader'; // Import the Loader component
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import "./InstructorDetail.css";
+import Loader from "../components/Loader"; // Import the Loader component
 
 const InstructorDetail = () => {
   const { id } = useParams();
   const [instructor, setInstructor] = useState(null);
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem("accessToken");
 
-    // Fetch the instructor details from the API by ID
-    fetch(`https://skill-voyage-api.vercel.app/api/instructor/list`, {
+    // Fetch the specific instructor by ID
+    fetch(`https://skill-voyage-api.vercel.app/api/instructor/${id}`, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`, // Attach token here
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`, // Attach token here
+        "Content-Type": "application/json",
       },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.success && data.data) {
-          const foundInstructor = data.data.find(instructor => instructor._id === id);
-          setInstructor(foundInstructor);
+          setInstructor(data.data);
         } else {
-          console.error('Unexpected data format or no instructor available:', data);
+          console.error(
+            "Unexpected data format or no instructor available:",
+            data
+          );
         }
       })
-      .catch(error => console.error('Error fetching instructor list:', error));
+      .catch((error) =>
+        console.error("Error fetching instructor:", error)
+      );
   }, [id]);
 
-  const handleCommentSubmit = (e) => {
+
+
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (newComment) {
-      const newEntry = { text: newComment, rating };
-      setComments([...comments, newEntry]); // Add comment and rating
-      setNewComment(''); // Clear comment input
-      setRating(0); // Reset rating
+  
+    const accessToken = localStorage.getItem('accessToken');
+  
+    if (newComment && rating > 0) {
+      try {
+        const response = await fetch(`https://skill-voyage-api.vercel.app/api/instructor/${instructor._id}/comments`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: instructor._id,
+            text: newComment,
+            rating: rating
+          }),
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          setComments([...comments, { text: newComment, rating }]); // Update comments
+          setNewComment(''); // Clear comment input
+          setRating(0); // Reset rating
+        } else {
+          console.error('Failed to add comment:', data.message);
+        }
+      } catch (error) {
+        console.error('Error submitting comment:', error);
+      }
+    } else {
+      alert('Please enter a comment and select a rating.');
     }
   };
+
+
+
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(`https://skill-voyage-api.vercel.app/api/instructor/${instructor._id}/comments`);
+        const data = await response.json();
+        if (data.success) {
+          setComments(data.data); // Set the comments from the response
+        } else {
+          console.error('Failed to fetch comments:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+  
+    if (instructor?._id) {
+      fetchComments(); // Fetch comments when the instructor's ID is available
+    }
+  }, [instructor?._id]); // Dependency on the instructor ID
+
+
+
 
   if (!instructor) {
     return <Loader />;
@@ -49,7 +107,11 @@ const InstructorDetail = () => {
   return (
     <div className="instructor-detail">
       <h1>{instructor.name}</h1>
-      <img src={instructor.image} alt={instructor.name} className="instructor-detail-image" />
+      <img
+        src={instructor.image}
+        alt={instructor.name}
+        className="instructor-detail-image"
+      />
       <div className="instructor-detail-info">
         <p>Rating: {instructor.rating} ⭐</p>
         <p>Course Name: {instructor.courseName}</p>
@@ -67,7 +129,10 @@ const InstructorDetail = () => {
           />
           <div className="rating">
             <label>Rate this instructor:</label>
-            <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+            <select
+              value={rating}
+              onChange={(e) => setRating(Number(e.target.value))}
+            >
               <option value="0">Select rating</option>
               <option value="1">1 ⭐</option>
               <option value="2">2 ⭐</option>
@@ -81,7 +146,9 @@ const InstructorDetail = () => {
 
         <h3>Comments:</h3>
         <ul>
-          {comments.length === 0 && <p>No comments yet. Be the first to comment!</p>}
+          {comments.length === 0 && (
+            <p>No comments yet. Be the first to comment!</p>
+          )}
           {comments.map((comment, index) => (
             <li key={index}>
               <p>{comment.text}</p>
