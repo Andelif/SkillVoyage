@@ -14,7 +14,8 @@ const addCourse = async (req, res) => {
         rating,
         duration,
         teacher,
-        image // Save the Base64 image data
+        image,
+        youtubeLink,
     });
     
     await newCourse.save();
