@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Added useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import './CourseDetail.css';
 import Loader from '../components/Loader'; 
 
 const CourseDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // Added navigate for back button functionality
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
-  const [showVideo, setShowVideo] = useState(false); // State to control video visibility
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -30,41 +29,19 @@ const CourseDetail = () => {
       .catch(error => console.error('Error fetching courses list:', error));
   }, [id]);
 
-  const handleBack = () => {
-    setShowVideo(false); // Hide video if in fullscreen mode
-    navigate('/courses'); // Navigate back to course list
-  };
-
   if (!course) {
     return <Loader />;
   }
 
-  if (showVideo && course.youtubeLink) {
-    // Fullscreen video mode
-    return (
-      <>
-        <div className="btn">
-          <button className="back-button" onClick={handleBack}>←</button>
-        </div>
-        <div className="fullscreen-video">
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${course.youtubeLink.split('v=')[1]}`}
-            title={course.name}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </>
-    );
-  }
-  
+  const handlePlayVideo = () => {
+    navigate('/courses/vid', {
+      state: { youtubeLink: course.youtubeLink, courseName: course.name }, // Pass video data
+    });
+  };
+
   return (
     <div className="course-detail">
-      {/* Back button */}
-      <button className="back-button" onClick={handleBack}>←</button>
+      <button className="back-button" onClick={() => navigate('/courses')}>←</button>
 
       <h1>{course.name}</h1>
       <img src={course.image} alt={course.title} className="course-detail-image" />
@@ -75,10 +52,9 @@ const CourseDetail = () => {
         <p>Duration: {course.duration}</p>
       </div>
 
-      {/* Conditionally render the "Play Video" button */}
       {course.youtubeLink && (
         <div className="course-video">
-          <button className="play-video-button" onClick={() => setShowVideo(true)}>
+          <button className="play-video-button" onClick={handlePlayVideo}>
             <i className="play-icon">▶</i> Play Video
           </button>
         </div>
