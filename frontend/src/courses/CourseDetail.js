@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import courses from './coursesData';
+import { useParams, useNavigate } from 'react-router-dom'; // Added useNavigate
 import './CourseDetail.css';
-import Loader from '../components/Loader'; // Import the Loader component
-import { apiClient } from '../services/apiClient';
+import Loader from '../components/Loader'; 
 
 const CourseDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // Added navigate for back button functionality
   const [course, setCourse] = useState(null);
+  const [showVideo, setShowVideo] = useState(false); // State to control video visibility
 
   useEffect(() => {
-    // Fetch all courses from the API
     const accessToken = localStorage.getItem('accessToken');
 
-    // Fetch the course details from the API by ID
     fetch(`https://skill-voyage-api.vercel.app/api/course/list`, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`, // Attach token here
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
     })
@@ -27,19 +25,47 @@ const CourseDetail = () => {
           setCourse(foundCourse);
         } else {
           console.error('Unexpected data format or no courses available:', data);
-          //setLoading(false);
         }
-        //setLoading(false);
       })
       .catch(error => console.error('Error fetching courses list:', error));
   }, [id]);
+
+  const handleBack = () => {
+    setShowVideo(false); // Hide video if in fullscreen mode
+    navigate('/courses'); // Navigate back to course list
+  };
 
   if (!course) {
     return <Loader />;
   }
 
+  if (showVideo && course.youtubeLink) {
+    // Fullscreen video mode
+    return (
+      <>
+        <div className="btn">
+          <button className="back-button" onClick={handleBack}>←</button>
+        </div>
+        <div className="fullscreen-video">
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${course.youtubeLink.split('v=')[1]}`}
+            title={course.name}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </>
+    );
+  }
+  
   return (
     <div className="course-detail">
+      {/* Back button */}
+      <button className="back-button" onClick={handleBack}>←</button>
+
       <h1>{course.name}</h1>
       <img src={course.image} alt={course.title} className="course-detail-image" />
       <div className="course-detail-info">
@@ -49,24 +75,15 @@ const CourseDetail = () => {
         <p>Duration: {course.duration}</p>
       </div>
 
-      {/* Conditionally render the YouTube video if the YouTube link exists */}
+      {/* Conditionally render the "Play Video" button */}
       {course.youtubeLink && (
         <div className="course-video">
-          <h2>Course Video</h2>
-          <iframe
-            width="600"
-            height="315"
-            src={`https://www.youtube.com/embed/${course.youtubeLink.split('v=')[1]}`}
-            title={course.name}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          <button className="play-video-button" onClick={() => setShowVideo(true)}>
+            <i className="play-icon">▶</i> Play Video
+          </button>
         </div>
       )}
-      {!course.youtubeLink && (
-        <p>No YT video to show</p>
-      )}
+      {!course.youtubeLink && <p>No YouTube video to show</p>}
     </div>
   );
 };
