@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {  useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Sbar from './components/Sbar/Sbar'
 import { Routes,Route } from 'react-router-dom'
@@ -10,9 +10,19 @@ import './index.css'
 import Orders from './pages/Orders/Orders'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { setupInterceptors } from '../services/apiClient';
 
 const App = () => {
   const url = "https://skill-voyage-api.vercel.app/admin"
+  const navigate = useNavigate();
+
+  // Call setupInterceptors for the admin panel
+  useEffect(() => {
+    setupInterceptors(navigate);
+  }, [navigate]);
+
+
   return (
     <div>
       <ToastContainer/>
