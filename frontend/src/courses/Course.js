@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Course.css';
 import Loader from '../components/Loader'
+import { apiClient } from '../services/apiClient';
+
 
 const Course = () => {
   const navigate = useNavigate();
@@ -10,34 +12,72 @@ const Course = () => {
   const [loading, setLoading] = useState(true); 
 
   
-  useEffect(() => {
+  const refreshToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      try {
+        const refreshResponse = await apiClient.post('/user/refresh-token', { refreshToken });
+        const  newAccessToken  = refreshResponse.data.accessToken;
 
+        if (newAccessToken) {
+          localStorage.setItem('accessToken', newAccessToken);
+          return newAccessToken;
+        }
+      } catch (error) {
+        console.error('Error refreshing token:', error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        navigate('/home'); // Redirect to login page
+      }
+    }
+    navigate('/home'); // Redirect to login page if no refresh token
+  };
 
-    const accessToken = localStorage.getItem('accessToken');
+  const fetchCourses = async () => {
+    let accessToken = localStorage.getItem('accessToken');
 
-    // Fetch courses from API
-    fetch('https://skill-voyage-api.vercel.app/api/course/list', {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`, // Attach token here
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
+    const fetchWithToken = async (token) => {
+      try {
+        const response = await apiClient.get('/course/list', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = response.data;
+
         if (data.success && Array.isArray(data.data)) {
           setCourses(data.data);
         } else {
           console.error('Unexpected data format:', data);
-          
         }
-        setLoading(false); // Stop loading after data is fetched
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching courses:', error);
-        
-        setLoading(false); // Stop loading on error
-      });
+        if (error.response?.status === 401) {
+          const newAccessToken = await refreshToken();
+          if (newAccessToken) {
+            await fetchWithToken(newAccessToken); // Retry fetching with the new token
+          }
+        }
+      } finally {
+        setLoading(false); // Stop loading after data is fetched or error is handled
+      }
+    };
+
+    if (accessToken) {
+      await fetchWithToken(accessToken);
+    } else {
+      const newAccessToken = await refreshToken();
+      if (newAccessToken) {
+        await fetchWithToken(newAccessToken); // Retry fetching with the new token
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
   }, []);
+
 
   
   if (loading) {

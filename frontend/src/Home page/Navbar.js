@@ -6,6 +6,8 @@ import logout_icon from '../assets/logout_icon.png';
 import dark_profile_icon from '../assets/dark_profile_icon.png';
 import { StoreContext } from '../context/StoreContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { apiClient } from '../services/apiClient'; // Import the apiClient
+
 
 const Navbar = ({ setShowLogin }) => {
   const navigate = useNavigate();
@@ -15,25 +17,53 @@ const Navbar = ({ setShowLogin }) => {
   const [userProfileImage, setUserProfileImage] = useState('');
 
   useEffect(() => {
-    const accessStatus = localStorage.getItem("accessToken");
-    setAccessToken(localStorage.getItem("accessToken") || "");
-    const adminStatus = localStorage.getItem("isAdmin");
-    console.log("Status:" + adminStatus);
+    const checkAuthStatus = async () => {
+      const accessStatus = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
 
-    setIsAdmin(!!adminStatus && accessStatus);
+      if (!accessStatus) {
+        // Attempt to refresh the token if it's not available
+        if (refreshToken) {
+          try {
+            const response = await apiClient.post('/user/refresh-token', { refreshToken });
+            const newAccessToken = response.data.accessToken;
+            localStorage.setItem('accessToken', newAccessToken);
+            setAccessToken(newAccessToken);
+          } catch (error) {
+            // If refresh fails, perform logout
+            console.error('Failed to refresh access token:', error);
+            logout();
+            return;
+          }
+        } else {
+          // No refresh token available, perform logout
+          logout();
+          return;
+        }
+      } else {
+        // Update the access token in the context
+        setAccessToken(accessStatus);
+      }
 
-    // Fetch user profile image from localStorage
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser && parsedUser.image) {
-        setUserProfileImage(`data:image/jpeg;base64,${parsedUser.image}`);
+      // Update admin status based on localStorage
+      const adminStatus = localStorage.getItem("isAdmin");
+      setIsAdmin(!!adminStatus);
+
+      // Fetch user profile image from localStorage
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser && parsedUser.image) {
+          setUserProfileImage(`data:image/jpeg;base64,${parsedUser.image}`);
+        } else {
+          setUserProfileImage('');
+        }
       } else {
         setUserProfileImage('');
       }
-    } else {
-      setUserProfileImage('');
-    }
+    };
+
+    checkAuthStatus();
   }, [setAccessToken]);
 
   const logout = () => {
@@ -41,6 +71,7 @@ const Navbar = ({ setShowLogin }) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("user");
     setAccessToken("");
     setRefreshToken("");
     navigate("/home");

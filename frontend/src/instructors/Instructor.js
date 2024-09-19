@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Instructor.css';
 import Loader from '../components/Loader';
+import { apiClient } from '../services/apiClient';
+
 
 const Instructor = () => {
   const navigate = useNavigate();
@@ -9,29 +11,74 @@ const Instructor = () => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [loading, setLoading] = useState(true); 
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      try {
+        const refreshResponse = await apiClient.post('/user/refresh-token', { refreshToken });
+        const  newAccessToken  = refreshResponse.data.accessToken;
 
-    fetch('https://skill-voyage-api.vercel.app/api/instructor/list', {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`, 
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success && Array.isArray(data.data)) {
-          setInstructors(data.data);
-        } else {
-          console.error('Unexpected data format:', data);
+        if (newAccessToken) {
+          localStorage.setItem('accessToken', newAccessToken);
+          return newAccessToken;
         }
-        setLoading(false); 
-      })
-      .catch(error => {
-        console.error('Error fetching Instructor:', error);
-        setLoading(false);
-      });
+      } catch (error) {
+        console.error('Error refreshing token:', error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        navigate('/home'); // Redirect to login page
+      }
+    }
+    navigate('/home'); // Redirect to login page if no refresh token
+  };
+
+  const fetchInstructors = async () => {
+    let accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const fetchWithToken = async (token) => {
+        try {
+          const response = await apiClient.get('/instructor/list', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          const data = response.data;
+
+          if (data.success && Array.isArray(data.data)) {
+            setInstructors(data.data);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
+        } catch (error) {
+          console.error('Error fetching instructors:', error);
+          if (error.response?.status === 401) {
+            const newAccessToken = await refreshToken();
+            if (newAccessToken) {
+              await fetchWithToken(newAccessToken); // Retry fetching with the new token
+            }
+          }
+        }
+      };
+
+      if (accessToken) {
+        await fetchWithToken(accessToken);
+      } else {
+        const newAccessToken = await refreshToken();
+        if (newAccessToken) {
+          await fetchWithToken(newAccessToken); // Retry fetching with the new token
+        }
+      }
+    } finally {
+      setLoading(false); // Stop loading after data is fetched or error is handled
+    }
+  };
+
+  useEffect(() => {
+    fetchInstructors();
   }, []);
+
 
   if (loading) {
     return <Loader />;

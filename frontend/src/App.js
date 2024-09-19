@@ -33,9 +33,9 @@ const App = () => {
   }, [theme]);
 
   // Call setupInterceptors once when the app is initialized
-  // useEffect(() => {
-  //   setupInterceptors(navigate);
-  // }, [navigate]); // Ensures interceptors are initialized with navigate
+  useEffect(() => {
+    setupInterceptors(navigate);
+  }, [navigate]); // Ensures interceptors are initialized with navigate
   
 
   return (
