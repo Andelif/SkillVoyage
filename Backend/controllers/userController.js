@@ -5,7 +5,7 @@ import validator from "validator";
 
 // Function to create access token
 const createAccessToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "15m" });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30m" });
 };
 
 // Function to create refresh token
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 
       res.cookie("accessToken", accessToken, {
         ...tokenOption,
-        expires: new Date(Date.now() + 15 * 60 * 1000),
+        expires: new Date(Date.now() + 30 * 60 * 1000),
       });
       res.status(200).json({
         message: "Login successfullyhgfhgf",
@@ -134,10 +134,10 @@ const registerUser = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, tokenOption);
 
-    // Set the access token in the cookies with a 15-minute expiration
+    // Set the access token in the cookies with a 30-minute expiration
     res.cookie("accessToken", accessToken, {
       ...tokenOption,
-      expires: new Date(Date.now() + 15 * 60 * 1000),
+      expires: new Date(Date.now() + 30 * 60 * 1000),
     });
 
     res.status(200).json({

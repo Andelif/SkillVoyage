@@ -27,7 +27,7 @@ async function authToken(req, res, next) {
                             _id: refreshDecoded._id,
                             email: refreshDecoded.email,
                         };
-                        const accessToken = jwt.sign(newAccessTokenData, process.env.JWT_SECRET, { expiresIn: "15m" });
+                        const accessToken = jwt.sign(newAccessTokenData, process.env.JWT_SECRET, { expiresIn: "30m" });
                         console.log("New Access Token after re-generation -> ", accessToken);
 
                         const tokenOption = {
@@ -36,7 +36,7 @@ async function authToken(req, res, next) {
                             sameSite: 'None',
                         };
 
-                        res.cookie("accessToken", accessToken, { ...tokenOption, expires: new Date(Date.now() + 15 * 60 * 1000) });
+                        res.cookie("accessToken", accessToken, { ...tokenOption, expires: new Date(Date.now() + 30 * 60 * 1000) });
                         console.log("token from cookie after gen -> ",req.cookies?.accessToken)
 
 

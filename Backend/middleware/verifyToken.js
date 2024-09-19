@@ -17,7 +17,7 @@ export const verifyToken = (req, res, next) => {
         console.log("Access token in verify Token matched")
     }
 
-    req.user = user; // Store the user data from the token in the request object
-    next(); // Pass the request to the next middleware or route handler
+    req.user = user; 
+    next(); 
   });
 };
