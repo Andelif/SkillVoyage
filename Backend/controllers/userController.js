@@ -166,26 +166,31 @@ const registerUser = async (req, res) => {
 
 // Refresh token endpoint
 const refreshToken = async (req, res) => {
+  const { refreshToken } = req.body; // Receive refreshToken from frontend
 
+  if (!refreshToken) {
+    return res.status(401).json({ success: false, message: "No refresh token provided" });
+  }
 
   try {
-    
+    // Verify the refresh token
+    const decoded = jwt.verify(refreshToken, process.env.TOKEN_SECRET_REF_KEY);
+
+    const user = await userModel.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Generate new access token
     const newAccessToken = createAccessToken(user._id);
 
-    // Update access token in cookies
-    res.cookie("accessToken", newAccessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
-      expires: new Date(Date.now() + 15 * 60 * 1000),
-    });
-
+    // Send new access token to client
     res.status(200).json({ success: true, accessToken: newAccessToken });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Internal server error here in Ref Token Endpoint",
+      message: "Invalid or expired refresh token",
     });
   }
 };
