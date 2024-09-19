@@ -4,6 +4,7 @@ import Navbar from './Home page/Navbar';
 import HomeContent from './Home page/HomeContent';
 import Course from './courses/Course';
 import CourseDetail from './courses/CourseDetail';
+import Vid from './courses/vid'; 
 import Instructor from './instructors/Instructor';
 import InstructorDetail from './instructors/InstructorDetail';
 import LoginPopup from './LoginPopop/LoginPopup';
@@ -37,6 +38,7 @@ const App = () => {
 
   // Conditionally hide the Navbar when viewing course details
   const isCourseDetail = location.pathname.startsWith('/courses/');
+  const isVideoPage = location.pathname.startsWith('/courses/vid');
 
   return (
     <div>
@@ -46,7 +48,7 @@ const App = () => {
         {showLogin && <LoginPopup setShowLogin={setShowLogin} theme={theme} />}
         
         {/* Conditionally show Navbar unless on a course detail page */}
-        {!isCourseDetail && (
+        {!isCourseDetail && !isVideoPage &&(
           <Navbar theme={theme} setTheme={setTheme} setShowLogin={setShowLogin} />
         )}
 
@@ -63,6 +65,7 @@ const App = () => {
           {/* Protected Routes */}
           <Route path="/courses" element={<ProtectedRoute element={Course} />} />
           <Route path="/courses/:id" element={<ProtectedRoute element={CourseDetail} />} />
+          <Route path="/courses/vid" element={<ProtectedRoute element={Vid} />} />
           <Route path="/instructors" element={<ProtectedRoute element={Instructor} />} />
           <Route path="/instructors/:id" element={<ProtectedRoute element={InstructorDetail} />} />
           <Route path="/account" element={<ProtectedRoute element={Account} />} />

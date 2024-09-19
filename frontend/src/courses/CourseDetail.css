@@ -1,4 +1,6 @@
-
+body,html{
+  background-color: black;
+}
 .course-detail {
   padding: 20px;
   text-align: center; /* Center text for the overall container */
@@ -60,28 +62,6 @@
   font-size: 24px;
   background-color: transparent;
 }
-
-.fullscreen-video {
-  position: fixed;
-  top: 55%; /* Moved down by increasing the top percentage */
-  left: 50%;
-  width: 90%;
-  height: 80%;
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -55%); /* Adjusted translate to keep it centered */
-  z-index: 1000;
-}
-
-.fullscreen-video iframe {
-  width: 100%;
-  height: 100%;
-  border: none; /* Remove border for a cleaner look */
-}
-
 
 .back-button {
   position: fixed; /* Change to fixed to keep the button in viewport */
