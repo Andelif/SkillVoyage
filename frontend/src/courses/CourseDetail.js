@@ -40,7 +40,7 @@ const CourseDetail = () => {
 
   return (
     <div className="course-detail">
-      <h1>{course.title}</h1>
+      <h1>{course.name}</h1>
       <img src={course.image} alt={course.title} className="course-detail-image" />
       <div className="course-detail-info">
         <p>Rating: {course.rating} ⭐</p>
@@ -48,6 +48,25 @@ const CourseDetail = () => {
         <p>{course.description}</p>
         <p>Duration: {course.duration}</p>
       </div>
+
+      {/* Conditionally render the YouTube video if the YouTube link exists */}
+      {course.youtubeLink && (
+        <div className="course-video">
+          <h2>Course Video</h2>
+          <iframe
+            width="600"
+            height="315"
+            src={`https://www.youtube.com/embed/${course.youtubeLink.split('v=')[1]}`}
+            title={course.name}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
+      {!course.youtubeLink && (
+        <p>No YT video to show</p>
+      )}
     </div>
   );
 };

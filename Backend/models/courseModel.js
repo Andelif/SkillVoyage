@@ -8,7 +8,7 @@ const courseSchema = new mongoose.Schema({
     duration: {type: String,required:true},
     teacher: {type:String,required : true},
     image: {type: String,required:true},
-    
+    youtubeLink: {type: String, required: false}, 
     
 })
 
