@@ -5,7 +5,7 @@ import courseModel from "../models/courseModel.js";
 const addCourse = async (req, res) => {
   //console.log(req.body);
   try {
-    const { name, description, price, rating, duration, teacher, image } = req.body;
+    const { name, description, price, rating, duration, teacher, image, youtubeLink } = req.body;
 
     const newCourse = new courseModel({
         name,
