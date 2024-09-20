@@ -4,6 +4,26 @@
   background-color: black;
 }
 
+.back-button {
+  position: absolute; /* Positioning it on the top left */
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: white; /* Arrow color white */
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.instructors-label {
+  position: absolute; /* Positioning it next to the back button */
+  top: 20px;
+  left: 60px;
+  font-size: 24px;
+  color: white; /* Text color */
+}
+
 .instructor-detail h1 {
   margin-bottom: 20px;
   font-size: 2.5em;
@@ -114,6 +134,7 @@
   font-size: 0.9em;
   color: #cccccc;
 }
+
 @media (max-width: 768px) {
   .instructor-detail-image {
     width: 80%; /* Responsive image width */

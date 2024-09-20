@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useLocation, Navigate } from 'react-router-dom'; // Added useLocation
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './Home page/Navbar';
 import HomeContent from './Home page/HomeContent';
 import Course from './courses/Course';
@@ -10,8 +10,8 @@ import InstructorDetail from './instructors/InstructorDetail';
 import LoginPopup from './LoginPopop/LoginPopup';
 import NotFound from './components/NotFound';
 import LoginRequired from './LoginRequired/LoginRequired';
-import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
-import AdminPanel from './adminPanel/App'; // Your main admin panel component
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminPanel from './adminPanel/App';
 import './App.css';
 import { useNavigate } from 'react-router-dom';
 import { setupInterceptors } from './services/apiClient';
@@ -22,11 +22,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Get current route
+  const location = useLocation(); 
   const [showLogin, setShowLogin] = useState(false);
   const curr_theme = localStorage.getItem('curr_theme');
   const [theme, setTheme] = useState(curr_theme ? curr_theme : 'light');
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('curr_theme', theme);
@@ -34,11 +33,12 @@ const App = () => {
 
   useEffect(() => {
     setupInterceptors(navigate);
-  }, [navigate]); // Ensures interceptors are initialized with navigate
+  }, [navigate]);
 
-  // Conditionally hide the Navbar when viewing course details
+  // Check if the current route is a course detail, video, or instructor detail page
   const isCourseDetail = location.pathname.startsWith('/courses/');
-  const isVideoPage = location.pathname.startsWith('/courses/vid');
+  const isInstructorDetail = location.pathname.startsWith('/instructors/');
+  const isVideoPage = location.pathname === '/courses/vid';
 
   return (
     <div>
@@ -47,8 +47,8 @@ const App = () => {
         
         {showLogin && <LoginPopup setShowLogin={setShowLogin} theme={theme} />}
         
-        {/* Conditionally show Navbar unless on a course detail page */}
-        {!isCourseDetail && !isVideoPage &&(
+        {/* Conditionally show Navbar unless on a detail or video page */}
+        {!isCourseDetail && !isInstructorDetail && !isVideoPage && (
           <Navbar theme={theme} setTheme={setTheme} setShowLogin={setShowLogin} />
         )}
 
@@ -56,10 +56,8 @@ const App = () => {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<HomeContent theme={theme} />} />
           <Route path="/about" element={<AboutUs />} />
-
           <Route path="/login-required" element={<LoginRequired />} />
           <Route path="/admin/*" element={<AdminPanel />} />
-
           <Route path="*" element={<NotFound />} />
 
           {/* Protected Routes */}

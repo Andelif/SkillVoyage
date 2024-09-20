@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import "./InstructorDetail.css";
 import Loader from "../components/Loader"; // Import the Loader component
 
 const InstructorDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // Initialize navigate
   const [instructor, setInstructor] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -16,7 +17,7 @@ const InstructorDetail = () => {
     // Fetch the specific instructor by ID
     fetch(`https://skill-voyage-api.vercel.app/api/instructor/${id}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`, // Attach token here
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
     })
@@ -25,18 +26,11 @@ const InstructorDetail = () => {
         if (data.success && data.data) {
           setInstructor(data.data);
         } else {
-          console.error(
-            "Unexpected data format or no instructor available:",
-            data
-          );
+          console.error("Unexpected data format or no instructor available:", data);
         }
       })
-      .catch((error) =>
-        console.error("Error fetching instructor:", error)
-      );
+      .catch((error) => console.error("Error fetching instructor:", error));
   }, [id]);
-
-
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -60,9 +54,9 @@ const InstructorDetail = () => {
         
         const data = await response.json();
         if (data.success) {
-          setComments([...comments, { text: newComment, rating }]); // Update comments
-          setNewComment(''); // Clear comment input
-          setRating(0); // Reset rating
+          setComments([...comments, { text: newComment, rating }]);
+          setNewComment('');
+          setRating(0);
         } else {
           console.error('Failed to add comment:', data.message);
         }
@@ -74,16 +68,13 @@ const InstructorDetail = () => {
     }
   };
 
-
-
-
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const response = await fetch(`https://skill-voyage-api.vercel.app/api/instructor/${instructor._id}/comments`);
         const data = await response.json();
         if (data.success) {
-          setComments(data.data); // Set the comments from the response
+          setComments(data.data);
         } else {
           console.error('Failed to fetch comments:', data.message);
         }
@@ -93,19 +84,23 @@ const InstructorDetail = () => {
     };
   
     if (instructor?._id) {
-      fetchComments(); // Fetch comments when the instructor's ID is available
+      fetchComments();
     }
-  }, [instructor?._id]); // Dependency on the instructor ID
-
-
-
+  }, [instructor?._id]);
 
   if (!instructor) {
     return <Loader />;
   }
 
+  const handleBack = () => {
+    navigate('/instructors'); // Navigate back to the instructor list
+  };
+
   return (
     <div className="instructor-detail">
+      <button className="back-button" onClick={handleBack}>←</button>
+      <span className="instructors-label">Instructors</span>
+      
       <h1>{instructor.name}</h1>
       <img
         src={instructor.image}
