@@ -11,7 +11,7 @@ instructorRouter.get('/list', verifyToken, listInstructor);
 instructorRouter.post('/remove', verifyToken, removeInstructor);
 instructorRouter.get('/:id', verifyToken, getInstructorById);
 
-instructorRouter.post('/:id/comments', verifyToken, addComment); // Add comment
-instructorRouter.get('/:id/comments', getComments); // Get all comments for a specific instructor
+instructorRouter.post('/:id/comments', verifyToken, addComment);
+instructorRouter.get('/:id/comments', getComments); 
 
 export default instructorRouter;

@@ -9,6 +9,12 @@ const courseSchema = new mongoose.Schema({
     teacher: {type:String,required : true},
     image: {type: String,required:true},
     youtubeLink: {type: String, required: false}, 
+    comments: [
+        {
+          text: String,
+          rating: Number,
+        },
+      ], 
     
 })
 

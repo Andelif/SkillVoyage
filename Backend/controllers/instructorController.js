@@ -66,7 +66,7 @@ const addComment = async (req, res) => {
     
     // Add the comment to the instructor's comments array
     const newComment = { text, rating };
-    instructor.comments.push(newComment); // Store comment and rating only
+    instructor.comments.push(newComment); 
     await instructor.save();
     
     res.status(200).json({ success: true, message: 'Comment added successfully', comment: newComment });

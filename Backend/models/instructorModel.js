@@ -13,7 +13,7 @@ const instructorSchema = new mongoose.Schema({
           text: String,
           rating: Number,
         },
-      ], // Embedding comment schema
+      ], 
     
 })
 
