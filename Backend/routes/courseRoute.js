@@ -12,7 +12,7 @@ courseRouter.post('/remove', verifyToken, removeCourse);
 
 courseRouter.get('/:id', verifyToken, getCourseById);
 
-courseRouter.post('/:id/comments', verifyToken, addComment); t
+courseRouter.post('/:id/comments', verifyToken, addComment); 
 courseRouter.get('/:id/comments', getComments);
 
 
