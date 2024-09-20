@@ -138,3 +138,31 @@
         font-size: 14px; /* Smaller button text */
     }
 }
+
+
+.Pass {
+    position: relative; /* Make the container relative so child elements can be positioned inside */
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-input {
+    width: 100%;
+    padding-right: 40px; /* Add padding to the right so the icon doesn't overlap with the text */
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    font-size: 16px;
+}
+
+.password-visibility-toggle {
+    position: absolute;
+    right: 20px; /* Position the icon inside the input */
+    top: 55%;
+    transform: translateY(-50%); /* Vertically center the icon */
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+}
