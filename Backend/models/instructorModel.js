@@ -10,6 +10,7 @@ const instructorSchema = new mongoose.Schema({
     image: {type: String,required:true},
     comments: [
         {
+          name: String,
           text: String,
           rating: Number,
         },

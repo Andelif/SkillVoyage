@@ -11,6 +11,7 @@ const courseSchema = new mongoose.Schema({
     youtubeLink: {type: String, required: false}, 
     comments: [
         {
+          name: String,
           text: String,
           rating: Number,
         },

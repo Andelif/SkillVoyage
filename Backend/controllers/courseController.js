@@ -58,7 +58,7 @@ const removeCourse = async (req, res) => {
 // Add a new comment
 const addComment = async (req, res) => {
   try {
-    const { id, text, rating } = req.body; // course ID, comment text, and rating
+    const { id, name, text, rating } = req.body; // course ID, comment text, and rating
 
     // Find the course by ID
     const course = await courseModel.findById(id);
@@ -68,7 +68,7 @@ const addComment = async (req, res) => {
     }
     
     // Add the comment to the course's comments array
-    const newComment = { text, rating };
+    const newComment = { name, text, rating };
     course.comments.push(newComment); 
     await course.save();
     

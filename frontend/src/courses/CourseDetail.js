@@ -12,6 +12,11 @@ const CourseDetail = () => {
   const [rating, setRating] = useState(0);
 
 
+  
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const userName = user?.name || "Anonymous";
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -50,13 +55,14 @@ const CourseDetail = () => {
           body: JSON.stringify({
             id: course._id,
             text: newComment,
-            rating: rating
+            rating: rating,
+            name: userName
           }),
         });
         
         const data = await response.json();
         if (data.success) {
-          setComments([...comments, { text: newComment, rating }]);
+          setComments([...comments, { text: newComment, rating, name: userName }]);
           setNewComment('');
           setRating(0);
         } else {
@@ -155,7 +161,7 @@ const CourseDetail = () => {
           )}
           {comments.map((comment, index) => (
             <li key={index}>
-              <p>{comment.text}</p>
+              <p><strong>{comment.name}</strong>: {comment.text}</p>
               <p>Rating: {comment.rating} ⭐</p>
             </li>
           ))}
