@@ -1,166 +1,131 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
-import "./InstructorDetail.css";
-import Loader from "../components/Loader"; // Import the Loader component
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Instructor.css';
+import Loader from '../components/Loader';
+import { apiClient } from '../services/apiClient';
 
-const InstructorDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate(); // Initialize navigate
-  const [instructor, setInstructor] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const [rating, setRating] = useState(0);
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+const Instructor = () => {
+  const navigate = useNavigate();
+  const [instructors, setInstructors] = useState([]);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [loading, setLoading] = useState(true); 
 
-    // Fetch the specific instructor by ID
-    fetch(`https://skill-voyage-api.vercel.app/api/instructor/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success && data.data) {
-          setInstructor(data.data);
-        } else {
-          console.error(
-            "Unexpected data format or no instructor available:",
-            data
-          );
-        }
-      })
-      .catch((error) =>
-        console.error("Error fetching instructor:", error)
-      );
-  }, [id]);
-
-  const handleBack = () => {
-    navigate("/instructors"); // Navigate back to instructors
-  };
-
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (newComment && rating > 0) {
+  const refreshToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
       try {
-        const response = await fetch(`https://skill-voyage-api.vercel.app/api/instructor/${instructor._id}/comments`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: instructor._id,
-            text: newComment,
-            rating: rating
-          }),
-        });
+        const refreshResponse = await apiClient.post('/user/refresh-token', { refreshToken });
+        const  newAccessToken  = refreshResponse.data.accessToken;
 
-        const data = await response.json();
-        if (data.success) {
-          setComments([...comments, { text: newComment, rating }]);
-          setNewComment('');
-          setRating(0);
-        } else {
-          console.error('Failed to add comment:', data.message);
+        if (newAccessToken) {
+          localStorage.setItem('accessToken', newAccessToken);
+          return newAccessToken;
         }
       } catch (error) {
-        console.error('Error submitting comment:', error);
+        console.error('Error refreshing token:', error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        navigate('/home'); // Redirect to login page
       }
-    } else {
-      alert('Please enter a comment and select a rating.');
+    }
+    navigate('/home'); // Redirect to login page if no refresh token
+  };
+
+  const fetchInstructors = async () => {
+    let accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const fetchWithToken = async (token) => {
+        try {
+          const response = await apiClient.get('/instructor/list', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          const data = response.data;
+
+          if (data.success && Array.isArray(data.data)) {
+            setInstructors(data.data);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
+        } catch (error) {
+          console.error('Error fetching instructors:', error);
+          if (error.response?.status === 401) {
+            const newAccessToken = await refreshToken();
+            if (newAccessToken) {
+              await fetchWithToken(newAccessToken); // Retry fetching with the new token
+            }
+          }
+        }
+      };
+
+      if (accessToken) {
+        await fetchWithToken(accessToken);
+      } else {
+        const newAccessToken = await refreshToken();
+        if (newAccessToken) {
+          await fetchWithToken(newAccessToken); // Retry fetching with the new token
+        }
+      }
+    } finally {
+      setLoading(false); // Stop loading after data is fetched or error is handled
     }
   };
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await fetch(`https://skill-voyage-api.vercel.app/api/instructor/${instructor._id}/comments`);
-        const data = await response.json();
-        if (data.success) {
-          setComments(data.data);
-        } else {
-          console.error('Failed to fetch comments:', data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
+    fetchInstructors();
+  }, []);
 
-    if (instructor?._id) {
-      fetchComments();
-    }
-  }, [instructor?._id]);
 
-  if (!instructor) {
+  if (loading) {
     return <Loader />;
   }
 
+  const handleCourseClick = (id) => {
+    navigate(`/instructors/${id}`);
+  };
+
+  const handleRatingChange = (e) => {
+    setSelectedRating(Number(e.target.value));
+  };
+
+  const filteredInstructors = instructors
+    .filter(instructor => Number(instructor.rating) >= selectedRating)
+    .sort((a, b) => b.rating - a.rating);
+
   return (
-    <div className="instructor-detail">
-      <div className="back-section">
-        <button className="back-button" onClick={handleBack}>←</button>
-        <span className="back-text">Instructors</span>
+    <div className="instructor-list">
+      <div className="header-container">
+        <h1>Instructor</h1>
+        <div className="filter-container">
+          <label htmlFor="ratingFilter">Filter by Rating:</label>
+          <select id="ratingFilter" onChange={handleRatingChange} value={selectedRating}>
+            <option value="0">All Ratings</option>
+            <option value="4">4 Stars & Up</option>
+            <option value="4.5">4.5 Stars & Up</option>
+            <option value="5">5 Stars</option>
+          </select>
+        </div>
       </div>
 
-      <h1>{instructor.name}</h1>
-      <img
-        src={instructor.image}
-        alt={instructor.name}
-        className="instructor-detail-image"
-      />
-      <div className="instructor-detail-info">
-        <p>Rating: {instructor.rating} ⭐</p>
-        <p>Course Name: {instructor.courseName}</p>
-        <p>{instructor.qualification}</p>
-      </div>
-
-      <div className="comment-section">
-        <h3>Leave a Comment and Rating:</h3>
-        <form onSubmit={handleCommentSubmit}>
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Write your comment here..."
-            rows="4"
-          />
-          <div className="rating">
-            <label>Rate this instructor:</label>
-            <select
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-            >
-              <option value="0">Select rating</option>
-              <option value="1">1 ⭐</option>
-              <option value="2">2 ⭐</option>
-              <option value="3">3 ⭐</option>
-              <option value="4">4 ⭐</option>
-              <option value="5">5 ⭐</option>
-            </select>
+      <div className="instructor-grid">
+        {filteredInstructors.map((instructor) => (
+          <div key={instructor._id} className="instructor-item" onClick={() => handleCourseClick(instructor._id)}>
+            <img src={instructor.image} alt={instructor.name} className="instructor-image" />
+            <div className="instructor-info">
+              <h2>{instructor.name}</h2>
+              <p>Rating: {instructor.rating} ⭐</p>
+              <p>Course Name: {instructor.courseName}</p>
+              <p>{instructor.qualification}</p>
+            </div>
           </div>
-          <button type="submit">Submit</button>
-        </form>
-
-        <h3>Comments:</h3>
-        <ul>
-          {comments.length === 0 && (
-            <p>No comments yet. Be the first to comment!</p>
-          )}
-          {comments.map((comment, index) => (
-            <li key={index}>
-              <p>{comment.text}</p>
-              <p>Rating: {comment.rating} ⭐</p>
-            </li>
-          ))}
-        </ul>
+        ))}
       </div>
     </div>
   );
 };
 
-export default InstructorDetail;
+export default Instructor;
