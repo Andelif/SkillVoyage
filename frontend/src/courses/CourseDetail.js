@@ -15,7 +15,7 @@ const CourseDetail = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
 
-    fetch(`https://skill-voyage-api.vercel.app/api/course/list`, {
+    fetch(`https://skill-voyage-api.vercel.app/api/course/${id}`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
@@ -24,8 +24,8 @@ const CourseDetail = () => {
       .then(response => response.json())
       .then(data => {
         if (data.success && data.data) {
-          const foundCourse = data.data.find(course => course._id === id);
-          setCourse(foundCourse);
+          
+          setCourse(data.data);
         } else {
           console.error('Unexpected data format or no courses available:', data);
         }

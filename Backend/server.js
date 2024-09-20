@@ -23,9 +23,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: ["https://skill-voyage-onrq.vercel.app", 'http://localhost:3000'], // Replace with your frontend URL
+  origin: ["https://skill-voyage-onrq.vercel.app", 'http://localhost:3000'], 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true // Allow cookies to be sent
+  credentials: true 
 }));
 
 // DB connection with error handling
