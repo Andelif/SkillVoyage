@@ -82,3 +82,23 @@
   .credit-bar a {
     color: #298;
   }
+  @media (max-width: 768px) {
+    .about-us-container {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .hero-section h1 {
+        font-size: 2rem; /* Smaller heading */
+    }
+
+    .hero-section p,
+    p,
+    li {
+        font-size: 1rem; /* Smaller paragraph text */
+    }
+
+    .cta-button {
+        font-size: 1rem; /* Smaller button text */
+        padding: 8px 16px; /* Adjust button padding */
+    }
+}

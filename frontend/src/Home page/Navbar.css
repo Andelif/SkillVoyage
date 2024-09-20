@@ -149,3 +149,25 @@ ul li {
 .navbar_items.active:hover {
   text-decoration: none; 
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically */
+    height: auto; /* Allow height to adjust */
+  }
+
+  ul li {
+    display: block; /* Change to block for stacking */
+    margin: 10px 0; /* Adjust margin */
+  }
+
+  .search-box {
+    margin-left: 0; /* Center the search box */
+    width: 100%; /* Full width */
+    justify-content: center; /* Center the content */
+  }
+
+  .sign-button {
+    width: 100%; /* Full width for buttons */
+  }
+}

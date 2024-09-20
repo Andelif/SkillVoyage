@@ -1,6 +1,7 @@
-body,html{
+body, html {
   background-color: black;
 }
+
 .course-detail {
   padding: 20px;
   text-align: center; /* Center text for the overall container */
@@ -74,4 +75,25 @@ body,html{
   color: white; /* Arrow color white */
   cursor: pointer;
   z-index: 1001; /* Ensure the button is above the video */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .course-detail-image {
+    width: 100%; /* Full width on mobile */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .course-detail-info {
+    max-width: 90%; /* Wider info container */
+  }
+
+  .course-detail h1 {
+    font-size: 2em; /* Smaller heading */
+  }
+
+  .play-video-button {
+    font-size: 16px; /* Smaller button text on mobile */
+    padding: 8px 16px; /* Adjust padding */
+  }
 }

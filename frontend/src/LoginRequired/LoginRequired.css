@@ -27,3 +27,16 @@
     padding-top: 20px;
     color: blue;
 }
+@media (max-width: 768px) {
+    .login-required-container h2 {
+        font-size: 1.5rem; /* Smaller heading on mobile */
+    }
+
+    .login-required-container p {
+        font-size: 1rem; /* Smaller paragraph text */
+    }
+
+    .HomeLink {
+        font-size: 0.9rem; /* Adjust link size */
+    }
+}

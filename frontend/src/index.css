@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif; 
-    /* background-color: #000000; */
+
    
   }
   .container {
@@ -15,4 +15,8 @@
   .container.dark {
     background: #000000;
   }
-  
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px; /* Add padding for smaller screens */
+    }
+  }

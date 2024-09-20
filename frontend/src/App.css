@@ -13,3 +13,13 @@
   padding-right: 10px;
 }
 
+@media (max-width: 768px) {
+  .UserInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .userName {
+    font-size: 14px;
+  }
+}

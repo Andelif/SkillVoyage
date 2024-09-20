@@ -80,3 +80,12 @@
   color: #cccccc;
   text-align: center;
 }
+@media (max-width: 768px) {
+  .instructor-grid {
+    grid-template-columns: 1fr; /* Single column layout */
+  }
+
+  .header-container h1 {
+    font-size: 2em; /* Smaller heading */
+  }
+}

@@ -124,3 +124,17 @@
     justify-content: center;
     align-items: center;
 }
+@media (max-width: 768px) {
+    .login-popup-container {
+        width: 90%; /* Full width on smaller screens */
+        padding: 15px; /* Adjust padding */
+    }
+
+    .login-popup-inputs input {
+        font-size: 14px; /* Smaller input text */
+    }
+
+    .login-popup-container button {
+        font-size: 14px; /* Smaller button text */
+    }
+}

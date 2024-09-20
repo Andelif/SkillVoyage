@@ -114,3 +114,13 @@
   font-size: 0.9em;
   color: #cccccc;
 }
+@media (max-width: 768px) {
+  .instructor-detail-image {
+    width: 80%; /* Responsive image width */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .instructor-detail-info {
+    max-width: 90%; /* Wider info container */
+  }
+}

@@ -173,3 +173,38 @@ h2{
     border: none;
     color: #000000;
   }
+  @media (max-width: 768px) {
+    .account-page {
+        flex-direction: column; /* Stack sidebar and main content */
+    }
+
+    .sidebar {
+        width: 100%; /* Full width for sidebar on mobile */
+        border-right: none; /* Remove border */
+        border-bottom: 2px solid #ff8cab; /* Add bottom border */
+    }
+
+    .main-content {
+        padding: 20px; /* Reduce padding */
+    }
+
+    h2 {
+        font-size: 24px; /* Smaller heading */
+    }
+
+    .sidebar-menu ul li {
+        font-size: 14px; /* Smaller menu items */
+    }
+
+    .sign-out-btn, .delete-btn {
+        margin-top: 20px; /* Adjust margin */
+    }
+
+    .info-cards {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+
+    .info-card {
+        padding: 15px; /* Reduce padding */
+    }
+}
