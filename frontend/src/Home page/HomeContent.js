@@ -48,6 +48,8 @@ const HomeContent = () => {
             <div className="dot dot7"></div>
             <div className="dot dot8"></div>
             <div className="dot dot9"></div>
+            <div className="dot dot10"></div>
+            <div className="dot dot11"></div>
           </div>
         </div>
       </div>

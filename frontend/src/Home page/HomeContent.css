@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 40px;
+    padding: 20px;
     max-width: 1200px;
     width: 100%;
   }
@@ -46,124 +46,7 @@
   
   .vertical-line {
     width: 2px;
-    height: 300px;
-    background-color: white;
-    margin: 0 20px; /* Moved between text and shapes */
-  }
-  
-  .text-content {
-    max-width: 80%;
-  }
-  
-  .text-content h1 {
-    font-size: 3rem;
-    line-height: 1.2;
-    font-weight: 500;
-  }
-  
-  .highlight {
-    color: #FF6688;
-  }
-  
-  .highlight-student {
-    color: #FF6688;
-  }
-  
-  .highlight-next {
-    color: #8892F6;
-  }
-  
-  .subtext {
-    font-size: 1.1rem;
-    margin-top: 20px;
-    line-height: 1.5;
-  }
-  
-  .progress-button {
-    margin-top: 30px;
-    padding: 15px 30px;
-    background-color: #FF3366;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .graphic-container {
-    position: relative;
-    width: 500px; /* Increased width for larger arches */
-  }
-  
-  .arches {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .arch {
-    border-radius: 0 0 120px 120px;
-    transform: rotate(180deg); /* Flip upside down */
-  }
-  
-  .arch1 {
-    background-color: #8892F6;
-    width: 120px;
-    height: 240px; /* Smallest size */
-  }
-  
-  .arch2 {
-    background-color: #FF99BB;
-    width: 160px; /* Medium size */
-    height: 320px;
-  }
-  
-  .arch3 {
-    background-color: #FF6688;
-    width: 200px; /* Largest size */
     height: 400px;
-  }
-  
-  .dots {
-    position: absolute;
-    top: -100px;
-    left: 0;
-  }
-  
-  .dot {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    position: absolute;
-  }
-  
-  /* Randomized dot positions and colors */
-  .Homepage {
-    background-color: black;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .banner-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 40px;
-    max-width: 1200px;
-    width: 100%;
-  }
-  
-  .text-container {
-    display: flex;
-    align-items: flex-start;
-    color: white;
-    max-width: 45%;
-  }
-  
-  .vertical-line {
-    width: 2px;
-    height: 300px;
     background-color: white;
     margin: 0 20px; /* Moved between text and shapes */
   }
@@ -215,7 +98,7 @@
   .arches {
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 0px;
     align-items: flex-end; /* Aligns all arcs at the bottom */
   }
   
@@ -242,8 +125,10 @@
   
   .dots {
     position: absolute;
-    top: -100px;
+    top: 0;
     left: 0;
+    width: 120%;
+    height: 10%;
   }
   
   .dot {
@@ -253,58 +138,62 @@
     position: absolute;
   }
   
-  /* Randomized dot positions and colors */
+  
   .dot1 {
-    background-color: #8892F6;
+    background-color:   #8892f6;
     top: 20px;
-    left: 50px;
+    left: 150px;
   }
   
   .dot2 {
-    background-color: #FF99BB;
-    top: 70px;
-    left: 100px;
+    background-color: #ff6688;
+    top: 50px;
+    left: 320px;
   }
   
   .dot3 {
-    background-color: #FF6688;
+    background-color:#8892f6;
+    top: 2px;
+    left: 400px;
+  }
+  
+  .dot4 {
+    background-color: #Ff99bb;
+    top: 120px;
+    left: 5px;
+  }
+  
+  .dot5 {
+    background-color: #8892F6;
     top: 120px;
     left: 150px;
   }
   
-  .dot4 {
-    background-color: #8892F6;
-    top: 200px;
-    left: 20px;
-  }
-  
-  .dot5 {
-    background-color: #FF99BB;
-    top: 250px;
-    left: 70px;
-  }
-  
   .dot6 {
-    background-color: #FF6688;
-    top: 300px;
-    left: 120px;
+    background-color: #Ff99bb;
+    top: 250px;
+    left: 350px;
   }
   
-  .dot7 {
-    background-color: #8892F6;
-    top: 50px;
-    left: 180px;
-  }
   
   .dot8 {
     background-color: #FF99BB;
-    top: 130px;
-    left: 240px;
+    top: 10px;
+    left: 10px;
   }
   
   .dot9 {
-    background-color: #FF6688;
-    top: 180px;
-    left: 300px;
+    background-color:   #FF99bb;
+    top: 5px;
+    left: 230px;
   }
-  
+  .dot10{
+    background-color:   #FF6688;
+    top: 60px;
+    left: 70px;
+  }
+  /*
+  #FF6688 dark pink
+  #FF99BB light pink 
+  #8892F6
+  */
