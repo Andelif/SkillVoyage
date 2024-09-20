@@ -1,31 +1,11 @@
-/* .div{
-    transition: 0.5s;
-}
-.Homebg{
-    width: 100%;
-
-}
-.Homepage{
-    display: flex;
-    
-}
-@media (max-width: 768px) {
-    .overlay-button {
-      width: 150px; 
-      font-size: 16px; 
-    }
-  
-    .Homepage {
-      flex-direction: column; 
-      align-items: center; 
-    }
-  } */
-  .Homepage {
+.Homepage {
     background-color: black;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 50px; /* Add some padding to move the banner lower */
   }
   
   .banner-container {
@@ -35,7 +15,17 @@
     padding: 20px;
     max-width: 1200px;
     width: 100%;
+    margin-bottom: 30px;
   }
+  
+  .text-container {
+    display: flex;
+    align-items: flex-start;
+    color: white;
+    max-width: 45%;
+  }
+  
+  
   
   .text-container {
     display: flex;
@@ -48,7 +38,7 @@
     width: 2px;
     height: 400px;
     background-color: white;
-    margin: 0 20px; /* Moved between text and shapes */
+    margin: 0 20px;
   }
   
   .text-content {
@@ -92,25 +82,25 @@
   
   .graphic-container {
     position: relative;
-    width: 600px; /* Increased width for larger arches */
+    width: 600px;
   }
   
   .arches {
     display: flex;
     justify-content: space-between;
     gap: 0px;
-    align-items: flex-end; /* Aligns all arcs at the bottom */
+    align-items: flex-end; 
   }
   
   .arch {
-    width: 200px; /* All arcs have the same width now */
+    width: 200px; 
     border-radius: 0 0 200px 200px;
-    transform: rotate(180deg); /* Flip upside down */
+    transform: rotate(180deg); 
   }
   
   .arch1 {
     background-color: #8892F6;
-    height: 240px; /* Smallest height */
+    height: 240px; 
   }
   
   .arch2 {
@@ -138,62 +128,37 @@
     position: absolute;
   }
   
+  /* Dot positions */
+  .dot1 { background-color: #8892f6; top: 20px; left: 150px; }
+  .dot2 { background-color: #ff6688; top: 50px; left: 320px; }
+  .dot3 { background-color: #8892f6; top: 2px; left: 400px; }
+  .dot4 { background-color: #Ff99bb; top: 120px; left: 5px; }
+  .dot5 { background-color: #8892F6; top: 120px; left: 150px; }
+  .dot6 { background-color: #Ff99bb; top: 250px; left: 350px; }
+  .dot8 { background-color: #FF99BB; top: 10px; left: 10px; }
+  .dot9 { background-color: #FF99bb; top: 5px; left: 230px; }
+  .dot10 { background-color: #FF6688; top: 60px; left: 70px; }
   
-  .dot1 {
-    background-color:   #8892f6;
-    top: 20px;
-    left: 150px;
+  .footer {
+    padding: 20px;
+    text-align: center;
+    color: white;
+    background-color:transparent; 
+    font-size: 1rem;
+    margin-top: auto; /* Ensures footer stays at the bottom */
   }
   
-  .dot2 {
-    background-color: #ff6688;
-    top: 50px;
-    left: 320px;
+  .footer p {
+    margin: 5px 0;
   }
   
-  .dot3 {
-    background-color:#8892f6;
-    top: 2px;
-    left: 400px;
+  .footer a {
+    color: #8892f6;
+    text-decoration: none;
+    margin: 0 5px;
   }
   
-  .dot4 {
-    background-color: #Ff99bb;
-    top: 120px;
-    left: 5px;
+  .footer a:hover {
+    text-decoration: underline;
   }
   
-  .dot5 {
-    background-color: #8892F6;
-    top: 120px;
-    left: 150px;
-  }
-  
-  .dot6 {
-    background-color: #Ff99bb;
-    top: 250px;
-    left: 350px;
-  }
-  
-  
-  .dot8 {
-    background-color: #FF99BB;
-    top: 10px;
-    left: 10px;
-  }
-  
-  .dot9 {
-    background-color:   #FF99bb;
-    top: 5px;
-    left: 230px;
-  }
-  .dot10{
-    background-color:   #FF6688;
-    top: 60px;
-    left: 70px;
-  }
-  /*
-  #FF6688 dark pink
-  #FF99BB light pink 
-  #8892F6
-  */
