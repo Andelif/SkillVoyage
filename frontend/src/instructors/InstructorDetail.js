@@ -88,6 +88,8 @@ const InstructorDetail = () => {
     }
   }, [instructor?._id]);
 
+  
+
   if (!instructor) {
     return <Loader />;
   }
@@ -152,6 +154,8 @@ const InstructorDetail = () => {
           ))}
         </ul>
       </div>
+
+      
     </div>
   );
 };

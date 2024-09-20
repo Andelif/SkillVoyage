@@ -7,6 +7,10 @@ const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [rating, setRating] = useState(0);
+
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -28,6 +32,63 @@ const CourseDetail = () => {
       })
       .catch(error => console.error('Error fetching courses list:', error));
   }, [id]);
+
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+  
+    const accessToken = localStorage.getItem('accessToken');
+  
+    if (newComment && rating > 0) {
+      try {
+        const response = await fetch(`https://skill-voyage-api.vercel.app/api/course/${course._id}/comments`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: course._id,
+            text: newComment,
+            rating: rating
+          }),
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          setComments([...comments, { text: newComment, rating }]);
+          setNewComment('');
+          setRating(0);
+        } else {
+          console.error('Failed to add comment:', data.message);
+        }
+      } catch (error) {
+        console.error('Error submitting comment:', error);
+      }
+    } else {
+      alert('Please enter a comment and select a rating.');
+    }
+  };
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(`https://skill-voyage-api.vercel.app/api/course/${course._id}/comments`);
+        const data = await response.json();
+        if (data.success) {
+          setComments(data.data);
+        } else {
+          console.error('Failed to fetch comments:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+  
+    if (course?._id) {
+      fetchComments();
+    }
+  }, [course?._id]);
 
   if (!course) {
     return <Loader />;
@@ -60,6 +121,49 @@ const CourseDetail = () => {
         </div>
       )}
       {!course.youtubeLink && <p>No YouTube video to show</p>}
+
+      <div className="comment-section">
+        <h3>Leave a Comment and Rating:</h3>
+        <form onSubmit={handleCommentSubmit}>
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write your comment here..."
+            rows="4"
+          />
+          <div className="rating">
+            <label>Rate this instructor:</label>
+            <select
+              value={rating}
+              onChange={(e) => setRating(Number(e.target.value))}
+            >
+              <option value="0">Select rating</option>
+              <option value="1">1 ⭐</option>
+              <option value="2">2 ⭐</option>
+              <option value="3">3 ⭐</option>
+              <option value="4">4 ⭐</option>
+              <option value="5">5 ⭐</option>
+            </select>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+
+        <h3>Comments:</h3>
+        <ul>
+          {comments.length === 0 && (
+            <p>No comments yet. Be the first to comment!</p>
+          )}
+          {comments.map((comment, index) => (
+            <li key={index}>
+              <p>{comment.text}</p>
+              <p>Rating: {comment.rating} ⭐</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+
+
     </div>
   );
 };
