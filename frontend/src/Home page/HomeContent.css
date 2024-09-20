@@ -1,40 +1,9 @@
-.div{
+/* .div{
     transition: 0.5s;
 }
 .Homebg{
     width: 100%;
 
-}
-.overlay-button {
-    height: 50px;
-    width: 180px;
-    font-size: 18px;
-     top:40rem; 
-     bottom: 3rem;
-    left: 65px;
-    position: absolute;
-    padding: 10px 20px; 
-    cursor: pointer;
-    border: none;
-    background-color: #0c1844;
-    color: #fff;
-    border-radius: 10px;
-    visibility: hidden;
-  }
-.dark .overlay-button{
-    background-color: #ff6969;
-    height: 50px;
-    width: 180px;
-    font-size: 18px;
-    top:40rem;
-    bottom: 3rem;
-    left: 65px;
-    position: absolute;
-    padding: 10px 20px; 
-    cursor: pointer;
-    border: none;
-    color: #fff;
-    border-radius: 10px; 
 }
 .Homepage{
     display: flex;
@@ -50,4 +19,175 @@
       flex-direction: column; 
       align-items: center; 
     }
+  } */
+  .Homepage {
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+  
+  .banner-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  .text-container {
+    display: flex;
+    align-items: flex-start;
+    color: white;
+    max-width: 45%;
+  }
+  
+  .vertical-line {
+    width: 2px;
+    height: 300px;
+    background-color: white;
+    margin: 0 20px; /* Moved between text and shapes */
+  }
+  
+  .text-content {
+    max-width: 80%;
+  }
+  
+  .text-content h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  
+  .highlight {
+    color: #FF6688;
+  }
+  
+  .highlight-student {
+    color: #FF6688;
+  }
+  
+  .highlight-next {
+    color: #8892F6;
+  }
+  
+  .subtext {
+    font-size: 1.1rem;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+  
+  .progress-button {
+    margin-top: 30px;
+    padding: 15px 30px;
+    background-color: #FF3366;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .graphic-container {
+    position: relative;
+    width: 500px; /* Increased width for larger arches */
+  }
+  
+  .arches {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .arch {
+    border-radius: 0 0 120px 120px;
+    transform: rotate(180deg); /* Flip upside down */
+  }
+  
+  .arch1 {
+    background-color: #8892F6;
+    width: 120px;
+    height: 240px; /* Smallest size */
+  }
+  
+  .arch2 {
+    background-color: #FF99BB;
+    width: 160px; /* Medium size */
+    height: 320px;
+  }
+  
+  .arch3 {
+    background-color: #FF6688;
+    width: 200px; /* Largest size */
+    height: 400px;
+  }
+  
+  .dots {
+    position: absolute;
+    top: -100px;
+    left: 0;
+  }
+  
+  .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+  }
+  
+  /* Randomized dot positions and colors */
+  .dot1 {
+    background-color: #8892F6;
+    top: 20px;
+    left: 50px;
+  }
+  
+  .dot2 {
+    background-color: #FF99BB;
+    top: 70px;
+    left: 100px;
+  }
+  
+  .dot3 {
+    background-color: #FF6688;
+    top: 120px;
+    left: 150px;
+  }
+  
+  .dot4 {
+    background-color: #8892F6;
+    top: 200px;
+    left: 20px;
+  }
+  
+  .dot5 {
+    background-color: #FF99BB;
+    top: 250px;
+    left: 70px;
+  }
+  
+  .dot6 {
+    background-color: #FF6688;
+    top: 300px;
+    left: 120px;
+  }
+  
+  .dot7 {
+    background-color: #8892F6;
+    top: 50px;
+    left: 180px;
+  }
+  
+  .dot8 {
+    background-color: #FF99BB;
+    top: 130px;
+    left: 240px;
+  }
+  
+  .dot9 {
+    background-color: #FF6688;
+    top: 180px;
+    left: 300px;
+  }
+  
