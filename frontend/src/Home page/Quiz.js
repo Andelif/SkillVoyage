@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import './Quiz.css';
 import { questionsData } from './questions'; // Assuming this is where questions are stored
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 let finalResult = {}; // Store result globally, accessible in other files
 
 const Quiz = () => {
-  const [quizName, setQuizName] = useState(''); // State for quiz name
+  const [quizName, setQuizName] = useState(''); 
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestions, setCurrentQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [timer, setTimer] = useState(0); // Timer in seconds
-  const [score, setScore] = useState(null); // To show score after quiz ends
-  const [results, setResults] = useState([]); // To show correct/incorrect answers
+  const [timer, setTimer] = useState(0);
+  const [score, setScore] = useState(null);
+  const [results, setResults] = useState([]);
+  const [chartData, setChartData] = useState([]); // State for chart data
 
   useEffect(() => {
     let intervalId;
     if (quizStarted && timer > 0) {
       intervalId = setInterval(() => setTimer(prevTimer => prevTimer - 1), 1000);
-    } 
+    }
     return () => clearInterval(intervalId);
   }, [quizStarted, timer]);
 
@@ -42,7 +44,7 @@ const Quiz = () => {
   };
 
   const handleStartQuiz = () => {
-    if (selectedCourses.length > 0 && quizName) { // Ensure quiz name is not empty
+    if (selectedCourses.length > 0 && quizName) {
       const allQuestions = selectedCourses.flatMap(course => {
         const courseQuestions = questionsData[course];
         return courseQuestions.sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -50,7 +52,7 @@ const Quiz = () => {
 
       setCurrentQuestions(allQuestions);
       setQuizStarted(true);
-      setTimer(selectedCourses.length * 3 * 40); // 40 seconds per question
+      setTimer(selectedCourses.length * 3 * 40);
     }
   };
 
@@ -68,17 +70,24 @@ const Quiz = () => {
         return count + (question.answer === userAnswers[currentQuestions.indexOf(question)] ? 1 : 0);
       }, 0);
       correctCount += correctAnswers;
-      const percentage = (correctAnswers / courseQuestions.length) * 100 || 0; // Avoid division by zero
+      const percentage = (correctAnswers / courseQuestions.length) * 100 || 0;
       return {
         course,
         correctAnswers,
-        percentage: percentage.toFixed(2), // Keep two decimal places
+        percentage: percentage.toFixed(2),
       };
     });
 
     const calculatedScore = (correctCount / currentQuestions.length) * 100;
     setScore(calculatedScore);
     setResults(resultDetails);
+    
+    // Prepare data for the bar chart
+    const chartData = resultDetails.map(result => ({
+      course: result.course,
+      percentage: result.percentage,
+    }));
+    setChartData(chartData);
 
     finalResult = {
       selectedCourses,
@@ -102,6 +111,7 @@ const Quiz = () => {
     setTimer(0);
     setScore(null);
     setResults([]);
+    setChartData([]); // Reset chart data
   };
 
   const isQuizEnded = timer === 0;
@@ -157,7 +167,7 @@ const Quiz = () => {
         </div>
       ) : (
         <div className="quiz-start-container">
-          <h2>{quizName}</h2> {/* No "quiz" appended */}
+          <h2>{quizName}</h2>
           <div className="timer">Time Left: {timer} seconds</div>
 
           {currentQuestions.map((question, index) => (
@@ -196,13 +206,13 @@ const Quiz = () => {
                     <tr key={index}>
                       <td>{result.course}</td>
                       <td>{result.correctAnswers}</td>
-                      <td>{result.percentage}%</td> {/* Show percentage */}
+                      <td>{result.percentage}%</td>
                     </tr>
                   ))}
                   <tr>
                     <td><strong>Total</strong></td>
                     <td><strong>{results.reduce((acc, curr) => acc + curr.correctAnswers, 0)}</strong></td>
-                    <td><strong>{(results.reduce((acc, curr) => acc + curr.correctAnswers, 0) / currentQuestions.length * 100).toFixed(2)}%</strong></td> {/* Total percentage */}
+                    <td><strong>{(results.reduce((acc, curr) => acc + curr.correctAnswers, 0) / currentQuestions.length * 100).toFixed(2)}%</strong></td>
                   </tr>
                 </tbody>
               </table>
@@ -214,6 +224,74 @@ const Quiz = () => {
                 </div>
               ))}
               <button className="try-again-button" onClick={handleTryAgain}>Try Again</button>
+
+              {/* Bar Chart */}
+              <h3>Performance by Topic</h3>
+              <div className="chart-container">
+  <BarChart
+    width={600}
+    height={400}
+    data={chartData}
+    margin={{
+      top: 0, right: 30, left: 10, bottom: 80, // Increase the top margin for space
+    }}
+  >
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis 
+      dataKey="course" 
+      angle={-20} 
+      textAnchor="end" 
+      interval={0}
+    />
+    <YAxis />
+    <Tooltip />
+    <div className="chart-container">
+  <BarChart
+    width={600}
+    height={450}  
+    data={chartData}
+    margin={{
+      top: 0, right: 30, left: 10, bottom: 120,  
+    }}
+  >
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis 
+      dataKey="course" 
+      angle={-45} 
+      textAnchor="end" 
+      interval={0} 
+      tick={{ dy: 20 }} 
+    />
+    <YAxis />
+    <Tooltip />
+    {/* Legend aligned horizontally above the chart */}
+    <Legend 
+      layout="horizontal" 
+      align="center" 
+      verticalAlign="top" 
+    />
+    <Bar 
+      dataKey="percentage" 
+      fill="#8884d8" 
+      label={{ position: 'top' }} 
+    />
+  </BarChart>
+</div>
+
+      layout="horizontal" // Horizontal layout for legend items
+      align="center" // Center the legend horizontally
+      verticalAlign="top" // Position the legend at the top
+    />
+    <Bar 
+      dataKey="percentage" 
+      fill="#8884d8" 
+      label={{ position: 'top' }} 
+    />
+  </BarChart>
+</div>
+
+
+
             </div>
           )}
         </div>

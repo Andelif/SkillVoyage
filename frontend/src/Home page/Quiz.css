@@ -201,3 +201,10 @@ th, td {
 .result-container table {
     margin: 0 auto;
 }
+.chart-container {
+    display: flex;
+    justify-content: center; /* Centers the chart horizontally */
+    align-items: center;      /* Centers the chart vertically, if needed */
+    margin-top: 20px;         /* Optional, to add some spacing above */
+  }
+  
