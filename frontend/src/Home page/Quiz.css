@@ -1,3 +1,4 @@
+/* Back button styling */
 .back-button-container {
     margin-bottom: 20px; /* Space between back button and quiz container */
     text-align: left; /* Align the back button to the left */
@@ -17,9 +18,10 @@
     margin-right: 8px;
 }
 
+/* Quiz selection container styling */
 .quiz-container {
     max-width: 500px;
-    margin: 80px auto; /* Increased margin-top to move it lower */
+    margin: 80px auto; /* Adjust margin to center vertically */
     padding: 20px;
     background-color: transparent;
     border: 2px solid white;
@@ -27,18 +29,20 @@
     text-align: center;
 }
 
-label {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    display: block;
-}
-
+/* Styling for select dropdown */
 select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #333;
+    color: white;
+}
+
+/* Selected course items styling */
+.selected-courses {
+    margin-bottom: 20px;
 }
 
 .selected-course-item {
@@ -48,6 +52,14 @@ select {
     text-align: center;
 }
 
+.remove-button {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Button styling */
 button {
     padding: 10px 20px;
     background-color: #ff6688;
@@ -55,19 +67,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.remove-button {
-    background-color: transparent;
-    color: #ffffff;
-}
-
-.check-button {
-    background-color: red;
-}
-
-.surprise-button {
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 button:disabled {
@@ -75,6 +75,70 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* Styling for the "Surprise Me" button */
+.surprise-button {
+    margin-bottom: 10px;
+}
+
+/* Styling for the "Check" button */
+.check-button {
+    background-color: red;
+}
+
+/* Timer styling */
+.timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Quiz-taking container styling */
+.quiz-start-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    color: white;
+    text-align: left;
+}
+
+/* Styling for the question blocks */
+.question-block {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.option-label {
+    display: block;
+    margin: 10px 0;
+    color: white;
+}
+
+/* Done button styling */
+.done-button {
+    background-color: green;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Result container */
+.result-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* General paragraph styling */
 p {
     margin: 10px 0;
     font-size: 1rem;
