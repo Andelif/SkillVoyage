@@ -104,7 +104,26 @@ const Quiz = () => {
     setResults([]);
   };
 
+  const handleSaveResults = () => {
+    const savedResults = JSON.parse(localStorage.getItem('scoreboard')) || [];
+    const newResult = {
+      quizName,
+      score,
+      selectedCourses,
+      date: new Date().toLocaleString(),
+    };
+    savedResults.push(newResult);
+    localStorage.setItem('scoreboard', JSON.stringify(savedResults));
+    alert('Results saved to scoreboard!');
+  };
+
   const isQuizEnded = timer === 0;
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
 
   return (
     <div>
@@ -158,7 +177,7 @@ const Quiz = () => {
       ) : (
         <div className="quiz-start-container">
           <h2>{quizName}</h2> {/* No "quiz" appended */}
-          <div className="timer">Time Left: {timer} seconds</div>
+          <div className="timer">Time Left: {formatTime(timer)}</div>
 
           {currentQuestions.map((question, index) => (
             <div key={index} className="question-block">
@@ -196,13 +215,13 @@ const Quiz = () => {
                     <tr key={index}>
                       <td>{result.course}</td>
                       <td>{result.correctAnswers}</td>
-                      <td>{result.percentage}%</td> {/* Show percentage */}
+                      <td>{result.percentage}%</td>
                     </tr>
                   ))}
                   <tr>
                     <td><strong>Total</strong></td>
                     <td><strong>{results.reduce((acc, curr) => acc + curr.correctAnswers, 0)}</strong></td>
-                    <td><strong>{(results.reduce((acc, curr) => acc + curr.correctAnswers, 0) / currentQuestions.length * 100).toFixed(2)}%</strong></td> {/* Total percentage */}
+                    <td><strong>{(results.reduce((acc, curr) => acc + curr.correctAnswers, 0) / currentQuestions.length * 100).toFixed(2)}%</strong></td>
                   </tr>
                 </tbody>
               </table>
@@ -214,6 +233,7 @@ const Quiz = () => {
                 </div>
               ))}
               <button className="try-again-button" onClick={handleTryAgain}>Try Again</button>
+              <button className="save-button" onClick={handleSaveResults}>Save to Scoreboard</button>
             </div>
           )}
         </div>

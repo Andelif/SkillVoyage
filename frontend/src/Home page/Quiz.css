@@ -201,3 +201,8 @@ th, td {
 .result-container table {
     margin: 0 auto;
 }
+.loading-indicator {
+    color: white;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
