@@ -17,8 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { setupInterceptors } from './services/apiClient';
 import AboutUs from './about us/aboutUs';
 import Account from './Account/Account';
-import Quiz from './Home page/Quiz'; 
-import Scoreboard from './Home page/Scoreboard';
+import Quiz from './Home page/Quiz'; // Importing Quiz component
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -62,9 +61,6 @@ const App = () => {
           <Route path="/login-required" element={<LoginRequired />} />
           <Route path="/admin/*" element={<AdminPanel />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/scoreboard" element={<Scoreboard />} />
-          
-
 
           {/* Protected Routes */}
           <Route path="/courses" element={<ProtectedRoute element={Course} />} />
@@ -75,7 +71,7 @@ const App = () => {
           <Route path="/account" element={<ProtectedRoute element={Account} />} />
 
           {/* Add Quiz Route */}
-          <Route path="/quiz" element={<ProtectedRoute element={Quiz} />} /> {/* Wrapped in ProtectedRoute */}
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
       </div>
     </div>
