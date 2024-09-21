@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { setupInterceptors } from './services/apiClient';
 import AboutUs from './about us/aboutUs';
 import Account from './Account/Account';
+import Quiz from './Home page/Quiz'; // Importing Quiz component
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -46,7 +47,7 @@ const App = () => {
       <div className={`container ${theme}`}>
         
         {showLogin && <LoginPopup setShowLogin={setShowLogin} theme={theme} />}
-        
+
         {/* Conditionally show Navbar unless on a detail or video page */}
         {!isCourseDetail && !isInstructorDetail && !isVideoPage && (
           <Navbar theme={theme} setTheme={setTheme} setShowLogin={setShowLogin} />
@@ -67,6 +68,9 @@ const App = () => {
           <Route path="/instructors" element={<ProtectedRoute element={Instructor} />} />
           <Route path="/instructors/:id" element={<ProtectedRoute element={InstructorDetail} />} />
           <Route path="/account" element={<ProtectedRoute element={Account} />} />
+
+          {/* Add Quiz Route */}
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
       </div>
     </div>

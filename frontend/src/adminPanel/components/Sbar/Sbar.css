@@ -13,22 +13,28 @@
     flex-direction: column;
     gap: 20px;
 }
-.sidebar-opt{
+.sidebar-opt {
     display: flex;
     align-items: center;
     border: 1px solid rgb(183, 178, 178);
     padding: 8px 10px;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 500px;
     background-color: antiquewhite;
+    font-size: max(1vw, 10px);
 }
-.sidebar-opt:hover{
-    background-color: #ff8cab;
-    border-color: #ff648d;
+
+.sidebar-opt:hover {
+    /* background-color: #ff8cab; */
+    border: 2px solid #ff6688;
     color: black;
 }
 
+.sidebar-opt.selected {
+    /* background-color: #ff8cab; Highlight the selected option */
+    border: 2px solid #ff6688;
+    color: black;
+}
 
 
 @media (max-width:900px){
