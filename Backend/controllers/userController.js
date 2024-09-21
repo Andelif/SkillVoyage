@@ -268,4 +268,63 @@ const deleteUserAccount = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, refreshToken, updateUserImage, removeUserImage, deleteUserAccount };
+
+
+const checkUserEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const exists = await userModel.findOne({ email });
+    if (exists) {
+      return res.json({ success: false, message: "User already exists" });
+    }
+    return res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+const updateUserDetails = async (req, res) => {
+  const { currentEmail, newName, newEmail } = req.body;
+
+  try {
+    
+    const user = await userModel.findOne({ email: currentEmail });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Checking if new email is already in use by another user 
+    if (newEmail && newEmail !== currentEmail) {
+      const emailExists = await userModel.findOne({ email: newEmail });
+      if (emailExists) {
+        return res.status(400).json({ success: false, message: "Email already in use" });
+      }
+    }
+
+    
+    user.email = newEmail || user.email;
+    user.name = newName || user.name;
+
+    
+    const updatedUser = await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "User details updated successfully",
+      user: {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        image: updatedUser.image,  
+      },
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+export { loginUser, registerUser, refreshToken, updateUserDetails, updateUserImage, removeUserImage, deleteUserAccount, checkUserEmail };
