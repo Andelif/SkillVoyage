@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './Quiz.css';
 
 const courses = [
-  'Data Structures',
-  'Algorithms',
+  'Data Structures and Algorithms',
   'Introduction to React Js',
   'Computer Architecture',
   'Introduction to Computer Science',
