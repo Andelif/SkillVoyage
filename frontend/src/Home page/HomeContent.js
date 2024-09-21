@@ -1,21 +1,15 @@
-// import React from 'react';
-// import './HomeContent.css';
-// import './Navbar';
-// import Homebg from '../assets/Homebg_dark.png';
-
-// const HomeContent = () => {
-//   return (
-//     <div className='Homepage'>
-//       <img src={Homebg} className='Homebg' alt="Background" />
-//     </div>
-//   );
-// }
-
-// export default HomeContent;
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './HomeContent.css';
 
 const HomeContent = () => {
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
+  // Function to handle navigation to the Quiz page
+  const handleCheckProgress = () => {
+    navigate('/quiz');
+  };
+
   return (
     <div className='Homepage'>
       <div className='banner-container'>
@@ -27,7 +21,9 @@ const HomeContent = () => {
             <p className='subtext'>
               Transform your immigrant career journey into a guided, skill-building adventure
             </p>
-            <button className='progress-button'>Check your progress</button>
+            <button className='progress-button' onClick={handleCheckProgress}>
+              Check your progress
+            </button> {/* Added onClick handler to navigate to the Quiz page */}
           </div>
           <div className='vertical-line'></div>
         </div>
@@ -50,11 +46,10 @@ const HomeContent = () => {
             <div className='dot dot9'></div>
           </div>
         </div>
-  
       </div>
 
-          {/* Footer Section */}
-          <div className="footer">
+      {/* Footer Section */}
+      <div className="footer">
         <p>Credits: Created by Dash</p>
         <p>Connect with us: 
           <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"> Facebook</a>, 
@@ -64,6 +59,6 @@ const HomeContent = () => {
       </div>
     </div>
   );
-}
+};
 
 export default HomeContent;

@@ -1,30 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import { assets } from '../../assets/assets'
-import './Sbar.css'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react';
+import { assets } from '../../assets/assets';
+import './Sbar.css';
+import { NavLink } from 'react-router-dom';
 
 const Sbar = () => {
   const [showOptions, setShowOptions] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(''); // Track selected option
 
   const handleOptionClick = (option) => {
     setShowOptions(option);
+    setSelectedOption(option); // Update the selected option
   };
 
   return (
     <div className='sidebar'>
       <div className="sidebar-options">
         {/* Add Items */}
-        <div className="sidebar-opt" onClick={() => handleOptionClick('add')}>
+        <div 
+          className={`sidebar-opt ${selectedOption === 'add' ? 'selected' : ''}`}
+          onClick={() => handleOptionClick('add')}
+        >
           <img src={assets.add_icon} alt="" />
           <p>Add</p>
         </div>
 
         {/* List Items */}
-        <div className="sidebar-opt" onClick={() => handleOptionClick('list')}>
+        <div 
+          className={`sidebar-opt ${selectedOption === 'list' ? 'selected' : ''}`} 
+          onClick={() => handleOptionClick('list')}
+        >
           <img src={assets.list_icon} alt="" />
           <p>List</p>
         </div>
 
+        {/* Quiz Add (Standalone option with Add Icon) */}
+        <NavLink 
+          to='/admin/add/quiz' 
+          className={`sidebar-opt ${selectedOption === 'quiz' ? 'selected' : ''}`} 
+          onClick={() => {
+            setSelectedOption('quiz');
+            setShowOptions(null); // Ensure sub-options are hidden when Quiz Add is selected
+          }}
+        >
+          <img src={assets.add_icon} alt="Add Icon" />
+          <p>Quiz Add</p>
+        </NavLink>
+
+        {/* Conditionally render Add options */}
         {showOptions === 'add' && (
           <div className="sidebar-options">
             <NavLink to='/admin/add' className="sidebar-opt">
@@ -36,6 +58,7 @@ const Sbar = () => {
           </div>
         )}
 
+        {/* Conditionally render List options */}
         {showOptions === 'list' && (
           <div className="sidebar-options">
             <NavLink to='/admin/list' className="sidebar-opt">
@@ -49,6 +72,6 @@ const Sbar = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Sbar
+export default Sbar;
