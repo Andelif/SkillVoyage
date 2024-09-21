@@ -69,8 +69,7 @@ ul li {
 }
 
 .sign-button {
-  width: 90px;
-  height: 40px;
+  
   font-size: 16px;
   background-color: transparent;
   border: 2px solid white;
@@ -94,7 +93,7 @@ ul li {
   display: none;
   right: 0;
   z-index: 1;
-  background-color: #ff6969;
+  background-color: #ff8cab;
   border-radius: 10px;
   color: #000;
 }
@@ -115,6 +114,7 @@ ul li {
 }
 
 #logout_icon {
+  padding-top: 20px;
   width: 60%;
   height: 50%;
   padding-left: 5px;
@@ -152,8 +152,15 @@ ul li {
 
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column; /* Stack items vertically */
-    height: auto; /* Allow height to adjust */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    height: auto;
+  }
+  .Navcontainer {
+    display: flex;
+    justify-content: space-around;
   }
 
   ul li {

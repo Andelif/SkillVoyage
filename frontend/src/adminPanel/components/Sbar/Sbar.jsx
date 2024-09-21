@@ -33,18 +33,8 @@ const Sbar = () => {
           <p>List</p>
         </div>
 
-        {/* Quiz Add (Standalone option with Add Icon) */}
-        <NavLink 
-          to='/admin/add/quiz' 
-          className={`sidebar-opt ${selectedOption === 'quiz' ? 'selected' : ''}`} 
-          onClick={() => {
-            setSelectedOption('quiz');
-            setShowOptions(null); // Ensure sub-options are hidden when Quiz Add is selected
-          }}
-        >
-          <img src={assets.add_icon} alt="Add Icon" />
-          <p>Quiz Add</p>
-        </NavLink>
+        
+        
 
         {/* Conditionally render Add options */}
         {showOptions === 'add' && (

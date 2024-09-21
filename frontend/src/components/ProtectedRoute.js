@@ -41,7 +41,7 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
   }, []);
 
   if (loading) {
-    // Optionally show a loading spinner while authentication is being checked
+    
     return <div>Loading...</div>;
   }
 
@@ -50,7 +50,7 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
   }
 
   // Redirect based on location
-  if (location.pathname === '/courses' || location.pathname === '/instructors' || location.pathname === '/account') {
+  if (location.pathname === '/courses' || location.pathname === '/instructors' || location.pathname === '/account' ) {
     return <Navigate to="/login-required" />;
   }
 

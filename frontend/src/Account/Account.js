@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Account.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const Account = () => {
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -46,7 +49,8 @@ const Account = () => {
   };
 
   const handleSave = async () => {
-    const updatedUser = { name: newName, email: newEmail, image: user.image }; 
+    setLoading1(true);
+    const updatedUser = { name: newName, email: newEmail, image: user.image };
 
     // Check if the email has changed, and if so, check if it exists in the database
     if (newEmail !== user.email) {
@@ -60,10 +64,12 @@ const Account = () => {
 
         if (!response.data.success) {
           toast.error("User with that email already exists");
+          setLoading1(false);
           return;
         }
       } catch (error) {
         console.error("Error checking email:", error);
+        setLoading1(false);
         setErrorMessage("An error occurred while checking the email.");
         return;
       }
@@ -92,6 +98,8 @@ const Account = () => {
     } catch (error) {
       console.error("Error updating profile:", error);
       setErrorMessage("An error occurred while updating the profile.");
+    } finally {
+      setLoading1(false);
     }
   };
 
@@ -99,6 +107,7 @@ const Account = () => {
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      setLoading(true);
       const imageBase64 = await imageToBase64(file);
 
       // Update user state in frontend
@@ -133,11 +142,14 @@ const Account = () => {
         }
       } catch (error) {
         console.error("Error uploading image:", error);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   const handleRemoveImage = async () => {
+    setLoading(true);
     try {
       // Send request to remove the image from the backend
       const response = await axios.post(
@@ -146,6 +158,7 @@ const Account = () => {
       );
 
       if (response.data.success) {
+        setLoading(false);
         // Remove image from frontend state and localStorage
         setUser((prevUser) => ({
           ...prevUser,
@@ -157,14 +170,17 @@ const Account = () => {
         window.location.reload();
       } else {
         console.error("Error removing image:", response.data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error removing image:", error);
+      setLoading(false);
     }
   };
 
   // Function to handle account deletion
   const handleDeleteAccount = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://skill-voyage-api.vercel.app/api/user/delete-account",
@@ -184,73 +200,91 @@ const Account = () => {
       }
     } catch (error) {
       console.error("Error deleting account:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="account-page">
       <aside className="sidebar">
-        <div className="profile-info">
-          <div className="profile-avatar">
-            {user.image ? (
-              <>
-                <img
-                  className="profile-avatar"
-                  src={`data:image/jpeg;base64,${user.image}`}
-                  alt="Profile"
-                />
-              </>
-            ) : (
-              <>
-                <input
-                  type="file"
-                  id="fileInput"
-                  accept="image/*"
-                  onChange={handleUpload}
-                  className="file-input"
-                />
-                <button
-                  className="file-upload-button"
-                  onClick={() => document.getElementById("fileInput").click()}
-                >
-                  Upload Image
-                </button>
-              </>
-            )}
-          </div>
-          <div className="profile-email">{user.email}</div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {" "}
+            <div className="profile-info">
+              <div className="profile-avatar">
+                {user.image ? (
+                  <>
+                    <img
+                      className="profile-avatar"
+                      src={`data:image/jpeg;base64,${user.image}`}
+                      alt="Profile"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="file"
+                      id="fileInput"
+                      accept="image/*"
+                      onChange={handleUpload}
+                      className="file-input"
+                    />
+                    <button
+                      className="file-upload-button"
+                      onClick={() =>
+                        document.getElementById("fileInput").click()
+                      }
+                    >
+                      Upload Image
+                    </button>
+                  </>
+                )}
+              </div>
+              <div className="profile-email">{user.email}</div>
 
-          {user.image ? (
-            <div className="custom-file-upload">
-              <input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-                onChange={handleUpload}
-                className="file-input"
-              />
-              <button
-                className="file-input-button"
-                onClick={() => document.getElementById("fileInput").click()}
-              >
-                Change Image
-              </button>
+              {user.image ? (
+                <div className="custom-file-upload">
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    onChange={handleUpload}
+                    className="file-input"
+                  />
+                  <button
+                    className="file-input-button"
+                    onClick={() => document.getElementById("fileInput").click()}
+                  >
+                    Change Image
+                  </button>
 
-              <button className="remove-image-btn" onClick={handleRemoveImage}>
-                Remove Image
-              </button>
+                  <button
+                    className="remove-image-btn"
+                    onClick={handleRemoveImage}
+                  >
+                    Remove Image
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
-          ) : (
-            <></>
-          )}
-        </div>
-
-        <button className="delete-btn" onClick={handleDeleteAccount}>
-          Delete Account
-        </button>
+            <button className="delete-btn" onClick={handleDeleteAccount}>
+              Delete Account
+            </button>{" "}
+          </>
+        )}
       </aside>
+
       <main className="main-content">
-        <div className="header">
+        {loading1?(
+          <Loader />
+          ):(
+            <>
+            <div className="header">
           <h2>Personal Information</h2>
           {isEditing ? (
             <button className="save" onClick={handleSave}>
@@ -297,7 +331,20 @@ const Account = () => {
             <p>Bangladesh, Dhaka</p>
           </div>
         </div>
+
+            </>
+
+          )}
+
+        
       </main>
+
+
+
+
+
+
+
     </div>
   );
 };

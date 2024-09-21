@@ -30,13 +30,12 @@
     cursor: pointer;
     color: rgb(255, 255, 255);
     background-color: #fd5555;
-    height: 20px;
-    width: 70px;
+    
     border-radius: 15%;
 }
 .del-btn:hover{
     border: 3px solid;
-    border-color: #8198EC;
+    border-color: #a80000;
     
 }
 .list-table{

@@ -22,7 +22,7 @@ const Navbar = ({ setShowLogin }) => {
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (!accessStatus) {
-        // Attempt to refresh the token if it's not available
+        
         if (refreshToken) {
           try {
             const response = await apiClient.post('/user/refresh-token', { refreshToken });
@@ -30,26 +30,26 @@ const Navbar = ({ setShowLogin }) => {
             localStorage.setItem('accessToken', newAccessToken);
             setAccessToken(newAccessToken);
           } catch (error) {
-            // If refresh fails, perform logout
+            
             console.error('Failed to refresh access token:', error);
             logout();
             return;
           }
         } else {
-          // No refresh token available, perform logout
+          
           logout();
           return;
         }
       } else {
-        // Update the access token in the context
+        
         setAccessToken(accessStatus);
       }
 
-      // Update admin status based on localStorage
+      
       const adminStatus = localStorage.getItem("isAdmin");
       setIsAdmin(!!adminStatus);
 
-      // Fetch user profile image from localStorage
+      
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);

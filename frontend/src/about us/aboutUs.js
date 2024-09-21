@@ -66,7 +66,7 @@ const AboutUs = () => {
       {/* Footer with Credit Bar */}
       <footer className="credit-bar">
         <p>
-          &copy; 2024 SkillVoyage. All rights reserved. | Designed and Developed by <a href="https://yourportfolio.com">Dash</a>
+          &copy; 2024 SkillVoyage. All rights reserved. | Designed and Developed by <a href="#" onClick={(e) => e.preventDefault()}>Dash</a>
         </p>
       </footer>
     </div>
