@@ -42,7 +42,7 @@ const Quiz = () => {
   };
 
   const handleStartQuiz = () => {
-    if (selectedCourses.length > 0 && quizName) { // Ensure quiz name is not empty
+    if (selectedCourses.length > 0 && quizName) {
       const allQuestions = selectedCourses.flatMap(course => {
         const courseQuestions = questionsData[course];
         return courseQuestions.sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -104,18 +104,34 @@ const Quiz = () => {
     setResults([]);
   };
 
-  const handleSaveResults = () => {
-    const savedResults = JSON.parse(localStorage.getItem('scoreboard')) || [];
+  const handleSaveResults = async () => {
     const newResult = {
       quizName,
-      score,
-      selectedCourses,
-      date: new Date().toLocaleString(),
+      correctAnswers: results.reduce((acc, curr) => acc + curr.correctAnswers, 0),
+      percentage: ((results.reduce((acc, curr) => acc + curr.correctAnswers, 0) / currentQuestions.length) * 100).toFixed(2),
     };
-    savedResults.push(newResult);
-    localStorage.setItem('scoreboard', JSON.stringify(savedResults));
-    alert('Results saved to scoreboard!');
+  
+    try {
+      const response = await fetch('https://skill-voyage-api.vercel.app/api/scoreboard', { // Adjust the URL if needed
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newResult),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to save score');
+      }
+  
+      const savedScore = await response.json();
+      alert(`Results saved to scoreboard! Score ID: ${savedScore._id}`);
+    } catch (error) {
+      console.error(error);
+      alert('Error saving results: ' + error.message);
+    }
   };
+  
 
   const isQuizEnded = timer === 0;
 
@@ -176,7 +192,7 @@ const Quiz = () => {
         </div>
       ) : (
         <div className="quiz-start-container">
-          <h2>{quizName}</h2> {/* No "quiz" appended */}
+          <h2>{quizName}</h2>
           <div className="timer">Time Left: {formatTime(timer)}</div>
 
           {currentQuestions.map((question, index) => (
@@ -242,5 +258,4 @@ const Quiz = () => {
   );
 };
 
-export { finalResult };
 export default Quiz;
