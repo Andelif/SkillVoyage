@@ -173,6 +173,13 @@ h2{
     border: none;
     color: #000000;
   }
+
+  .save{
+    background-color: #0abf2f
+  }
+
+
+
   @media (max-width: 768px) {
     .account-page {
         flex-direction: column; /* Stack sidebar and main content */

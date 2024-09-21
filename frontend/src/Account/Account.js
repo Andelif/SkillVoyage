@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Account.css";
 import { toast } from "react-toastify";
-import logout from '../Home page/Navbar'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -14,18 +13,27 @@ const Account = () => {
   });
 
   const [imageFile, setImageFile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    // Retrieve user info from localStorage
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
       setUser({
         name: storedUser.name,
         email: storedUser.email,
-        image: storedUser.image || "", // Default to empty string if no image is available
+        image: storedUser.image || "",
       });
+      setNewName(storedUser.name);
+      setNewEmail(storedUser.email);
     }
   }, []);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
   // Function to convert image file to base64
   const imageToBase64 = (file) => {
@@ -35,6 +43,56 @@ const Account = () => {
       reader.onload = () => resolve(reader.result.split(",")[1]);
       reader.onerror = (error) => reject(error);
     });
+  };
+
+  const handleSave = async () => {
+    const updatedUser = { name: newName, email: newEmail, image: user.image }; 
+
+    // Check if the email has changed, and if so, check if it exists in the database
+    if (newEmail !== user.email) {
+      try {
+        const response = await axios.post(
+          "https://skill-voyage-api.vercel.app/api/user/check-email",
+          {
+            email: newEmail,
+          }
+        );
+
+        if (!response.data.success) {
+          toast.error("User with that email already exists");
+          return;
+        }
+      } catch (error) {
+        console.error("Error checking email:", error);
+        setErrorMessage("An error occurred while checking the email.");
+        return;
+      }
+    }
+
+    // Update user information in the database
+    try {
+      const response = await axios.post(
+        "https://skill-voyage-api.vercel.app/api/user/update",
+        {
+          currentEmail: user.email, // Send the current email so the server knows who to update
+          newName,
+          newEmail,
+        }
+      );
+
+      if (response.data.success) {
+        // Update frontend state and localStorage with the new information
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setIsEditing(false);
+        setErrorMessage("");
+      } else {
+        setErrorMessage(response.data.message || "Error updating profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setErrorMessage("An error occurred while updating the profile.");
+    }
   };
 
   // Handle image upload
@@ -97,7 +155,6 @@ const Account = () => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
         toast.success(response.data.success);
         window.location.reload();
-        
       } else {
         console.error("Error removing image:", response.data.message);
       }
@@ -118,10 +175,9 @@ const Account = () => {
         // Clear local storage and log the user out
         localStorage.removeItem("user");
         localStorage.removeItem("accessToken");
-        localStorage.removeItem('isAdmin');
+        localStorage.removeItem("isAdmin");
         toast.success("Account deleted successfully");
 
-        
         navigate("/home");
       } else {
         console.error("Error deleting account else:", response.data.message);
@@ -131,8 +187,6 @@ const Account = () => {
     }
   };
 
-  
-
   return (
     <div className="account-page">
       <aside className="sidebar">
@@ -140,7 +194,6 @@ const Account = () => {
           <div className="profile-avatar">
             {user.image ? (
               <>
-
                 <img
                   className="profile-avatar"
                   src={`data:image/jpeg;base64,${user.image}`}
@@ -149,18 +202,19 @@ const Account = () => {
               </>
             ) : (
               <>
-              <input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-                onChange={handleUpload}
-                className="file-input"
-              />
-              <button
-                className="file-upload-button" onClick={() => document.getElementById("fileInput").click()}
-              >
-                Upload Image
-              </button>
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept="image/*"
+                  onChange={handleUpload}
+                  className="file-input"
+                />
+                <button
+                  className="file-upload-button"
+                  onClick={() => document.getElementById("fileInput").click()}
+                >
+                  Upload Image
+                </button>
               </>
             )}
           </div>
@@ -176,7 +230,8 @@ const Account = () => {
                 className="file-input"
               />
               <button
-                className="file-input-button" onClick={() => document.getElementById("fileInput").click()}
+                className="file-input-button"
+                onClick={() => document.getElementById("fileInput").click()}
               >
                 Change Image
               </button>
@@ -189,14 +244,7 @@ const Account = () => {
             <></>
           )}
         </div>
-        <nav className="sidebar-menu">
-          {/* <ul>
-            <li className="active">Personal information</li>
-            <li>Billing & Payments</li>
-            <li>Order History</li>
-          </ul> */}
-        </nav>
-        
+
         <button className="delete-btn" onClick={handleDeleteAccount}>
           Delete Account
         </button>
@@ -204,30 +252,50 @@ const Account = () => {
       <main className="main-content">
         <div className="header">
           <h2>Personal Information</h2>
-          
+          {isEditing ? (
+            <button className="save" onClick={handleSave}>
+              Save
+            </button>
+          ) : (
+            <button className="edit" onClick={handleEdit}>
+              Edit
+            </button>
+          )}
         </div>
-        <p>
-          Manage your personal information.
-        </p>
+        <p>Manage your personal information.</p>
         <div className="info-cards">
           <div className="info-card">
             <label>Name</label>
 
-            <p>{user.name}</p>
+            {isEditing ? (
+              <input
+                type="text"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+              />
+            ) : (
+              <p>{user.name}</p>
+            )}
           </div>
 
           <div className="info-card">
             <label>Contactable at</label>
 
-            <p>{user.email}</p>
+            {isEditing ? (
+              <input
+                type="email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+              />
+            ) : (
+              <p>{user.email}</p>
+            )}
           </div>
 
           <div className="info-card">
             <label>Country/Region</label>
             <p>Bangladesh, Dhaka</p>
           </div>
-
-          {/* Add other info cards as needed */}
         </div>
       </main>
     </div>
