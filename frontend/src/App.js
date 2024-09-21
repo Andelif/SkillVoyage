@@ -36,10 +36,11 @@ const App = () => {
     setupInterceptors(navigate);
   }, [navigate]);
 
-  // Check if the current route is a course detail, video, or instructor detail page
+  // Check if the current route is a course detail, video, instructor detail, or quiz page
   const isCourseDetail = location.pathname.startsWith('/courses/');
   const isInstructorDetail = location.pathname.startsWith('/instructors/');
   const isVideoPage = location.pathname === '/courses/vid';
+  const isQuizPage = location.pathname === '/quiz'; // Check for Quiz page
 
   return (
     <div>
@@ -48,8 +49,8 @@ const App = () => {
         
         {showLogin && <LoginPopup setShowLogin={setShowLogin} theme={theme} />}
 
-        {/* Conditionally show Navbar unless on a detail or video page */}
-        {!isCourseDetail && !isInstructorDetail && !isVideoPage && (
+        {/* Conditionally show Navbar unless on a detail, video, or quiz page */}
+        {!isCourseDetail && !isInstructorDetail && !isVideoPage && !isQuizPage && (
           <Navbar theme={theme} setTheme={setTheme} setShowLogin={setShowLogin} />
         )}
 
