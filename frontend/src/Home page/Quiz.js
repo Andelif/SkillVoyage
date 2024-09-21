@@ -5,6 +5,7 @@ import { questionsData } from './questions'; // Assuming this is where questions
 let finalResult = {}; // Store result globally, accessible in other files
 
 const Quiz = () => {
+  const [quizName, setQuizName] = useState(''); // State for quiz name
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestions, setCurrentQuestions] = useState([]);
@@ -41,7 +42,7 @@ const Quiz = () => {
   };
 
   const handleStartQuiz = () => {
-    if (selectedCourses.length > 0) {
+    if (selectedCourses.length > 0 && quizName) { // Ensure quiz name is not empty
       const allQuestions = selectedCourses.flatMap(course => {
         const courseQuestions = questionsData[course];
         return courseQuestions.sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -49,7 +50,7 @@ const Quiz = () => {
 
       setCurrentQuestions(allQuestions);
       setQuizStarted(true);
-      setTimer(selectedCourses.length * 3 * 40);
+      setTimer(selectedCourses.length * 3 * 40); // 40 seconds per question
     }
   };
 
@@ -61,14 +62,17 @@ const Quiz = () => {
 
   const calculateResult = () => {
     let correctCount = 0;
-    const resultDetails = currentQuestions.map((question, index) => {
-      const isCorrect = question.answer === userAnswers[index];
-      if (isCorrect) correctCount++;
+    const resultDetails = selectedCourses.map(course => {
+      const courseQuestions = currentQuestions.filter(q => questionsData[course].some(cq => cq.question === q.question));
+      const correctAnswers = courseQuestions.reduce((count, question) => {
+        return count + (question.answer === userAnswers[currentQuestions.indexOf(question)] ? 1 : 0);
+      }, 0);
+      correctCount += correctAnswers;
+      const percentage = (correctAnswers / courseQuestions.length) * 100 || 0; // Avoid division by zero
       return {
-        question: question.question,
-        userAnswer: userAnswers[index],
-        correctAnswer: question.answer,
-        isCorrect,
+        course,
+        correctAnswers,
+        percentage: percentage.toFixed(2), // Keep two decimal places
       };
     });
 
@@ -90,6 +94,7 @@ const Quiz = () => {
   };
 
   const handleTryAgain = () => {
+    setQuizName('');
     setSelectedCourses([]);
     setQuizStarted(false);
     setCurrentQuestions([]);
@@ -115,6 +120,14 @@ const Quiz = () => {
 
       {!quizStarted ? (
         <div className="quiz-container">
+          <h2>Enter Quiz Name</h2>
+          <input
+            type="text"
+            value={quizName}
+            onChange={(e) => setQuizName(e.target.value)}
+            placeholder="Enter quiz name"
+            className="quiz-name-input"
+          />
           <h2>Select Courses for Your Quiz</h2>
           <select onChange={handleCourseChange} disabled={selectedCourses.length >= 5}>
             <option value="">Select a Course</option>
@@ -138,13 +151,13 @@ const Quiz = () => {
             ))}
           </div>
 
-          <button className="check-button" onClick={handleStartQuiz} disabled={selectedCourses.length < 1}>
+          <button className="check-button" onClick={handleStartQuiz} disabled={selectedCourses.length < 1 || !quizName}>
             Start Quiz
           </button>
         </div>
       ) : (
         <div className="quiz-start-container">
-          <h2>Quiz</h2>
+          <h2>{quizName}</h2> {/* No "quiz" appended */}
           <div className="timer">Time Left: {timer} seconds</div>
 
           {currentQuestions.map((question, index) => (
@@ -170,16 +183,34 @@ const Quiz = () => {
           {score !== null && (
             <div className="result-container">
               <h3>Your Result</h3>
-              <p>Score: {score}%</p>
-              <h4>Results:</h4>
-              {results.map((result, index) => (
-                <div key={index} className={`result-item ${result.isCorrect ? 'correct' : 'incorrect'}`}>
-                  <p>Q{index + 1}: {result.question}</p>
-                  <p>Your Answer: {result.userAnswer}</p>
-                  <p>Correct Answer: {result.correctAnswer}</p>
-                  <p className={result.isCorrect ? 'correct' : 'incorrect'}>
-                    {result.isCorrect ? '✔️ Correct' : '❌ Incorrect'}
-                  </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Course</th>
+                    <th>Correct Answers</th>
+                    <th>Percentage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((result, index) => (
+                    <tr key={index}>
+                      <td>{result.course}</td>
+                      <td>{result.correctAnswers}</td>
+                      <td>{result.percentage}%</td> {/* Show percentage */}
+                    </tr>
+                  ))}
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>{results.reduce((acc, curr) => acc + curr.correctAnswers, 0)}</strong></td>
+                    <td><strong>{(results.reduce((acc, curr) => acc + curr.correctAnswers, 0) / currentQuestions.length * 100).toFixed(2)}%</strong></td> {/* Total percentage */}
+                  </tr>
+                </tbody>
+              </table>
+              <h4>Correct/Incorrect Answers:</h4>
+              {currentQuestions.map((question, index) => (
+                <div key={index}>
+                  <p>Q{index + 1}: {question.question}</p>
+                  <p>Your answer: {userAnswers[index]} - {userAnswers[index] === question.answer ? "Correct" : "Incorrect"}</p>
                 </div>
               ))}
               <button className="try-again-button" onClick={handleTryAgain}>Try Again</button>

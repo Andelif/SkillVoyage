@@ -161,4 +161,53 @@
   .footer a:hover {
     text-decoration: underline;
   }
-  
+  /* Responsive Styles */
+@media (max-width: 768px) {
+    .text-container {
+        max-width: 90%; /* Adjust for smaller screens */
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center align items */
+        text-align: center; /* Center text */
+    }
+
+    .banner-container {
+        flex-direction: column; /* Stack banner items vertically */
+        align-items: center; /* Center align banner items */
+    }
+
+    .vertical-line {
+        display: none; /* Hide vertical line on smaller screens */
+    }
+
+    .graphic-container {
+        width: 100%; /* Full width for graphic on smaller screens */
+    }
+
+    .arches {
+        flex-direction: column; /* Stack arches vertically */
+        align-items: center; /* Center align arches */
+    }
+
+    .arch {
+        width: 100%; /* Full width for arches on smaller screens */
+        height: auto; /* Allow height to adjust */
+    }
+}
+
+@media (min-width: 769px) {
+    .text-container {
+        max-width: 40%; /* More space on larger screens */
+    }
+
+    .graphic-container {
+        width: 600px; /* Keep the width consistent on larger screens */
+    }
+
+    .arches {
+        flex-direction: row; /* Maintain horizontal layout on larger screens */
+    }
+
+    .arch {
+        width: 200px; /* Fixed width for arches */
+    }
+}

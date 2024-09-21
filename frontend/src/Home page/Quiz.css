@@ -1,7 +1,7 @@
 /* Back button styling */
 .back-button-container {
-    margin-bottom: 20px; /* Space between back button and quiz container */
-    text-align: left; /* Align the back button to the left */
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .back-button {
@@ -21,7 +21,7 @@
 /* Quiz selection container styling */
 .quiz-container {
     max-width: 500px;
-    margin: 80px auto; /* Adjust margin to center vertically */
+    margin: 80px auto;
     padding: 20px;
     background-color: transparent;
     border: 2px solid white;
@@ -142,4 +142,62 @@ button:disabled {
 p {
     margin: 10px 0;
     font-size: 1rem;
+}
+
+/* Save prompt styling */
+.save-prompt {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    text-align: center;
+}
+
+.save-prompt button {
+    margin: 5px;
+}
+
+/* Quiz Name Input */
+.quiz-name-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Smaller heading */
+.smaller-heading {
+    font-size: 0.8rem;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid white;
+    text-align: center;
+}
+
+/* Try Again and Save Button styling */
+.try-again-button,
+.save-button {
+    margin-top: 20px;
+    background-color: #ff6688;
+    color: white;
+}
+
+/* Centering result table */
+.result-container table {
+    margin: 0 auto;
 }
